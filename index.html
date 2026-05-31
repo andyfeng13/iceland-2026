@@ -305,7 +305,7 @@ const TRIP = {
     { id:3, label:"Day 3", date:"Sat Aug 1", title:"South Coast (Vík base)", drive:"Loop from Vík · ~60 km (1 hr)", sleep:"Vík",
       stops:[
         {name:"Reynisfjara Black Sand Beach",type:"sight",star:true,lat:63.4036,lng:-19.0448,desc:"Basalt columns; stay 30+ ft from waves"},
-        {name:"Dyrhólaey",type:"sight",star:false,lat:63.4014,lng:-19.1283,desc:"Clifftop arch + puffins"},
+        {name:"Dyrhólaey",type:"sight",star:false,lat:63.4014,lng:-19.1283,desc:"Clifftop arch + puffins from land (no boat)"},
         {name:"Sólheimajökull glacier hike",type:"sight",star:false,lat:63.5316,lng:-19.3686,desc:"Optional guided crampon walk (~$100pp)"},
       ]},
     { id:4, label:"Day 4", date:"Sun Aug 2", title:"Vík → Höfn (glacier country)", drive:"Vík → Höfn · ~270 km (3 hr w/ stops)", sleep:"Höfn",
@@ -354,9 +354,11 @@ const TRIP = {
       ["Seljalandsfoss",true,"Walk behind the falls"],
       ["Skógafoss",true,"Climb the stairs to the top"],
       ["Reynisfjara",true,"Black sand + basalt columns (best in the evening)"],
-      ["Dyrhólaey",false,"Clifftop arch + puffins, 10 min away"],
+      ["Dyrhólaey",false,"Clifftop arch + puffins from land (no boat needed), 10 min away"],
       ["Sólheimasandur plane wreck",false,"DC-3 on black sand; ~45 min walk each way"],
       ["Glacier hike at Sólheimajökull",false,"Guided crampon walk, ~$100pp"],
+      ["Silfra snorkeling (optional)",false,"Between tectonic plates at Þingvellir; dry suit, ~$124pp — Golden Circle morning slot"],
+      ["Secret Lagoon (optional)",false,"Iceland's oldest hot pool, Flúðir, ~$29pp — Golden Circle wind-down"],
     ]},
     { title:"Base 3 — Höfn", nights:"Sun Aug 2 + Mon Aug 3 · 2 nights", items:[
       ["Jökulsárlón Glacier Lagoon",true,"Floating icebergs; evening light is unreal"],
@@ -377,7 +379,7 @@ const TRIP = {
     ]},
     { title:"Base 5 — Reykjavik + Departure", nights:"Wed Aug 5 · 1 night → Thu Aug 6", items:[
       ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
-      ["Whale watching",false,"From Reykjavik harbor, ~3 hr (~$80pp)"],
+      ["Perlan museum",false,"Wonders of Iceland — indoor ice cave, planetarium, and a 360° viewing deck; great low-key / rainy-day pick"],
       ["Blue Lagoon",true,"Aug 6 ~10:30 AM on the way to KEF"],
     ]},
   ],
@@ -446,14 +448,14 @@ const TRIP = {
   ],
   budget: [
     ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
-    ["Rental car + gas (split)","~$380","8 days, small SUV; decline CDW (card covers), add gravel + sand/ash"],
+    ["Rental car + gas (split)","~$430","8 days, small SUV; new 2026 per-km road tax (~$90); decline CDW (card covers), add gravel + sand/ash"],
     ["Lodging (7 nights, split)","~$700–900","Mid-tier mix across regions"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
     ["Activities","~$300–450","Sky + Blue Lagoon and a glacier hike"],
     ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
     ["Misc buffer","~$100–150","Travel insurance, eSIM/data, incidentals"],
   ],
-  budgetTotal:["Total","~$2,500–2,900","All-in for 8 days, per person"],
+  budgetTotal:["Total","~$2,500–3,000","All-in for 8 days, per person"],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
     ["Lodging — Reykjavik (Jul 30 + Aug 5) — book in 1–2 weeks",false],
@@ -777,7 +779,7 @@ function renderAccordion(){
       <span class="pane-hint" style="margin:0">Tap a day header to collapse it, a stop to fly there, or "Details" for the full day.</span>
       <span class="itin-allbtns"><button class="linkbtn" onclick="expandAll(true)">Expand all</button><span class="dot-sep">·</span><button class="linkbtn" onclick="expandAll(false)">Collapse all</button></span>
     </div>
-    <div class="legend"><i><span class="lg-dot"></span>sight (day color)</i><i><span class="lg-sq"></span>🛏 overnight base</i><i>★ = don't-miss</i><i>faded = other days</i></div>
+    <div class="legend"><i><span class="lg-dot"></span>sight (day color)</i><i><span class="lg-sq"></span>🛏 overnight base</i><i>★ = top pick</i><i>number = stop order</i><i>faded = other days</i></div>
     <div class="pane-hint" style="font-style:italic;margin:0 0 10px">Red-eye departs IAD the evening of Jul 29 → lands KEF the morning of Jul 30 (Day 1).</div>
     ${TRIP.days.map((d,i)=>dayHtml(d,i)).join('')}`;
 }
@@ -833,7 +835,7 @@ function renderDayPage(i){
 // ============ OTHER TABS ============
 function renderBases(){
   $('tab-bases').innerHTML=`<div class="pane-head"><div class="sec-label">Home base each night</div><h3 class="sec">Base camps + options</h3></div>`+
-    `<div class="pane-hint">Lodging is fixed each night; pick from these options based on weather and energy. ★ = the anchor.</div>`+
+    `<div class="pane-hint">Lodging is fixed each night; pick from these options based on weather and energy. ★ = top pick.</div>`+
     `<div class="cardgrid">`+TRIP.bases.map(b=>`<div class="card"><h4>${esc(b.title)}</h4><div class="nights">${esc(b.nights)}</div><ul>
       ${b.items.map(it=>`<li class="${it[1]?'star':''}"><span class="nm">${esc(it[0])}</span> — <span class="ds">${esc(it[2])}</span></li>`).join('')}
     </ul></div>`).join('')+`</div>`;
