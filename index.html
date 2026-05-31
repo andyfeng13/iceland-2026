@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Iceland — Andy & Alex · Jul 29–Aug 6, 2026</title>
+<title>Iceland — Andy & Alex · Jul 29 – Aug 6, 2026</title>
 
 <!-- MapLibre GL (modern vector map, smooth zoom/rotate, keyless tiles) -->
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
@@ -81,12 +81,13 @@
   .sleep{display:inline-block;margin-top:9px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--amber-deep);font-weight:700;border:1px solid var(--amber);border-radius:6px;padding:2px 9px}
   .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:var(--muted);margin:10px 0 4px}
   .legend i{font-style:normal}
-  .lg-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--glacier);vertical-align:middle;margin-right:4px}
+  .lg-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--muted);vertical-align:middle;margin-right:4px}
   .lg-sq{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--amber);vertical-align:middle;margin-right:4px}
 
   .stop{display:flex;gap:11px;align-items:flex-start;padding:10px;border-radius:10px;cursor:pointer;transition:background .12s}
   .stop:hover,.stop.active{background:rgba(91,155,196,.16)}
   .stop.active{box-shadow:inset 3px 0 0 var(--glacier)}
+  .stop:focus-visible,.stopcard:focus-visible,.iday-head:focus-visible{outline:2px solid var(--glacier);outline-offset:-2px}
   .stop .dot{flex:none;width:23px;height:23px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;background:var(--glacier);margin-top:1px}
   .stop.base .dot{border-radius:6px}
   .stop .txt{display:block}
@@ -133,13 +134,13 @@
   .stopcard-meta a:hover{text-decoration:underline}
 
   /* ---------- CARDS / LISTS (bases, lodging, drives, budget) ---------- */
-  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:13px;box-shadow:0 3px 12px rgba(11,34,57,.05)}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:13px;box-shadow:0 2px 8px rgba(11,34,57,.05)}
   .card h4{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin-bottom:2px}
   .card .nights{font-size:11px;color:var(--amber-deep);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:9px}
   .card ul{list-style:none}
   .card li{font-size:13px;padding-left:16px;position:relative;margin-bottom:5px;line-height:1.4}
   .card li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--glacier)}
-  .card li.star::before{background:var(--amber)}
+  .card li.star::before{content:"★";color:var(--amber);background:none;width:auto;height:auto;border-radius:0;top:3px;font-size:11px;line-height:1}
   .card li .nm{font-weight:600}
   .card li .ds{color:var(--muted)}
   .cardgrid{display:flex;flex-direction:column;gap:13px}
@@ -149,7 +150,7 @@
   .leg .legnote{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:6px}
   .pick{font-size:13px;margin-bottom:8px;padding-left:16px;position:relative;line-height:1.4}
   .pick::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--glacier)}
-  .pick.top::before{background:var(--amber)}
+  .pick.top::before{content:"★";color:var(--amber);background:none;width:auto;height:auto;border-radius:0;top:3px;font-size:11px;line-height:1}
   .pick .nm{font-weight:600}
   .pick .rt{color:var(--amber-deep);font-weight:600;font-size:11.5px}
   .pick .ds{color:var(--muted)}
@@ -186,6 +187,17 @@
   .check-hint{font-size:11.5px;color:var(--muted);margin-bottom:10px}
   .progress{height:7px;border-radius:5px;background:var(--paper2);overflow:hidden;margin-bottom:11px}
   .progress > i{display:block;height:100%;width:0;background:#2e8b6f;transition:width .35s ease}
+  /* weather & packing */
+  .wx{background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px 14px;margin-bottom:14px;box-shadow:0 2px 8px rgba(11,34,57,.05)}
+  .wx-row{display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:13.5px}
+  .wx-row:first-child{border-top:none}
+  .wx-k{flex:none;width:78px;font-weight:700;color:var(--navy2)}
+  .wx-v{color:var(--muted)}
+  .pack-cat{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber-deep);font-weight:700;margin:16px 0 4px}
+  .pack-list{margin-bottom:2px}
+  .skip-list{list-style:none;margin-top:2px}
+  .skip-list li{font-size:13px;color:var(--muted);padding:5px 0 5px 22px;position:relative;line-height:1.4}
+  .skip-list li::before{content:"✕";position:absolute;left:4px;top:5px;color:#b5503c;font-weight:700;font-size:12px}
 
   /* ---------- RIGHT: MAP COLUMN ---------- */
   #mapcol{position:relative;display:flex;flex-direction:column;min-width:0}
@@ -214,10 +226,12 @@
   .pin.dim:hover{opacity:.9}
   .pin span{transform:rotate(45deg);line-height:1}
   .pin.pin-base{--c:var(--amber);width:32px;height:32px;font-size:15px;z-index:5}
+  .pin.pin-star{box-shadow:0 0 0 2px var(--amber),0 3px 8px rgba(11,34,57,.45)}
   .pin:hover,.pin.pin-hi{filter:brightness(1.08);transform:rotate(-45deg) scale(1.18);z-index:20}
   .pin.pinpulse{animation:pulse .6s ease}
   @keyframes pulse{0%{transform:rotate(-45deg) scale(1)}40%{transform:rotate(-45deg) scale(1.4)}100%{transform:rotate(-45deg) scale(1.18)}}
 
+  .leglabel{background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:999px;padding:2px 7px;font-size:10.5px;font-weight:600;color:var(--navy2);white-space:nowrap;box-shadow:0 1px 4px rgba(11,34,57,.25);pointer-events:none}
   #maperror{display:none;position:absolute;inset:0;z-index:10;flex-direction:column;align-items:center;justify-content:center;background:var(--paper);text-align:center;padding:30px}
   #maperror h3{font-family:'Fraunces',serif;font-size:22px;margin-bottom:8px}
   #maperror p{color:var(--muted);font-size:14px;max-width:360px}
@@ -239,6 +253,7 @@
         <div class="tabpane" id="tab-drives" hidden></div>
         <div class="tabpane" id="tab-budget" hidden></div>
         <div class="tabpane" id="tab-checklist" hidden></div>
+        <div class="tabpane" id="tab-pack" hidden></div>
       </div>
     </div>
     <div id="divider" title="Drag to resize · double-click to reset"></div>
@@ -274,7 +289,7 @@ const TRIP = {
     { id:1, label:"Day 1", date:"Thu Jul 30", title:"Arrival + Reykjavik", drive:"KEF → Reykjavik · ~45 km (30 min)", sleep:"Reykjavik",
       stops:[
         {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Land 6:25 AM, pick up rental car"},
-        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Geothermal soak to reset after the red-eye"},
+        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Geothermal soak to reset after the red-eye (~$80–115pp)"},
         {name:"Reykjavik",type:"base",star:false,lat:64.1476,lng:-21.9427,desc:"Old town, Hallgrímskirkja, dinner, recover"},
       ]},
     { id:2, label:"Day 2", date:"Fri Jul 31", title:"Golden Circle → Vík", drive:"Reykjavik → Vík · ~245 km (3 hr w/ loop)", sleep:"Vík",
@@ -298,13 +313,13 @@ const TRIP = {
         {name:"Eldhraun Lava Field",type:"sight",star:false,lat:63.6769,lng:-18.1408,desc:"Moss-covered lava, alien landscape"},
         {name:"Fjaðrárgljúfur Canyon",type:"sight",star:true,lat:63.7714,lng:-18.1722,desc:"100m serpentine canyon, ~30 min walk, free"},
         {name:"Skaftafell (Vatnajökull NP)",type:"sight",star:false,lat:64.0166,lng:-16.9666,desc:"Svartifoss + glacier viewpoints (optional)"},
-        {name:"Jökulsárlón Glacier Lagoon",type:"sight",star:true,lat:64.0784,lng:-16.2306,desc:"Floating icebergs — the headline stop"},
+        {name:"Jökulsárlón Glacier Lagoon",type:"sight",star:true,lat:64.0784,lng:-16.2306,desc:"Floating icebergs — the headline stop (free to view; boat tour ~$55pp)"},
         {name:"Diamond Beach",type:"sight",star:true,lat:64.0428,lng:-16.1797,desc:"Iceberg chunks on black sand"},
         {name:"Höfn",type:"base",star:false,lat:64.2539,lng:-15.2082,desc:"2 nights"},
       ]},
-    { id:5, label:"Day 5", date:"Mon Aug 3", title:"Höfn area", drive:"Around Höfn · ~40 km (1 hr)", sleep:"Höfn",
+    { id:5, label:"Day 5", date:"Mon Aug 3", title:"Höfn area", drive:"Around Höfn · ~140 km (2.5 hr)", sleep:"Höfn",
       stops:[
-        {name:"Vestrahorn / Stokksnes",type:"sight",star:true,lat:64.255,lng:-14.99,desc:"Jagged peaks + black sand; best ~10 PM light"},
+        {name:"Vestrahorn / Stokksnes",type:"sight",star:true,lat:64.255,lng:-14.99,desc:"Jagged peaks + black sand; best ~10 PM light (~$8pp gate)"},
         {name:"Hvalnes Lighthouse",type:"sight",star:false,lat:64.4023,lng:-14.5402,desc:"Orange lighthouse + beach, quick photo stop"},
         {name:"Höfn (Pakkhús dinner)",type:"base",star:false,lat:64.2539,lng:-15.2082,desc:"Langoustine capital; glacier hike or Zodiac tour by day"},
       ]},
@@ -324,7 +339,7 @@ const TRIP = {
       ]},
     { id:8, label:"Day 8", date:"Thu Aug 6", title:"Blue Lagoon → Home", drive:"Reykjavik → Blue Lagoon → KEF · ~70 km (1 hr)", sleep:"— (fly home)",
       stops:[
-        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"~10:30 AM slot; soak before flight"},
+        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"~10:30 AM slot; soak before flight (~$90–130pp)"},
         {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Be here by 2:30 PM; fly 4:50 PM"},
       ]},
   ],
@@ -346,7 +361,7 @@ const TRIP = {
     { title:"Base 3 — Höfn", nights:"Sun Aug 2 + Mon Aug 3 · 2 nights", items:[
       ["Jökulsárlón Glacier Lagoon",true,"Floating icebergs; evening light is unreal"],
       ["Diamond Beach",true,"Iceberg chunks on black sand, across the road"],
-      ["Fjaðrárgljúfur canyon",true,"100m serpentine canyon, free (on drive in)"],
+      ["Fjaðrárgljúfur Canyon",true,"100m serpentine canyon, free (on drive in)"],
       ["Vestrahorn / Stokksnes",false,"Jagged peaks; best at ~10 PM (~$8 at Viking Café)"],
       ["Skaftafell (Vatnajökull NP)",false,"Svartifoss + glacier viewpoints"],
       ["Glacier hike or Zodiac tour",false,"Get among the icebergs — great Aug 3 plan"],
@@ -374,8 +389,8 @@ const TRIP = {
       ["Skógafoss","4.9★ massive falls, stairs to the top",63.5321,-19.5114],
     ]},
     { title:"Vík → Höfn (Sun Aug 2)", note:"The most stop-rich drive of the trip — give it a full day.", stops:[
-      ["Eldhraun lava field","Moss-covered lava from the 1783 eruption (4.6★)",63.6769,-18.1408],
-      ["Fjaðrárgljúfur canyon","100m serpentine canyon, ~30 min walk, free",63.7714,-18.1722],
+      ["Eldhraun Lava Field","Moss-covered lava from the 1783 eruption (4.6★)",63.6769,-18.1408],
+      ["Fjaðrárgljúfur Canyon","100m serpentine canyon, ~30 min walk, free",63.7714,-18.1722],
       ["Skaftafell (Vatnajökull NP)","Svartifoss + glacier viewpoints",64.0166,-16.9666],
       ["Jökulsárlón + Diamond Beach","The headline stop before Höfn (4.9★)",64.0784,-16.2306],
     ]},
@@ -395,7 +410,7 @@ const TRIP = {
   lodging: [
     { region:"Reykjavik (Jul 30 + Aug 5)", picks:[
       ["City Center Hotel","—","~$273","Central, right in the old town",true,"http://www.citycenterhotel.is/"],
-      ["Hotel Reykjavik Grand","—","~$221","Alex W.'s find — best value, slightly out of center",false,"https://www.islandshotel.is/hotels-in-iceland/hotel-reykjavik-grand/"],
+      ["Hotel Reykjavik Grand","—","~$221","Alex's find — best value, slightly out of center",false,"https://www.islandshotel.is/hotels-in-iceland/hotel-reykjavik-grand/"],
       ["Fosshotel (Aug 5)","—","check dates","Chain with locations across the city for the final night",false,"https://www.islandshotel.is/"],
     ]},
     { region:"Vík (Jul 31 + Aug 1)", picks:[
@@ -408,7 +423,7 @@ const TRIP = {
       ["Hotels (Google)","https://www.google.com/travel/search?ts=CAESCgoCCAMKAggDEAAaTgowEiwyJTB4NDhkNzRhNDI0OTM2YjBkMToweGJlODM1MzFiMDA2ZDc3OGQ6A1ZpaxoAEhoSFAoHCOoPEAcYHxIHCOoPEAgYAhgCMgIIASoJCgU6A1VTRBoA&qs=CAEgACgAMidDaGtJOHV2YXpMbVMxTkpvR2cwdlp5OHhNV0kzTTIxamMxOXRFQUU4DUgA&utm_campaign=sharing&utm_medium=link_btn&utm_source=htls"],
     ]},
     { region:"Höfn (Aug 2 + Aug 3)", picks:[
-      ["Arnanes","—","better price","Country guesthouse, solid value",true,"https://arnanes.is/"],
+      ["Arnanes","—","check dates","Country guesthouse, solid value",true,"https://arnanes.is/"],
       ["Fosshotel Vatnajökull","—","check dates","Reliable chain, glacier views",false,"https://www.islandshotel.is/hotels-in-iceland/fosshotel-vatnajoekull/"],
       ["Seljavellir Guesthouse","—","check dates","Country guesthouse near Höfn",false,"http://seljavellir-guesthouse.org.es/"],
     ], more:[
@@ -450,6 +465,50 @@ const TRIP = {
     ["Blue Lagoon — Thu Aug 6 ~10:30 AM slot (KEF by 2:30 PM)",false],
     ["Glacier hike — book 2–3 weeks ahead (sells out)",false],
     ["Coordinate with Alex — Boston ⇄ KEF flight + arrival time",false],
+  ],
+  weather: {
+    summary: "Iceland's summer is most people's spring: cool, breezy, and changeable — expect sun, wind, and rain in the same day. Dress like it's a cool, windy, drizzly autumn hike, every day, and you'll be comfortable.",
+    facts: [
+      ["Temps","Highs ~mid-50s°F / 13°C (low-60s on the best days), lows ~46°F / 8°C"],
+      ["Wind","Frequent and strong — makes it feel several degrees colder"],
+      ["Rain","Short, often light bursts; ~half the days see some. Jul–Aug are the driest months"],
+      ["Sky","Mostly cloudy (~64%), ~5 hrs of sun a day"],
+      ["Daylight","~16–17 hrs + long bright twilight — bring a sleep mask"],
+    ],
+    rule: "The golden rule: layers + a waterproof, windproof shell.",
+    skip: [
+      "Heavy winter parka (overkill for August)",
+      "Umbrella (the wind destroys them — that's what the shell is for)",
+      "Tons of clothes (you'll re-wear layers; many stays have laundry)",
+    ],
+  },
+  packing: [
+    { cat:"Non-negotiables", items:[
+      "Waterproof + windproof rain jacket (hard shell) — your #1 item",
+      "Waterproof / rain pants (clutch at Seljalandsfoss & wet trails)",
+      "Waterproof hiking shoes or boots",
+      "Warm mid-layer — fleece or light puffy/down",
+      "Sleep mask (bright summer nights)",
+    ]},
+    { cat:"Base + mid layers", items:[
+      "2–3 long-sleeve base layers (merino/synthetic — not cotton)",
+      "1–2 fleeces or light sweaters",
+      "A few t-shirts for sunny moments",
+      "Quick-dry hiking pants (+ maybe jeans for town)",
+      "Wool socks — bring extra",
+    ]},
+    { cat:"Accessories", items:[
+      "Beanie + light gloves (yes, in August)",
+      "Buff / neck gaiter",
+      "Sunglasses (low, bright sun for hours)",
+      "Swimsuit + quick-dry towel (lagoons & hot pots)",
+      "Reusable water bottle (tap water is excellent & free)",
+      "Daypack for the day hikes/stops",
+    ]},
+    { cat:"Town / casual", items:[
+      "1–2 casual outfits for Reykjavik (very casual town)",
+      "Comfortable sneakers",
+    ]},
   ]
 };
 const dayColors=["#3a6ea5","#e0913c","#2e8b6f","#b5503c","#7a5cc4","#c49a1f","#3a8fb0","#9c4d8a"];
@@ -461,6 +520,7 @@ let activeTab='itinerary';
 let expanded=TRIP.days.map(()=>true);  // itinerary accordion: which days are open
 let dayPage=null;              // null = accordion overview; or a day index = detail page
 const reg={};                  // "d-s" -> {marker, el, popup, lng, lat}
+const legLabels=[];            // legLabels[dayIndex] = array of leg distance/time markers
 let openPopup=null;
 
 // ============ HELPERS ============
@@ -509,6 +569,7 @@ function initMap(){
     $('maperror').style.display='none';
     addRoutes();
     addMarkers();
+    addLegLabels();
     applyView('all',true);
   });
   map.on('error',()=>{}); // swallow transient tile errors so they don't spam the console
@@ -531,7 +592,7 @@ function addMarkers(){
     d.stops.forEach((s,j)=>{
       const el=document.createElement('div');
       el.className='pin'+(s.type==='base'?' pin-base':'')+(s.star?' pin-star':'');
-      el.style.setProperty('--c',dayColors[i]);
+      if(s.type!=='base') el.style.setProperty('--c',dayColors[i]); // bases stay amber (see .pin-base)
       el.innerHTML='<span>'+(s.type==='base'?'🛏':(j+1))+'</span>';
       el.title=s.name;
       const popup=new maplibregl.Popup({offset:18,closeButton:true,maxWidth:'260px'})
@@ -541,6 +602,33 @@ function addMarkers(){
       el.addEventListener('click',ev=>{ ev.stopPropagation(); focusStop(i,j); });
       reg[key(i,j)]={marker,el,popup,lng:s.lng,lat:s.lat};
     });
+  });
+}
+// straight-line km between two [lng,lat] points
+function haversine(a,b){
+  const R=6371, rad=x=>x*Math.PI/180;
+  const dLat=rad(b[1]-a[1]), dLng=rad(b[0]-a[0]);
+  const h=Math.sin(dLat/2)**2 + Math.cos(rad(a[1]))*Math.cos(rad(b[1]))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+// rough per-leg distance + time pills, placed at each segment midpoint
+function addLegLabels(){
+  TRIP.days.forEach((d,i)=>{
+    const arr=[];
+    for(let j=0;j<d.stops.length-1;j++){
+      const a=d.stops[j], b=d.stops[j+1];
+      const km=haversine([a.lng,a.lat],[b.lng,b.lat])*1.3;   // ~road windiness factor
+      if(km<2) continue;
+      const min=Math.max(5, Math.round(km/80*60/5)*5);        // ~80 km/h average
+      const kmR=km<30?Math.round(km/5)*5:Math.round(km/10)*10;
+      const el=document.createElement('div');
+      el.className='leglabel'; el.style.display='none';
+      el.textContent='~'+kmR+' km · '+min+' min';
+      const mk=new maplibregl.Marker({element:el,anchor:'center'})
+        .setLngLat([(a.lng+b.lng)/2,(a.lat+b.lat)/2]).addTo(map);
+      arr.push(mk);
+    }
+    legLabels[i]=arr;
   });
 }
 function visibleFor(sel){
@@ -554,6 +642,9 @@ function visibleFor(sel){
       map.setPaintProperty('route-'+i,'line-width',active?4:2.5);
     }
     d.stops.forEach((s,j)=>{ const r=reg[key(i,j)]; if(r){ r.el.style.display='flex'; r.el.classList.toggle('dim',!active); } });
+    // leg distance/time pills: only for the focused day (avoid clutter in the full-route view)
+    const showLegs=(sel!=='all' && sel===i);
+    if(legLabels[i]) legLabels[i].forEach(mk=>{ mk.getElement().style.display=showLegs?'block':'none'; });
   });
 }
 function boundsFor(sel){
@@ -652,13 +743,14 @@ function renderChips(){
   TRIP.days.forEach((d,i)=>{
     const b=document.createElement('button');
     b.className='chip'+(selected===i?' active':''); b.textContent=d.label;
+    if(selected===i){ b.style.background=dayColors[i]; b.style.borderColor=dayColors[i]; b.style.color='#fff'; }
     b.onclick=()=>selectDay(i); c.appendChild(b);
     if(selected===i) setTimeout(()=>b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'}),0);
   });
 }
 
 // ============ TABS ============
-const TABS=[['itinerary','Itinerary'],['bases','Bases'],['lodging','Lodging'],['drives','Drives'],['budget','Budget'],['checklist','Checklist']];
+const TABS=[['itinerary','Itinerary'],['bases','Bases'],['lodging','Lodging'],['drives','Drives'],['budget','Budget'],['checklist','Checklist'],['pack','Pack']];
 function renderTabs(){
   const t=$('tabbar'); t.innerHTML='';
   TABS.forEach(([id,label])=>{
@@ -685,13 +777,13 @@ function renderAccordion(){
       <span class="pane-hint" style="margin:0">Tap a day header to collapse it, a stop to fly there, or "Details" for the full day.</span>
       <span class="itin-allbtns"><button class="linkbtn" onclick="expandAll(true)">Expand all</button><span class="dot-sep">·</span><button class="linkbtn" onclick="expandAll(false)">Collapse all</button></span>
     </div>
-    <div class="legend"><i><span class="lg-dot"></span>sight</i><i><span class="lg-sq"></span>overnight base</i><i>★ = don't-miss</i></div>
+    <div class="legend"><i><span class="lg-dot"></span>sight (day color)</i><i><span class="lg-sq"></span>🛏 overnight base</i><i>★ = don't-miss</i><i>faded = other days</i></div>
     <div class="pane-hint" style="font-style:italic;margin:0 0 10px">Red-eye departs IAD the evening of Jul 29 → lands KEF the morning of Jul 30 (Day 1).</div>
     ${TRIP.days.map((d,i)=>dayHtml(d,i)).join('')}`;
 }
 function dayHtml(d,i){
   return `<div class="iday${expanded[i]?'':' collapsed'}${selected===i?' active':''}" data-day="${i}" style="--dc:${dayColors[i]}">
-    <div class="iday-head" onclick="toggleDay(${i})">
+    <div class="iday-head" role="button" tabindex="0" onclick="toggleDay(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleDay(${i});}">
       <span class="caret"></span>
       <span class="iday-num" style="background:${dayColors[i]}">${i+1}</span>
       <span class="iday-htext">
@@ -703,8 +795,8 @@ function dayHtml(d,i){
     </div>
     <div class="iday-body">
       ${d.stops.map((s,j)=>`
-        <div class="stop ${s.type==='base'?'base':''}" data-k="${i}-${j}"
-             onclick="focusStop(${i},${j})" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
+        <div class="stop ${s.type==='base'?'base':''}" data-k="${i}-${j}" role="button" tabindex="0"
+             onclick="focusStop(${i},${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();focusStop(${i},${j});}" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
           <span class="dot" style="background:${s.type==='base'?'var(--amber)':dayColors[i]}">${s.type==='base'?'🛏':(j+1)}</span>
           <span class="txt"><span class="nm">${s.star?'★ ':''}${esc(s.name)}</span><span class="ds">${esc(s.desc)}</span></span>
         </div>`).join('')}
@@ -727,7 +819,7 @@ function renderDayPage(i){
     </div>
     <div class="day-stops">
       ${d.stops.map((s,j)=>`
-        <div class="stopcard ${s.type==='base'?'base':''}" data-k="${i}-${j}" onclick="focusStop(${i},${j})" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
+        <div class="stopcard ${s.type==='base'?'base':''}" data-k="${i}-${j}" role="button" tabindex="0" onclick="focusStop(${i},${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();focusStop(${i},${j});}" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
           <span class="dot" style="background:${s.type==='base'?'var(--amber)':dayColors[i]}">${s.type==='base'?'🛏':(j+1)}</span>
           <div class="stopcard-txt">
             <div class="nm">${s.star?'★ ':''}${esc(s.name)}</div>
@@ -762,11 +854,12 @@ function renderDrives(){
     `<div class="pane-hint">Pull-offs and quick walks to break up the transit legs — most are right off Route 1.</div>`+
     `<div class="cardgrid">`+TRIP.legs.map(leg=>`<div class="leg"><h4>${esc(leg.title)}</h4>
       ${leg.note?`<div class="legnote">${esc(leg.note)}</div>`:''}
-      ${leg.stops.map(s=>`<div class="pick"><span class="nm">${esc(s[0])}</span> — <span class="ds">${esc(s[1])}</span> <a href="${gmaps(s[2],s[3])}" target="_blank" rel="noopener">[Map]</a></div>`).join('')}
+      ${leg.stops.map(s=>`<div class="pick"><span class="nm">${esc(s[0])}</span> — <span class="ds">${esc(s[1])}</span> <a href="${gmaps(s[2],s[3])}" target="_blank" rel="noopener">Map ↗</a></div>`).join('')}
     </div>`).join('')+`</div>`;
 }
 function renderBudget(){
   $('tab-budget').innerHTML=`<div class="pane-head"><div class="sec-label">The damage</div><h3 class="sec">Budget (per person)</h3></div>`+
+    `<div class="pane-hint">Rough per-person estimate for 8 days; shared costs (car, lodging) are split two ways.</div>`+
     `<table class="tbl"><tr><th>Item</th><th>Estimate</th><th>Notes</th></tr>
       ${TRIP.budget.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}
       <tr class="total"><td>${esc(TRIP.budgetTotal[0])}</td><td>${esc(TRIP.budgetTotal[1])}</td><td>${esc(TRIP.budgetTotal[2])}</td></tr></table>`;
@@ -811,6 +904,57 @@ function updateProgress(){
   let done=0; TRIP.checklist.forEach(c=>{ if(isDone(c[0],c[1])) done++; });
   const p=$('checkProgress'); if(p) p.textContent=done+' of '+total+' done';
   const bar=$('checkBar'); if(bar) bar.style.width=(total?Math.round(done/total*100):0)+'%';
+}
+
+// ============ WEATHER & PACKING TAB (interactive, localStorage) ============
+const PACK_KEY='iceland26-packing-v1';
+function getPack(){ try{ return JSON.parse(localStorage.getItem(PACK_KEY))||{}; }catch(e){ return {}; } }
+function savePack(o){ try{ localStorage.setItem(PACK_KEY,JSON.stringify(o)); }catch(e){} }
+function packDone(t){ return getPack()[t]===true; }   // default: unchecked
+function packTotal(){ return TRIP.packing.reduce((n,c)=>n+c.items.length,0); }
+function renderPacking(){
+  const w=TRIP.weather;
+  $('tab-pack').innerHTML=`
+    <div class="pane-head"><div class="sec-label">Cool, breezy &amp; changeable</div><h3 class="sec">Weather &amp; packing</h3></div>
+    <div class="pane-hint">${esc(w.summary)}</div>
+    <div class="wx">${w.facts.map(f=>`<div class="wx-row"><span class="wx-k">${esc(f[0])}</span><span class="wx-v">${esc(f[1])}</span></div>`).join('')}</div>
+    <div class="note"><b>${esc(w.rule)}</b> The biggest mistakes: bringing cotton, forgetting rain pants, and underestimating the wind.</div>
+    <div class="check-top"><span id="packProgress"></span><button id="resetPack" class="reset" title="Uncheck everything">Reset</button></div>
+    <div class="progress"><i id="packBar"></i></div>
+    <div class="check-hint">Tap to check off as you pack — saved on this device.</div>
+    ${TRIP.packing.map((c,ci)=>`
+      <div class="pack-cat">${esc(c.cat)}</div>
+      <ul class="check pack-list">${c.items.map((it,ii)=>`<li class="${packDone(it)?'done':''}" data-pc="${ci}" data-pi="${ii}" role="button" tabindex="0"><span class="nm">${esc(it)}</span></li>`).join('')}</ul>`).join('')}
+    <div class="pack-cat">Leave at home</div>
+    <ul class="skip-list">${w.skip.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>`;
+  wirePacking();
+}
+function wirePacking(){
+  document.querySelectorAll('#tab-pack .pack-list li').forEach(li=>{
+    const fn=()=>togglePack(+li.dataset.pc,+li.dataset.pi);
+    li.addEventListener('click',fn);
+    li.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fn(); } });
+  });
+  const r=$('resetPack'); if(r) r.onclick=resetPack;
+  updatePackProgress();
+}
+function togglePack(ci,ii){
+  const t=TRIP.packing[ci].items[ii];
+  const c=getPack(); c[t]=!c[t]; savePack(c);
+  const li=document.querySelector('#tab-pack .pack-list li[data-pc="'+ci+'"][data-pi="'+ii+'"]');
+  if(li) li.classList.toggle('done',!!c[t]);
+  updatePackProgress();
+}
+function resetPack(){
+  try{ localStorage.removeItem(PACK_KEY); }catch(e){}
+  document.querySelectorAll('#tab-pack .pack-list li').forEach(li=>li.classList.remove('done'));
+  updatePackProgress();
+}
+function updatePackProgress(){
+  const total=packTotal(); let done=0;
+  TRIP.packing.forEach(c=>c.items.forEach(it=>{ if(packDone(it)) done++; }));
+  const p=$('packProgress'); if(p) p.textContent=done+' of '+total+' packed';
+  const bar=$('packBar'); if(bar) bar.style.width=(total?Math.round(done/total*100):0)+'%';
 }
 
 // ============ INIT ============
@@ -858,6 +1002,7 @@ renderLodging();
 renderDrives();
 renderBudget();
 renderChecklist();
+renderPacking();
 renderChips();
 initMap();
 </script>

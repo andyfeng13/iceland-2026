@@ -14,6 +14,7 @@ Single source of truth for our Iceland trip, **July 29 – August 6, 2026** (Sou
   - **Lodging picks** by region (top picks + Alex's finds)
   - **Budget** estimate
   - **Booking checklist** you can tap to check off — saved automatically in your browser (per device; see below)
+  - **Weather & packing** — what to expect for the dates, plus a tappable packing checklist (also saved per device)
 
 No build step, no dependencies to install — the map uses **MapLibre GL** with vector tiles from a CDN (so you need to be online to see the map; all the trip info still works offline).
 
@@ -42,6 +43,8 @@ The shapes (also summarized in a comment right above the object):
 | `lodging[]` | `{ region, picks: [ [name, rating, price, desc, top, url?] ], more?: [ [label, url] ] }` |
 | `budget[]` | `[ item, estimate, note ]`  (plus `budgetTotal`) |
 | `checklist[]` | `[ text, defaultChecked ]` |
+| `weather` | `{ summary, facts: [ [label, value] ], rule, skip: [ ... ] }` |
+| `packing[]` | `{ cat, items: [ ... ] }` |
 
 - **Coordinates:** right-click a spot in Google Maps → click the lat/lng to copy. Map pins read `lat`/`lng`; note the drive-leg tuples are ordered `name, desc, lat, lng`.
 - **Checklist:** the `defaultChecked` value is only the *starting* state. On the live site you tick items off by tapping them, saved in the browser's `localStorage` — **per device and per browser** (your phone and laptop don't sync), and separately for the local file vs. the deployed site. Editing an item's wording resets that one item's saved check.
