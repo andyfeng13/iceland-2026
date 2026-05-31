@@ -2,6 +2,8 @@
 
 Single source of truth for our Iceland trip, **July 29 – August 6, 2026** (Southern Loop + Snæfellsnes).
 
+🔗 **Live site:** **https://andyfeng13.github.io/iceland-2026/** — share this with Alex.
+
 ## What's here
 
 - `index.html` — the complete trip site. One self-contained file with:
@@ -18,13 +20,11 @@ No build step, no dependencies to install — Leaflet + map tiles load from CDN 
 
 Open `index.html` in any browser.
 
-## Deploy to GitHub Pages (free, permanent link)
+## Hosting
 
-1. Push this repo to GitHub.
-2. Repo **Settings → Pages**.
-3. **Source:** Deploy from a branch → **main** / **/ (root)** → **Save**.
-4. ~1 min later it's live at `https://<username>.github.io/<repo-name>/`.
-5. Share that URL with Alex.
+The site is **live on GitHub Pages** at <https://andyfeng13.github.io/iceland-2026/>, served from the `main` branch (root folder), HTTPS enforced.
+
+**Every push to `main` redeploys automatically** in ~1 minute — no extra steps. To update the trip, edit `index.html`, commit, and push.
 
 ## Editing the trip
 
