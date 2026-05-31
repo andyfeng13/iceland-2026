@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iceland — Andy & Alex · Jul 29–Aug 6, 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b2239; --navy2:#13314f; --glacier:#5b9bc4; --ice:#acd3e8;
+    --amber:#e0913c; --amber-deep:#c4701f; --paper:#f4efe6; --paper2:#ece4d6;
+    --ink:#0b2239; --muted:#5e6b78; --line:#d8cfc0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Spline Sans',sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+  a{color:var(--navy2)}
+  .display{font-family:'Fraunces',serif}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:1000;background:rgba(11,34,57,.96);backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px;padding:10px 18px;flex-wrap:wrap}
+  nav .brand{font-family:'Fraunces',serif;font-weight:600;color:#fff;font-size:16px;margin-right:14px;letter-spacing:.3px}
+  nav a{color:#aebfd0;text-decoration:none;font-size:13px;font-weight:500;padding:6px 10px;border-radius:6px;transition:.15s}
+  nav a:hover{color:#fff;background:rgba(255,255,255,.08)}
+
+  /* HERO */
+  header.hero{position:relative;background:linear-gradient(160deg,#0b2239 0%,#13314f 55%,#1d4264 100%);color:#fff;padding:64px 24px 56px;overflow:hidden}
+  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(172,211,232,.18),transparent 50%);pointer-events:none}
+  .hero .kicker{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--ice);font-weight:600}
+  .hero h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(38px,7vw,76px);line-height:.98;margin:10px 0 14px;letter-spacing:-1px}
+  .hero h1 em{font-style:italic;color:var(--amber)}
+  .hero .sub{font-size:17px;color:#cdd9e4;max-width:640px}
+  .hero .facts{display:flex;flex-wrap:wrap;gap:24px;margin-top:28px}
+  .hero .fact{border-left:2px solid var(--amber);padding-left:12px}
+  .hero .fact .l{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ice)}
+  .hero .fact .v{font-size:15px;font-weight:500;margin-top:2px}
+
+  /* SECTIONS */
+  section{max-width:1080px;margin:0 auto;padding:54px 24px 12px}
+  .sec-label{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber-deep);font-weight:600}
+  section h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,38px);margin:6px 0 22px;letter-spacing:-.5px}
+  .lede{font-size:16px;color:var(--muted);max-width:680px;margin-bottom:24px}
+
+  /* MAP */
+  #mapwrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .map-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+  .map-tab{padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--navy2);font-family:'Spline Sans',sans-serif;transition:.15s}
+  .map-tab:hover{background:var(--paper2)}
+  .map-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .map-tab.all.active{background:var(--amber-deep);border-color:var(--amber-deep)}
+  #map{height:480px;border-radius:14px;border:1px solid var(--line);box-shadow:0 10px 30px rgba(11,34,57,.10)}
+  .map-cap{font-size:12.5px;color:var(--muted);margin:10px 0 0;font-style:italic}
+
+  /* TIMELINE */
+  .day{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:22px 0;border-top:1px solid var(--line)}
+  .day:first-of-type{border-top:none}
+  .day .when{position:relative}
+  .day .daynum{font-family:'Fraunces',serif;font-weight:900;font-size:30px;color:var(--navy);line-height:1}
+  .day .date{font-size:13px;color:var(--muted);margin-top:3px;font-weight:500}
+  .day .sleep{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--amber-deep);font-weight:600;border:1px solid var(--amber);border-radius:5px;padding:2px 7px}
+  .day h3{font-family:'Fraunces',serif;font-weight:600;font-size:21px;margin-bottom:4px}
+  .day .drive{font-size:13px;color:var(--muted);margin-bottom:10px}
+  .day ul{list-style:none}
+  .day li{position:relative;padding-left:18px;font-size:14.5px;margin-bottom:5px}
+  .day li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--glacier)}
+  .day li.star::before{background:var(--amber);width:8px;height:8px}
+  .day li .nm{font-weight:600}
+  .day li .ds{color:var(--muted)}
+
+  /* CARD GRID (bases / lodging) */
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 4px 14px rgba(11,34,57,.05)}
+  .card h4{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:3px}
+  .card .nights{font-size:12px;color:var(--amber-deep);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+  .card ul{list-style:none}
+  .card li{font-size:13.5px;padding-left:16px;position:relative;margin-bottom:5px}
+  .card li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--glacier)}
+  .card li.star::before{background:var(--amber)}
+  .card li .nm{font-weight:600}
+  .card li .ds{color:var(--muted)}
+
+  /* PICK LIST (lodging) */
+  .pick{font-size:13.5px;margin-bottom:8px;padding-left:18px;position:relative}
+  .pick::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--glacier)}
+  .pick.top::before{background:var(--amber)}
+  .pick .nm{font-weight:600}
+  .pick .rt{color:var(--amber-deep);font-weight:600;font-size:12px}
+  .pick .ds{color:var(--muted)}
+
+  /* TABLE */
+  .tbl{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 14px rgba(11,34,57,.05)}
+  .tbl th{background:var(--navy);color:#fff;text-align:left;padding:11px 13px;font-weight:600;font-size:12.5px}
+  .tbl td{padding:10px 13px;border-top:1px solid var(--line)}
+  .tbl tr:nth-child(even) td{background:var(--paper)}
+  .tbl tr.total td{background:var(--ice);font-weight:600}
+
+  /* CHECKLIST */
+  .check li{list-style:none;font-size:14.5px;padding:7px 0 7px 28px;position:relative;border-bottom:1px solid var(--line)}
+  .check li::before{content:"☐";position:absolute;left:0;top:6px;font-size:16px;color:var(--glacier)}
+  .check li.done::before{content:"✓";color:#2e8b6f;font-weight:700}
+  .check li.done{color:var(--muted)}
+  .check .nm{font-weight:600}
+
+  .note{background:#fff7e8;border:1px solid var(--amber);border-radius:10px;padding:14px 16px;font-size:13.5px;color:#7a4f00;margin-bottom:20px}
+  .note b{color:#5e3a00}
+
+  footer{max-width:1080px;margin:40px auto 0;padding:24px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);text-align:center}
+  @media(max-width:640px){
+    .day{grid-template-columns:1fr;gap:6px}
+    #map{height:62vh}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="brand">🇮🇸 Iceland '26</span>
+  <a href="#map-section">Map</a>
+  <a href="#itinerary">Itinerary</a>
+  <a href="#bases">Bases</a>
+  <a href="#stops">Drive Stops</a>
+  <a href="#lodging">Lodging</a>
+  <a href="#budget">Budget</a>
+  <a href="#checklist">Checklist</a>
+</nav>
+
+<header class="hero">
+  <div class="kicker">Andy &amp; Alex · Southern Loop + Snæfellsnes</div>
+  <h1 class="display">Eight days<br>around <em>Iceland</em>.</h1>
+  <p class="sub">A clockwise run from Reykjavik down the south coast to the glacier lagoons, then up to the Snæfellsnes peninsula — under the midnight sun.</p>
+  <div class="facts">
+    <div class="fact"><div class="l">Dates</div><div class="v">Jul 29 – Aug 6, 2026</div></div>
+    <div class="fact"><div class="l">Flights</div><div class="v">IAD ⇄ KEF · Icelandair</div></div>
+    <div class="fact"><div class="l">Driving</div><div class="v">~1,250 km total</div></div>
+    <div class="fact"><div class="l">Daylight</div><div class="v">~20 hrs (midnight sun)</div></div>
+  </div>
+</header>
+
+<div id="map-section" style="padding-top:46px">
+  <section style="padding-bottom:14px">
+    <div class="sec-label">The Route</div>
+    <h2 class="display">Tap a day to follow along</h2>
+  </section>
+  <div id="mapwrap">
+    <div class="map-tabs" id="tabs"></div>
+    <div id="map"></div>
+    <p class="map-cap">★ amber = overnight base · ● blue = scenic stop. Click any pin for details + a Google Maps link.</p>
+  </div>
+</div>
+
+<section id="itinerary">
+  <div class="sec-label">Day by Day</div>
+  <h2 class="display">The itinerary</h2>
+  <div id="timeline"></div>
+</section>
+
+<section id="bases">
+  <div class="sec-label">Home Base Each Night</div>
+  <h2 class="display">Base camps + options</h2>
+  <p class="lede">Where we sleep is fixed. Within each base, pick from these day-of based on weather and energy. ★ = the don't-miss anchor.</p>
+  <div class="grid" id="bases-grid"></div>
+</section>
+
+<section id="stops">
+  <div class="sec-label">Between the Bases</div>
+  <h2 class="display">Scenic drive stops</h2>
+  <p class="lede">Pull-offs and quick walks to break up the transit legs — most are right off Route 1.</p>
+  <div id="stops-list"></div>
+</section>
+
+<section id="lodging">
+  <div class="sec-label">Where to Sleep</div>
+  <h2 class="display">Lodging picks</h2>
+  <div class="note"><b>Book soon:</b> summer lodging in Vík, Höfn &amp; Snæfellsnes sells out months ahead. Lock in refundable rates and adjust later. ★ = top pick.</div>
+  <div class="grid" id="lodging-grid"></div>
+</section>
+
+<section id="budget">
+  <div class="sec-label">The Damage</div>
+  <h2 class="display">Budget (per person)</h2>
+  <table class="tbl" id="budget-tbl"></table>
+</section>
+
+<section id="checklist">
+  <div class="sec-label">To Do</div>
+  <h2 class="display">Booking checklist</h2>
+  <ul class="check" id="checklist-list"></ul>
+</section>
+
+<footer>
+  Living document · single source of truth · last updated May 2026. Edit trip data in the <code>TRIP</code> object inside this file.
+</footer>
+
+<script>
+// ============ TRIP DATA (single source of truth) ============
+const TRIP = {
+  days: [
+    { id:1, label:"Day 1", date:"Thu Jul 30", title:"Arrival + Reykjavik", drive:"KEF → Reykjavik · ~45 km (30 min)", sleep:"Reykjavik",
+      stops:[
+        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Land 6:25 AM, pick up rental car"},
+        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Geothermal soak to reset after the red-eye"},
+        {name:"Reykjavik",type:"base",star:false,lat:64.1476,lng:-21.9427,desc:"Old town, Hallgrímskirkja, dinner, recover"},
+      ]},
+    { id:2, label:"Day 2", date:"Fri Jul 31", title:"Golden Circle → Vík", drive:"Reykjavik → Vík · ~245 km (3 hr w/ loop)", sleep:"Vík",
+      stops:[
+        {name:"Þingvellir National Park",type:"sight",star:true,lat:64.2558,lng:-21.1297,desc:"Walk between tectonic plates"},
+        {name:"Geysir / Strokkur",type:"sight",star:true,lat:64.3104,lng:-20.3024,desc:"Erupts every 5–10 min"},
+        {name:"Gullfoss",type:"sight",star:true,lat:64.3271,lng:-20.1199,desc:"Massive two-tier waterfall"},
+        {name:"Kerið Crater",type:"sight",star:false,lat:64.0413,lng:-20.8851,desc:"Red crater + turquoise lake, ~$4"},
+        {name:"Seljalandsfoss",type:"sight",star:true,lat:63.6156,lng:-19.9886,desc:"Walk behind the falls"},
+        {name:"Skógafoss",type:"sight",star:true,lat:63.5321,lng:-19.5114,desc:"Climb stairs to the top"},
+        {name:"Vík",type:"base",star:false,lat:63.4143,lng:-19.0104,desc:"2 nights"},
+      ]},
+    { id:3, label:"Day 3", date:"Sat Aug 1", title:"South Coast (Vík base)", drive:"Loop from Vík · ~60 km (1 hr)", sleep:"Vík",
+      stops:[
+        {name:"Reynisfjara Black Sand Beach",type:"sight",star:true,lat:63.4036,lng:-19.0448,desc:"Basalt columns; stay 30+ ft from waves"},
+        {name:"Dyrhólaey",type:"sight",star:false,lat:63.4014,lng:-19.1283,desc:"Clifftop arch + puffins"},
+        {name:"Sólheimajökull glacier hike",type:"sight",star:false,lat:63.5316,lng:-19.3686,desc:"Optional guided crampon walk (~$100pp)"},
+      ]},
+    { id:4, label:"Day 4", date:"Sun Aug 2", title:"Vík → Höfn (glacier country)", drive:"Vík → Höfn · ~270 km (3 hr w/ stops)", sleep:"Höfn",
+      stops:[
+        {name:"Eldhraun Lava Field",type:"sight",star:false,lat:63.6769,lng:-18.1408,desc:"Moss-covered lava, alien landscape"},
+        {name:"Fjaðrárgljúfur Canyon",type:"sight",star:true,lat:63.7714,lng:-18.1722,desc:"100m serpentine canyon, ~30 min walk, free"},
+        {name:"Skaftafell (Vatnajökull NP)",type:"sight",star:false,lat:64.0166,lng:-16.9666,desc:"Svartifoss + glacier viewpoints (optional)"},
+        {name:"Jökulsárlón Glacier Lagoon",type:"sight",star:true,lat:64.0784,lng:-16.2306,desc:"Floating icebergs — the headline stop"},
+        {name:"Diamond Beach",type:"sight",star:true,lat:64.0428,lng:-16.1797,desc:"Iceberg chunks on black sand"},
+        {name:"Höfn",type:"base",star:false,lat:64.2539,lng:-15.2082,desc:"2 nights"},
+      ]},
+    { id:5, label:"Day 5", date:"Mon Aug 3", title:"Höfn area", drive:"Around Höfn · ~40 km (1 hr)", sleep:"Höfn",
+      stops:[
+        {name:"Vestrahorn / Stokksnes",type:"sight",star:true,lat:64.255,lng:-14.99,desc:"Jagged peaks + black sand; best ~10 PM light"},
+        {name:"Hvalnes Lighthouse",type:"sight",star:false,lat:64.4023,lng:-14.5402,desc:"Orange lighthouse + beach, quick photo stop"},
+        {name:"Höfn (Pakkhús dinner)",type:"base",star:false,lat:64.2539,lng:-15.2082,desc:"Langoustine capital; glacier hike or Zodiac tour by day"},
+      ]},
+    { id:6, label:"Day 6", date:"Tue Aug 4", title:"Höfn → Snæfellsnes", drive:"Höfn → Stykkishólmur · ~480 km (5–5.5 hr)", sleep:"Stykkishólmur",
+      stops:[
+        {name:"Borgarnes",type:"sight",star:false,lat:64.5446,lng:-21.9105,desc:"Midway lunch/coffee/fuel stop"},
+        {name:"Gerðuberg Cliffs",type:"sight",star:false,lat:64.8578,lng:-22.3673,desc:"Basalt column wall, 3 min off road"},
+        {name:"Stykkishólmur",type:"base",star:false,lat:65.0770,lng:-22.7257,desc:"1 night, harbor town"},
+      ]},
+    { id:7, label:"Day 7", date:"Wed Aug 5", title:"Snæfellsnes → Reykjavik", drive:"Stykkishólmur → Reykjavik · ~175 km (2.5 hr + loop)", sleep:"Reykjavik",
+      stops:[
+        {name:"Kirkjufell",type:"sight",star:true,lat:64.9417,lng:-23.3069,desc:"The arrowhead mountain (GoT)"},
+        {name:"Búðakirkja",type:"sight",star:true,lat:64.8211,lng:-23.3849,desc:"The iconic black church"},
+        {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches"},
+        {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (on drive back)"},
+        {name:"Reykjavik",type:"base",star:false,lat:64.1476,lng:-21.9427,desc:"Final night; full city day"},
+      ]},
+    { id:8, label:"Day 8", date:"Thu Aug 6", title:"Blue Lagoon → Home", drive:"Reykjavik → Blue Lagoon → KEF · ~70 km (1 hr)", sleep:"— (fly home)",
+      stops:[
+        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"~10:30 AM slot; soak before flight"},
+        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Be here by 2:30 PM; fly 4:50 PM"},
+      ]},
+  ],
+  bases: [
+    { title:"Base 1 — Reykjavik", nights:"Thu Jul 30 · 1 night", items:[
+      ["Sky Lagoon",true,"Geothermal soak right after landing (~15 min from KEF)"],
+      ["Reykjavik old town",false,"Hallgrímskirkja, Harpa, Sun Voyager, Bæjarins Beztu hot dog"],
+      ["Nap / recover",false,"Red-eye day — keep it light"],
+    ]},
+    { title:"Base 2 — Vík", nights:"Fri Jul 31 + Sat Aug 1 · 2 nights", items:[
+      ["Golden Circle",true,"Þingvellir, Geysir/Strokkur, Gullfoss (on the way in)"],
+      ["Seljalandsfoss",true,"Walk behind the falls"],
+      ["Skógafoss",true,"Climb the stairs to the top"],
+      ["Reynisfjara",true,"Black sand + basalt columns (best in the evening)"],
+      ["Dyrhólaey",false,"Clifftop arch + puffins, 10 min away"],
+      ["Sólheimasandur plane wreck",false,"DC-3 on black sand; ~45 min walk each way"],
+      ["Glacier hike at Sólheimajökull",false,"Guided crampon walk, ~$100pp"],
+    ]},
+    { title:"Base 3 — Höfn", nights:"Sun Aug 2 + Mon Aug 3 · 2 nights", items:[
+      ["Jökulsárlón Glacier Lagoon",true,"Floating icebergs; evening light is unreal"],
+      ["Diamond Beach",true,"Iceberg chunks on black sand, across the road"],
+      ["Fjaðrárgljúfur canyon",true,"100m serpentine canyon, free (on drive in)"],
+      ["Vestrahorn / Stokksnes",false,"Jagged peaks; best at ~10 PM (~$8 at Viking Café)"],
+      ["Skaftafell (Vatnajökull NP)",false,"Svartifoss + glacier viewpoints"],
+      ["Glacier hike or Zodiac tour",false,"Get among the icebergs — great Aug 3 plan"],
+      ["Höfn town",false,"Langoustine capital; dinner at Pakkhús"],
+    ]},
+    { title:"Base 4 — Snæfellsnes / Stykkishólmur", nights:"Tue Aug 4 · 1 night", items:[
+      ["Kirkjufell + Kirkjufellsfoss",true,"The arrowhead mountain (GoT), best at golden hour"],
+      ["Búðakirkja",true,"The iconic black church"],
+      ["Arnarstapi cliffs",false,"Coastal rock arches + cliff walk to Hellnar"],
+      ["Djúpalónssandur",false,"Black pebble beach with shipwreck remains"],
+      ["Snæfellsjökull glacier viewpoint",false,"The volcano under the glacier"],
+      ["Stykkishólmur harbor",false,"Colorful town, great seafood"],
+    ]},
+    { title:"Base 5 — Reykjavik + Departure", nights:"Wed Aug 5 · 1 night → Thu Aug 6", items:[
+      ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
+      ["Whale watching",false,"From Reykjavik harbor, ~3 hr (~$80pp)"],
+      ["Blue Lagoon",true,"Aug 6 ~10:30 AM on the way to KEF"],
+    ]},
+  ],
+  legs: [
+    { title:"Reykjavik → Vík (Fri Jul 31, via Golden Circle)", note:"", stops:[
+      ["Kerið Crater","Red volcanic crater + turquoise lake, ~$4, 20 min",64.0413,-20.8851],
+      ["Friðheimar tomato farm","Greenhouse lunch, famous tomato soup (book ahead)",64.0427,-20.4396],
+      ["Seljalandsfoss","4.8★ walk-behind waterfall, right off Route 1",63.6156,-19.9886],
+      ["Skógafoss","4.9★ massive falls, stairs to the top",63.5321,-19.5114],
+    ]},
+    { title:"Vík → Höfn (Sun Aug 2)", note:"The most stop-rich drive of the trip — give it a full day.", stops:[
+      ["Eldhraun lava field","Moss-covered lava from the 1783 eruption (4.6★)",63.6769,-18.1408],
+      ["Fjaðrárgljúfur canyon","100m serpentine canyon, ~30 min walk, free",63.7714,-18.1722],
+      ["Skaftafell (Vatnajökull NP)","Svartifoss + glacier viewpoints",64.0166,-16.9666],
+      ["Jökulsárlón + Diamond Beach","The headline stop before Höfn (4.9★)",64.0784,-16.2306],
+    ]},
+    { title:"Around Höfn (Mon Aug 3)", note:"", stops:[
+      ["Vestrahorn / Stokksnes","Jagged peaks + black sand, 15 min east; ~10 PM light",64.255,-14.99],
+      ["Hvalnes Lighthouse","Orange lighthouse + beach, quick photo stop (4.4★)",64.4023,-14.5402],
+    ]},
+    { title:"Höfn → Snæfellsnes (Tue Aug 4 — long leg, ~5 hr)", note:"Retrace the south coast, skirt Reykjavik, head up to the peninsula.", stops:[
+      ["Borgarnes","Midway lunch/coffee/fuel ~1 hr north of Reykjavik",64.5446,-21.9105],
+      ["Gerðuberg Cliffs","Basalt column wall, 3 min off the road, free (4.2★)",64.8578,-22.3673],
+    ]},
+    { title:"Snæfellsnes → Reykjavik (Wed Aug 5)", note:"", stops:[
+      ["Hraunfossar + Barnafoss","Waterfalls from a lava field, short walk (4.8★)",64.7029,-20.9772],
+      ["Borgarnes","Second-pass meal option on the way back",64.5446,-21.9105],
+    ]},
+  ],
+  lodging: [
+    { region:"Reykjavik (Jul 30 + Aug 5)", picks:[
+      ["Hotel Reykjavik Centrum","4.6★","~$240–320/n","Old-town location, spotless, great breakfast",true],
+      ["Hotel Reykjavik Grand","4.2★","~$221/n","Alex's find — best value, slightly out of center",false],
+      ["Center Hotels Laugavegur","4.5★","~$220–300/n","Main street, spa, bus stop outside",false],
+    ]},
+    { region:"Vík (Jul 31 + Aug 1)", picks:[
+      ["Guesthouse Carina","4.5★","~$160–230/n","Cozy, ocean views, top value — book fast",true],
+      ["Guesthouse Galleri Vík","4.7★","~$180–260/n","Apartments w/ kitchen, highest-rated, tiny",false],
+      ["Vík Airbnbs","—","check dates","Alex pulled 3 options — go if <$250/n whole place",false],
+    ]},
+    { region:"Höfn (Aug 2 + Aug 3)", picks:[
+      ["Brunnhóll Country Guesthouse","4.3★","~$190–260/n","Glacier views, homemade ice cream, closer to Jökulsárlón",true],
+      ["Arnanes","—","better price","Alex's find — country guesthouse, solid value",false],
+      ["Fosshotel Vatnajökull","—","~$280–350/n","Bigger chain, glacier views, reliable",false],
+    ]},
+    { region:"Snæfellsnes / Stykkishólmur (Aug 4)", picks:[
+      ["Hótel Egilsen","4.7★","~$200–280/n","Boutique by the harbor, amazing breakfast",true],
+      ["Fransiskus","—","~$200–280/n","Historic monastery-turned-hotel, atmospheric",false],
+      ["Snæfellsnes Airbnbs","—","check dates","Alex pulled 5 options — compare on price",false],
+    ]},
+  ],
+  budget: [
+    ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
+    ["Rental car + gas (split)","~$380","8 days, small SUV, local operator"],
+    ["Lodging (7 nights, split)","~$700–900","Mid-tier mix across regions"],
+    ["Food","~$400","Iceland is expensive; budget accordingly"],
+    ["Activities (lagoons, 1–2 tours)","~$200–300","Glacier hike + Sky/Blue Lagoon"],
+  ],
+  budgetTotal:["Total","~$2,250–2,550","All-in for 8 days"],
+  checklist: [
+    ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
+    ["Lodging — Reykjavik (Jul 30 + Aug 5) — book in 1–2 weeks",false],
+    ["Lodging — Vík (Jul 31 + Aug 1) — book this week",false],
+    ["Lodging — Höfn (Aug 2 + Aug 3) — book this week",false],
+    ["Lodging — Snæfellsnes (Aug 4) — book this week",false],
+    ["Rental car — book in 2–3 weeks (Blue Car Rental or similar)",false],
+    ["Sky Lagoon — Thu Jul 30 AM slot",false],
+    ["Blue Lagoon — Thu Aug 6 ~10:30 AM slot (KEF by 2:30 PM)",false],
+    ["Glacier hike — book 2–3 weeks ahead (sells out)",false],
+    ["Coordinate with Alex — Boston ⇄ KEF flight + arrival time",false],
+  ]
+};
+const dayColors=["#3a6ea5","#e0913c","#2e8b6f","#b5503c","#7a5cc4","#c49a1f","#3a8fb0","#9c4d8a"];
+
+// ============ MAP ============
+const map=L.map('map').setView([64.6,-19.0],6);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
+let layers=[];
+const clearL=()=>{layers.forEach(l=>map.removeLayer(l));layers=[];};
+const baseIcon=()=>L.divIcon({className:'',html:'<div style="width:15px;height:15px;background:#e0913c;border:2px solid #fff;transform:rotate(45deg);box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',iconSize:[15,15],iconAnchor:[7,7]});
+const sightIcon=c=>L.divIcon({className:'',html:'<div style="width:13px;height:13px;background:'+c+';border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',iconSize:[13,13],iconAnchor:[6,6]});
+function renderDay(d,color,fit){
+  const pts=d.stops.map(s=>[s.lat,s.lng]);
+  const line=L.polyline(pts,{color:color,weight:4,opacity:.78}).addTo(map);layers.push(line);
+  d.stops.forEach(s=>{
+    const icon=s.type==='base'?baseIcon():sightIcon(color);
+    const m=L.marker([s.lat,s.lng],{icon}).addTo(map);
+    m.bindPopup('<b>'+s.name+'</b><br><span style="color:#5e6b78;font-size:12px">'+s.desc+'</span><br><a href="https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lng+'" target="_blank">Open in Maps ↗</a>');
+    layers.push(m);
+  });
+  if(fit)map.fitBounds(line.getBounds(),{padding:[40,40]});
+}
+function showAll(){clearL();const all=[];TRIP.days.forEach((d,i)=>{renderDay(d,dayColors[i],false);d.stops.forEach(s=>all.push([s.lat,s.lng]));});map.fitBounds(L.latLngBounds(all),{padding:[40,40]});}
+function showOne(d,i){clearL();renderDay(d,dayColors[i],true);}
+const tabs=document.getElementById('tabs');
+const allTab=document.createElement('button');allTab.className='map-tab all active';allTab.textContent='Full Route';
+allTab.onclick=()=>{setActive(allTab);showAll();};tabs.appendChild(allTab);
+TRIP.days.forEach((d,i)=>{const b=document.createElement('button');b.className='map-tab';b.textContent=d.label;b.onclick=()=>{setActive(b);showOne(d,i);};tabs.appendChild(b);});
+function setActive(btn){document.querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
+showAll();
+
+// ============ TIMELINE ============
+document.getElementById('timeline').innerHTML=TRIP.days.map(d=>`
+  <div class="day">
+    <div class="when"><div class="daynum">${d.label.replace('Day ','')}</div><div class="date">${d.date}</div><div class="sleep">${d.sleep}</div></div>
+    <div><h3>${d.title}</h3><div class="drive">${d.drive}</div><ul>
+      ${d.stops.map(s=>`<li class="${s.star?'star':''}"><span class="nm">${s.name}</span> — <span class="ds">${s.desc}</span></li>`).join('')}
+    </ul></div>
+  </div>`).join('');
+
+// ============ BASES ============
+document.getElementById('bases-grid').innerHTML=TRIP.bases.map(b=>`
+  <div class="card"><h4>${b.title}</h4><div class="nights">${b.nights}</div><ul>
+    ${b.items.map(it=>`<li class="${it[1]?'star':''}"><span class="nm">${it[0]}</span> — <span class="ds">${it[2]}</span></li>`).join('')}
+  </ul></div>`).join('');
+
+// ============ DRIVE STOPS ============
+document.getElementById('stops-list').innerHTML=TRIP.legs.map(leg=>`
+  <div style="margin-bottom:22px">
+    <h3 style="font-family:'Fraunces',serif;font-size:19px;color:var(--navy2);margin-bottom:${leg.note?'2px':'8px'}">${leg.title}</h3>
+    ${leg.note?`<div style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:8px">${leg.note}</div>`:''}
+    ${leg.stops.map(s=>`<div class="pick"><span class="nm">${s[0]}</span> — <span class="ds">${s[1]}</span> &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=${s[2]},${s[3]}" target="_blank">[Map]</a></div>`).join('')}
+  </div>`).join('');
+
+// ============ LODGING ============
+document.getElementById('lodging-grid').innerHTML=TRIP.lodging.map(l=>`
+  <div class="card"><h4>${l.region}</h4><div style="margin-top:8px">
+    ${l.picks.map(p=>`<div class="pick ${p[4]?'top':''}"><span class="nm">${p[0]}</span> <span class="rt">${p[1]} · ${p[2]}</span><br><span class="ds">${p[3]}</span></div>`).join('')}
+  </div></div>`).join('');
+
+// ============ BUDGET ============
+document.getElementById('budget-tbl').innerHTML=`
+  <tr><th>Item</th><th>Estimate</th><th>Notes</th></tr>
+  ${TRIP.budget.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
+  <tr class="total"><td>${TRIP.budgetTotal[0]}</td><td>${TRIP.budgetTotal[1]}</td><td>${TRIP.budgetTotal[2]}</td></tr>`;
+
+// ============ CHECKLIST ============
+document.getElementById('checklist-list').innerHTML=TRIP.checklist.map(c=>`<li class="${c[1]?'done':''}"><span class="nm">${c[0]}</span></li>`).join('');
+</script>
+</body>
+</html>
