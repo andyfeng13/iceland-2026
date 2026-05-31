@@ -4,199 +4,271 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Iceland — Andy & Alex · Jul 29–Aug 6, 2026</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<!-- MapLibre GL (modern vector map, smooth zoom/rotate, keyless tiles) -->
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"/>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Spline+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,900&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
   :root{
     --navy:#0b2239; --navy2:#13314f; --glacier:#5b9bc4; --ice:#acd3e8;
-    --amber:#e0913c; --amber-deep:#c4701f; --paper:#f4efe6; --paper2:#ece4d6;
+    --amber:#e0913c; --amber-deep:#a85e15; --paper:#f4efe6; --paper2:#ece4d6;
     --ink:#0b2239; --muted:#5e6b78; --line:#d8cfc0;
+    --shadow:0 8px 30px rgba(11,34,57,.16);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'Spline Sans',sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+  html,body{height:100%}
+  body{font-family:'Spline Sans',sans-serif;color:var(--ink);background:var(--paper);line-height:1.5}
   a{color:var(--navy2)}
   .display{font-family:'Fraunces',serif}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  @media(min-width:861px){ body{overflow:hidden} }
 
-  /* NAV */
-  nav{position:sticky;top:0;z-index:1000;background:rgba(11,34,57,.96);backdrop-filter:blur(8px);display:flex;align-items:center;gap:4px;padding:10px 18px;flex-wrap:wrap}
-  nav .brand{font-family:'Fraunces',serif;font-weight:600;color:#fff;font-size:16px;margin-right:14px;letter-spacing:.3px}
-  nav a{color:#aebfd0;text-decoration:none;font-size:13px;font-weight:500;padding:6px 10px;border-radius:6px;transition:.15s}
-  nav a:hover{color:#fff;background:rgba(255,255,255,.08)}
+  /* ---------- APP SHELL (header + split main) ---------- */
+  #app{display:flex;flex-direction:column;height:100vh}
+  @media(max-width:860px){ #app{height:auto;min-height:100vh} }
 
-  /* HERO */
-  header.hero{position:relative;background:linear-gradient(160deg,#0b2239 0%,#13314f 55%,#1d4264 100%);color:#fff;padding:64px 24px 56px;overflow:hidden}
-  header.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(172,211,232,.18),transparent 50%);pointer-events:none}
-  .hero .kicker{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--ice);font-weight:600}
-  .hero h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(38px,7vw,76px);line-height:.98;margin:10px 0 14px;letter-spacing:-1px}
-  .hero h1 em{font-style:italic;color:var(--amber)}
-  .hero .sub{font-size:17px;color:#cdd9e4;max-width:640px}
-  .hero .facts{display:flex;flex-wrap:wrap;gap:24px;margin-top:28px}
-  .hero .fact{border-left:2px solid var(--amber);padding-left:12px}
-  .hero .fact .l{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ice)}
-  .hero .fact .v{font-size:15px;font-weight:500;margin-top:2px}
+  header.top{
+    flex:none;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:11px 18px;background:var(--navy);color:#fff;z-index:20
+  }
+  header.top .brand{font-family:'Fraunces',serif;font-weight:600;font-size:18px;letter-spacing:.3px;white-space:nowrap}
+  header.top .subtitle{font-size:12.5px;color:#aebfd0}
+  @media(max-width:860px){ header.top{position:sticky;top:0} header.top .subtitle{flex-basis:100%;font-size:12px} }
 
-  /* SECTIONS */
-  section{max-width:1080px;margin:0 auto;padding:54px 24px 12px}
-  .sec-label{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber-deep);font-weight:600}
-  section h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,38px);margin:6px 0 22px;letter-spacing:-.5px}
-  .lede{font-size:16px;color:var(--muted);max-width:680px;margin-bottom:24px}
+  #main{flex:1;display:grid;grid-template-columns:var(--panel-w,calc(50% - 4px)) 8px 1fr;min-height:0}
+  @media(max-width:860px){ #main{display:flex;flex-direction:column} }
 
-  /* MAP */
-  #mapwrap{max-width:1080px;margin:0 auto;padding:0 24px}
-  .map-tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
-  .map-tab{padding:7px 13px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--navy2);font-family:'Spline Sans',sans-serif;transition:.15s}
-  .map-tab:hover{background:var(--paper2)}
-  .map-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
-  .map-tab.all.active{background:var(--amber-deep);border-color:var(--amber-deep)}
-  #map{height:480px;border-radius:14px;border:1px solid var(--line);box-shadow:0 10px 30px rgba(11,34,57,.10)}
-  .map-cap{font-size:12.5px;color:var(--muted);margin:10px 0 0;font-style:italic}
+  /* draggable divider between panel and map */
+  #divider{cursor:col-resize;background:var(--line);display:flex;align-items:center;justify-content:center;position:relative;touch-action:none}
+  #divider::before{content:"";width:2px;height:36px;border-radius:2px;background:var(--muted);opacity:.45;transition:opacity .15s, background .15s, height .15s}
+  #divider:hover,#divider.dragging{background:var(--glacier)}
+  #divider:hover::before,#divider.dragging::before{opacity:1;background:#fff;height:50px}
+  @media(max-width:860px){ #divider{display:none} }
 
-  /* TIMELINE */
-  .day{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:22px 0;border-top:1px solid var(--line)}
-  .day:first-of-type{border-top:none}
-  .day .when{position:relative}
-  .day .daynum{font-family:'Fraunces',serif;font-weight:900;font-size:30px;color:var(--navy);line-height:1}
-  .day .date{font-size:13px;color:var(--muted);margin-top:3px;font-weight:500}
-  .day .sleep{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--amber-deep);font-weight:600;border:1px solid var(--amber);border-radius:5px;padding:2px 7px}
-  .day h3{font-family:'Fraunces',serif;font-weight:600;font-size:21px;margin-bottom:4px}
-  .day .drive{font-size:13px;color:var(--muted);margin-bottom:10px}
-  .day ul{list-style:none}
-  .day li{position:relative;padding-left:18px;font-size:14.5px;margin-bottom:5px}
-  .day li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--glacier)}
-  .day li.star::before{background:var(--amber);width:8px;height:8px}
-  .day li .nm{font-weight:600}
-  .day li .ds{color:var(--muted)}
+  /* ---------- LEFT PANEL (trip info, tabbed) ---------- */
+  #panel{display:flex;flex-direction:column;min-height:0;background:var(--paper);border-right:1px solid var(--line)}
+  @media(max-width:860px){ #panel{order:2;border-right:none;border-top:1px solid var(--line)} }
 
-  /* CARD GRID (bases / lodging) */
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 4px 14px rgba(11,34,57,.05)}
-  .card h4{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:3px}
-  .card .nights{font-size:12px;color:var(--amber-deep);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px}
+  .tabbar{flex:none;display:flex;gap:2px;overflow-x:auto;padding:8px 8px 0;background:var(--paper2);border-bottom:1px solid var(--line);scrollbar-width:none}
+  .tabbar::-webkit-scrollbar{display:none}
+  .tab{white-space:nowrap;padding:9px 13px;font-size:13px;font-weight:600;color:var(--muted);border-radius:9px 9px 0 0;border-bottom:2.5px solid transparent}
+  .tab:hover{color:var(--navy2);background:rgba(255,255,255,.5)}
+  .tab.active{color:var(--navy);background:var(--paper);border-bottom-color:var(--amber)}
+
+  #tabcontent{overflow-y:auto;flex:1;min-height:0}
+  @media(max-width:860px){ #tabcontent{overflow:visible} }
+  .tabpane{padding:16px 16px 28px}
+  .tabpane[hidden]{display:none}
+  .pane-head{margin-bottom:12px}
+  .sec-label{font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:var(--amber-deep);font-weight:700}
+  h3.sec{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-top:3px}
+  .pane-hint{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+
+  /* ---------- ITINERARY (day overview + day detail) ---------- */
+  .day-head{padding-bottom:12px;margin-bottom:6px;border-bottom:1px solid var(--line)}
+  .day-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .navbtn{width:32px;height:32px;border-radius:9px;background:#fff;color:var(--navy2);font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(11,34,57,.12)}
+  .navbtn:hover{background:var(--paper2)}
+  .navbtn[disabled]{opacity:.35;cursor:default}
+  .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber-deep);font-weight:700}
+  .day-title{font-family:'Fraunces',serif;font-size:23px;font-weight:600;margin:2px 0 4px;line-height:1.12}
+  .day-meta{font-size:13px;color:var(--muted)}
+  .sleep{display:inline-block;margin-top:9px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--amber-deep);font-weight:700;border:1px solid var(--amber);border-radius:6px;padding:2px 9px}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:var(--muted);margin:10px 0 4px}
+  .legend i{font-style:normal}
+  .lg-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--glacier);vertical-align:middle;margin-right:4px}
+  .lg-sq{display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--amber);vertical-align:middle;margin-right:4px}
+
+  .stop{display:flex;gap:11px;align-items:flex-start;padding:10px;border-radius:10px;cursor:pointer;transition:background .12s}
+  .stop:hover,.stop.active{background:rgba(91,155,196,.16)}
+  .stop.active{box-shadow:inset 3px 0 0 var(--glacier)}
+  .stop .dot{flex:none;width:23px;height:23px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;background:var(--glacier);margin-top:1px}
+  .stop.base .dot{border-radius:6px}
+  .stop .txt{display:block}
+  .stop .txt .nm{display:block;font-size:14.5px;font-weight:600;line-height:1.25}
+  .stop .txt .ds{display:block;margin-top:1px;font-size:12.5px;color:var(--muted);line-height:1.3}
+  .back{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:var(--amber-deep);padding:6px 10px;cursor:pointer}
+  .back:hover{text-decoration:underline}
+  /* itinerary accordion */
+  .itin-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+  .itin-allbtns{white-space:nowrap}
+  .linkbtn{font-size:12px;font-weight:600;color:var(--amber-deep);text-decoration:underline;padding:5px 2px}
+  .linkbtn:hover{color:var(--navy2)}
+  .dot-sep{color:var(--muted);margin:0 5px}
+  .iday{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;background:#fff;overflow:hidden;box-shadow:0 2px 8px rgba(11,34,57,.05)}
+  .iday.active{box-shadow:inset 4px 0 0 var(--dc),0 3px 12px rgba(11,34,57,.10)}
+  .iday-head{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;padding:12px 14px;cursor:pointer;user-select:none}
+  .iday-head:hover{background:var(--paper)}
+  .caret{flex:none;width:12px;color:var(--muted);font-size:11px}
+  .caret::before{content:"▾"}
+  .iday.collapsed .caret::before{content:"▸"}
+  .iday-num{flex:none;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px}
+  .iday-htext{flex:1 1 150px;min-width:0}
+  .iday-title{display:block;font-family:'Fraunces',serif;font-size:16px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .iday-sub{display:block;font-size:11.5px;color:var(--muted);line-height:1.3;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .iday-sleep{flex:none;font-size:10px;letter-spacing:.4px;text-transform:uppercase;color:var(--amber-deep);font-weight:700;border:1px solid var(--amber);border-radius:5px;padding:2px 6px;white-space:nowrap}
+  .iday-details{flex:none;font-size:11.5px;font-weight:600;color:var(--amber-deep);white-space:nowrap;padding:6px 4px;margin:-6px -2px}
+  .iday-details:hover{text-decoration:underline}
+  .iday-body{padding:0 8px 8px}
+  .iday.collapsed .iday-body{display:none}
+  /* itinerary detail page */
+  .day-page-head{padding:4px 4px 14px 12px;margin-bottom:10px;border-bottom:1px solid var(--line);border-left:4px solid var(--dc)}
+  .day-stops{display:flex;flex-direction:column;gap:10px}
+  .stopcard{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;box-shadow:0 2px 8px rgba(11,34,57,.05);transition:background .12s,box-shadow .12s}
+  .stopcard:hover{background:var(--paper)}
+  .stopcard.active{box-shadow:inset 4px 0 0 var(--glacier),0 3px 12px rgba(11,34,57,.1)}
+  .stopcard .dot{flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px;margin-top:1px}
+  .stopcard.base .dot{border-radius:7px}
+  .stopcard-txt{min-width:0}
+  .stopcard-txt .nm{font-family:'Fraunces',serif;font-size:16px;font-weight:600;line-height:1.2}
+  .stopcard-txt .ds{font-size:13px;color:var(--muted);margin:2px 0 6px;line-height:1.35}
+  .stopcard-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .stopcard-meta .tag{font-size:10px;letter-spacing:.4px;text-transform:uppercase;font-weight:700;color:var(--navy2);background:var(--paper2);border-radius:5px;padding:2px 7px}
+  .stopcard-meta a{font-size:12px;font-weight:600;color:var(--amber-deep);text-decoration:none;padding:4px 0}
+  .stopcard-meta a:hover{text-decoration:underline}
+
+  /* ---------- CARDS / LISTS (bases, lodging, drives, budget) ---------- */
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:13px;box-shadow:0 3px 12px rgba(11,34,57,.05)}
+  .card h4{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin-bottom:2px}
+  .card .nights{font-size:11px;color:var(--amber-deep);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:9px}
   .card ul{list-style:none}
-  .card li{font-size:13.5px;padding-left:16px;position:relative;margin-bottom:5px}
+  .card li{font-size:13px;padding-left:16px;position:relative;margin-bottom:5px;line-height:1.4}
   .card li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--glacier)}
   .card li.star::before{background:var(--amber)}
   .card li .nm{font-weight:600}
   .card li .ds{color:var(--muted)}
-
-  /* PICK LIST (lodging) */
-  .pick{font-size:13.5px;margin-bottom:8px;padding-left:18px;position:relative}
+  .cardgrid{display:flex;flex-direction:column;gap:13px}
+  .cardgrid > .card,.cardgrid > .leg{margin-bottom:0}
+  .leg{margin-bottom:16px}
+  .leg h4{font-family:'Fraunces',serif;font-size:16px;color:var(--navy2);margin-bottom:2px}
+  .leg .legnote{font-size:12.5px;color:var(--muted);font-style:italic;margin-bottom:6px}
+  .pick{font-size:13px;margin-bottom:8px;padding-left:16px;position:relative;line-height:1.4}
   .pick::before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--glacier)}
   .pick.top::before{background:var(--amber)}
   .pick .nm{font-weight:600}
-  .pick .rt{color:var(--amber-deep);font-weight:600;font-size:12px}
+  .pick .rt{color:var(--amber-deep);font-weight:600;font-size:11.5px}
   .pick .ds{color:var(--muted)}
-
-  /* TABLE */
-  .tbl{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 4px 14px rgba(11,34,57,.05)}
-  .tbl th{background:var(--navy);color:#fff;text-align:left;padding:11px 13px;font-weight:600;font-size:12.5px}
-  .tbl td{padding:10px 13px;border-top:1px solid var(--line)}
+  .pick a{font-size:11.5px;font-weight:600;color:var(--amber-deep);text-decoration:none}
+  .pick a:hover{text-decoration:underline}
+  .pick .nm a{color:var(--navy2);text-decoration:none}
+  .pick .nm a:hover{text-decoration:underline}
+  .morelinks{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:10px}
+  .morelbl{font-size:11.5px;color:var(--muted);font-weight:600;margin-right:1px}
+  .morelinks a{font-size:11.5px;font-weight:600;text-decoration:none;color:var(--navy2);background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+  .morelinks a:hover{background:var(--paper2)}
+  .note{background:#fff7e8;border:1px solid var(--amber);border-radius:10px;padding:12px 14px;font-size:13px;color:#7a4f00;margin-bottom:14px}
+  .note b{color:#5e3a00}
+  .tbl{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 3px 12px rgba(11,34,57,.05)}
+  .tbl th{background:var(--navy);color:#fff;text-align:left;padding:10px 12px;font-weight:600;font-size:12px}
+  .tbl td{padding:9px 12px;border-top:1px solid var(--line)}
   .tbl tr:nth-child(even) td{background:var(--paper)}
   .tbl tr.total td{background:var(--ice);font-weight:600}
 
-  /* CHECKLIST */
-  .check li{list-style:none;font-size:14.5px;padding:7px 0 7px 28px;position:relative;border-bottom:1px solid var(--line)}
-  .check li::before{content:"☐";position:absolute;left:0;top:6px;font-size:16px;color:var(--glacier)}
+  /* ---------- CHECKLIST (interactive, localStorage) ---------- */
+  .check{list-style:none}
+  .check li{font-size:13.5px;padding:9px 8px 9px 30px;position:relative;border-bottom:1px solid var(--line);line-height:1.4;cursor:pointer;border-radius:6px;transition:background .12s}
+  .check li::before{content:"☐";position:absolute;left:6px;top:8px;font-size:16px;color:var(--glacier)}
   .check li.done::before{content:"✓";color:#2e8b6f;font-weight:700}
   .check li.done{color:var(--muted)}
+  .check li.done .nm{text-decoration:line-through}
+  .check li:hover{background:rgba(91,155,196,.12)}
+  .check li:focus-visible{outline:2px solid var(--glacier);outline-offset:1px}
   .check .nm{font-weight:600}
+  .check-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+  #checkProgress{font-size:13px;font-weight:700;color:var(--navy2)}
+  .reset{font-size:11.5px;color:var(--muted);text-decoration:underline}
+  .reset:hover{color:var(--amber-deep)}
+  .check-hint{font-size:11.5px;color:var(--muted);margin-bottom:10px}
+  .progress{height:7px;border-radius:5px;background:var(--paper2);overflow:hidden;margin-bottom:11px}
+  .progress > i{display:block;height:100%;width:0;background:#2e8b6f;transition:width .35s ease}
 
-  .note{background:#fff7e8;border:1px solid var(--amber);border-radius:10px;padding:14px 16px;font-size:13.5px;color:#7a4f00;margin-bottom:20px}
-  .note b{color:#5e3a00}
+  /* ---------- RIGHT: MAP COLUMN ---------- */
+  #mapcol{position:relative;display:flex;flex-direction:column;min-width:0}
+  @media(max-width:860px){ #mapcol{order:1;height:48vh;flex:none} }
+  .chipbar{flex:none;display:flex;align-items:center;gap:7px;padding:9px 12px;background:var(--paper);border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  .chipbar::-webkit-scrollbar{display:none}
+  .chip{white-space:nowrap;padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:600;background:#fff;color:var(--navy2);border:1px solid var(--line)}
+  .chip:hover{background:var(--paper2)}
+  .chip.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .chip.all.active{background:var(--amber-deep);border-color:var(--amber-deep)}
+  .chip.all{position:sticky;left:0;z-index:2;box-shadow:7px 0 0 var(--paper)}
+  #map{flex:1;min-height:0;background:#aac4d6}
 
-  footer{max-width:1080px;margin:40px auto 0;padding:24px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);text-align:center}
-  @media(max-width:640px){
-    .day{grid-template-columns:1fr;gap:6px}
-    #map{height:62vh}
-  }
+  .maplibregl-popup-content{font-family:'Spline Sans',sans-serif;border-radius:12px;padding:0;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden}
+  .maplibregl-popup-close-button{font-size:18px;color:var(--muted);padding:2px 7px}
+  .pop{padding:12px 14px 13px;max-width:240px}
+  .pop b{font-family:'Fraunces',serif;font-size:15px;display:block;margin-bottom:3px;color:var(--navy)}
+  .pop p{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .pop a{font-size:12.5px;font-weight:600;text-decoration:none;color:var(--amber-deep)}
+  .pop a:hover{text-decoration:underline}
+
+  .pin{--c:#3a6ea5;width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+    background:var(--c);color:#fff;border:2.5px solid #fff;border-radius:50% 50% 50% 0;
+    transform:rotate(-45deg);box-shadow:0 3px 8px rgba(11,34,57,.4);font-size:12.5px;font-weight:700;cursor:pointer;transition:transform .15s, filter .15s, opacity .2s}
+  .pin.dim{opacity:.38}
+  .pin.dim:hover{opacity:.9}
+  .pin span{transform:rotate(45deg);line-height:1}
+  .pin.pin-base{--c:var(--amber);width:32px;height:32px;font-size:15px;z-index:5}
+  .pin:hover,.pin.pin-hi{filter:brightness(1.08);transform:rotate(-45deg) scale(1.18);z-index:20}
+  .pin.pinpulse{animation:pulse .6s ease}
+  @keyframes pulse{0%{transform:rotate(-45deg) scale(1)}40%{transform:rotate(-45deg) scale(1.4)}100%{transform:rotate(-45deg) scale(1.18)}}
+
+  #maperror{display:none;position:absolute;inset:0;z-index:10;flex-direction:column;align-items:center;justify-content:center;background:var(--paper);text-align:center;padding:30px}
+  #maperror h3{font-family:'Fraunces',serif;font-size:22px;margin-bottom:8px}
+  #maperror p{color:var(--muted);font-size:14px;max-width:360px}
 </style>
 </head>
 <body>
-
-<nav>
-  <span class="brand">🇮🇸 Iceland '26</span>
-  <a href="#map-section">Map</a>
-  <a href="#itinerary">Itinerary</a>
-  <a href="#bases">Bases</a>
-  <a href="#stops">Drive Stops</a>
-  <a href="#lodging">Lodging</a>
-  <a href="#budget">Budget</a>
-  <a href="#checklist">Checklist</a>
-</nav>
-
-<header class="hero">
-  <div class="kicker">Andy &amp; Alex · Southern Loop + Snæfellsnes</div>
-  <h1 class="display">Eight days<br>around <em>Iceland</em>.</h1>
-  <p class="sub">A clockwise run from Reykjavik down the south coast to the glacier lagoons, then up to the Snæfellsnes peninsula — under the midnight sun.</p>
-  <div class="facts">
-    <div class="fact"><div class="l">Dates</div><div class="v">Jul 29 – Aug 6, 2026</div></div>
-    <div class="fact"><div class="l">Flights</div><div class="v">IAD ⇄ KEF · Icelandair</div></div>
-    <div class="fact"><div class="l">Driving</div><div class="v">~1,250 km total</div></div>
-    <div class="fact"><div class="l">Daylight</div><div class="v">~20 hrs (midnight sun)</div></div>
-  </div>
-</header>
-
-<div id="map-section" style="padding-top:46px">
-  <section style="padding-bottom:14px">
-    <div class="sec-label">The Route</div>
-    <h2 class="display">Tap a day to follow along</h2>
-  </section>
-  <div id="mapwrap">
-    <div class="map-tabs" id="tabs"></div>
-    <div id="map"></div>
-    <p class="map-cap">★ amber = overnight base · ● blue = scenic stop. Click any pin for details + a Google Maps link.</p>
+<div id="app">
+  <header class="top">
+    <span class="brand">🇮🇸 Iceland '26</span>
+    <span class="subtitle">Andy &amp; Alex · Southern Loop + Snæfellsnes · Jul 29 – Aug 6, 2026</span>
+  </header>
+  <div id="main">
+    <div id="panel">
+      <div class="tabbar" id="tabbar"></div>
+      <div id="tabcontent">
+        <div class="tabpane" id="tab-itinerary"></div>
+        <div class="tabpane" id="tab-bases" hidden></div>
+        <div class="tabpane" id="tab-lodging" hidden></div>
+        <div class="tabpane" id="tab-drives" hidden></div>
+        <div class="tabpane" id="tab-budget" hidden></div>
+        <div class="tabpane" id="tab-checklist" hidden></div>
+      </div>
+    </div>
+    <div id="divider" title="Drag to resize · double-click to reset"></div>
+    <div id="mapcol">
+      <div class="chipbar"><div style="display:flex;gap:7px" id="chips"></div></div>
+      <div id="map"></div>
+      <div id="maperror">
+        <h3>🗺 Map needs a connection</h3>
+        <p>The interactive map loads tiles from the internet. Reconnect and refresh — all trip info still works in the panel.</p>
+      </div>
+    </div>
   </div>
 </div>
 
-<section id="itinerary">
-  <div class="sec-label">Day by Day</div>
-  <h2 class="display">The itinerary</h2>
-  <div id="timeline"></div>
-</section>
-
-<section id="bases">
-  <div class="sec-label">Home Base Each Night</div>
-  <h2 class="display">Base camps + options</h2>
-  <p class="lede">Where we sleep is fixed. Within each base, pick from these day-of based on weather and energy. ★ = the don't-miss anchor.</p>
-  <div class="grid" id="bases-grid"></div>
-</section>
-
-<section id="stops">
-  <div class="sec-label">Between the Bases</div>
-  <h2 class="display">Scenic drive stops</h2>
-  <p class="lede">Pull-offs and quick walks to break up the transit legs — most are right off Route 1.</p>
-  <div id="stops-list"></div>
-</section>
-
-<section id="lodging">
-  <div class="sec-label">Where to Sleep</div>
-  <h2 class="display">Lodging picks</h2>
-  <div class="note"><b>Book soon:</b> summer lodging in Vík, Höfn &amp; Snæfellsnes sells out months ahead. Lock in refundable rates and adjust later. ★ = top pick.</div>
-  <div class="grid" id="lodging-grid"></div>
-</section>
-
-<section id="budget">
-  <div class="sec-label">The Damage</div>
-  <h2 class="display">Budget (per person)</h2>
-  <table class="tbl" id="budget-tbl"></table>
-</section>
-
-<section id="checklist">
-  <div class="sec-label">To Do</div>
-  <h2 class="display">Booking checklist</h2>
-  <ul class="check" id="checklist-list"></ul>
-</section>
-
-<footer>
-  Living document · single source of truth · last updated May 2026. Edit trip data in the <code>TRIP</code> object inside this file.
-</footer>
-
 <script>
-// ============ TRIP DATA (single source of truth) ============
+// ============================================================
+//  TRIP DATA — single source of truth.
+//  Edit values here and the whole page (map, routes, pins,
+//  itinerary, and every Trip-info tab) re-renders automatically.
+//
+//  SCHEMA (see README.md for the full guide):
+//    days[]   : { id, label, date, title, drive, sleep, stops[] }
+//      stops[]: { name, type:'base'|'sight', star:bool, lat, lng, desc }
+//    bases[]  : { title, nights, items:[ [name, star, desc] ] }
+//    legs[]   : { title, note, stops:[ [name, desc, lat, lng] ] }
+//    lodging[]: { region, picks:[ [name, rating, price, desc, top] ] }
+//    budget[] : [ item, estimate, note ]    + budgetTotal:[ ... ]
+//    checklist: [ [text, done] ]
+//    To get coordinates: right-click a spot in Google Maps → click the lat/lng.
+// ============================================================
 const TRIP = {
   days: [
     { id:1, label:"Day 1", date:"Thu Jul 30", title:"Arrival + Reykjavik", drive:"KEF → Reykjavik · ~45 km (30 min)", sleep:"Reykjavik",
@@ -322,34 +394,51 @@ const TRIP = {
   ],
   lodging: [
     { region:"Reykjavik (Jul 30 + Aug 5)", picks:[
-      ["Hotel Reykjavik Centrum","4.6★","~$240–320/n","Old-town location, spotless, great breakfast",true],
-      ["Hotel Reykjavik Grand","4.2★","~$221/n","Alex's find — best value, slightly out of center",false],
-      ["Center Hotels Laugavegur","4.5★","~$220–300/n","Main street, spa, bus stop outside",false],
+      ["City Center Hotel","—","~$273","Central, right in the old town",true,"http://www.citycenterhotel.is/"],
+      ["Hotel Reykjavik Grand","—","~$221","Alex W.'s find — best value, slightly out of center",false,"https://www.islandshotel.is/hotels-in-iceland/hotel-reykjavik-grand/"],
+      ["Fosshotel (Aug 5)","—","check dates","Chain with locations across the city for the final night",false,"https://www.islandshotel.is/"],
     ]},
     { region:"Vík (Jul 31 + Aug 1)", picks:[
-      ["Guesthouse Carina","4.5★","~$160–230/n","Cozy, ocean views, top value — book fast",true],
-      ["Guesthouse Galleri Vík","4.7★","~$180–260/n","Apartments w/ kitchen, highest-rated, tiny",false],
-      ["Vík Airbnbs","—","check dates","Alex pulled 3 options — go if <$250/n whole place",false],
+      ["Paradise Cave Hostel","—","~$180","In Hvolsvöllur, ~1 hr west of Vík",false,"http://www.paradisecavehostel.com/"],
+      ["Vík HI Hostel","—","check dates","Hostel right in Vík town",false,"https://www.hostel.is/hostels/vik-hi-hostel"],
+    ], more:[
+      ["Airbnb 1","https://www.airbnb.com/rooms/1439880113093438622?adults=2&check_in=2026-07-31&check_out=2026-08-02"],
+      ["Airbnb 2","https://www.airbnb.com/rooms/1131225355313424279?adults=2&check_in=2026-07-31&check_out=2026-08-02"],
+      ["Airbnb 3","https://www.airbnb.com/rooms/24754061?adults=2&check_in=2026-07-31&check_out=2026-08-02"],
+      ["Hotels (Google)","https://www.google.com/travel/search?ts=CAESCgoCCAMKAggDEAAaTgowEiwyJTB4NDhkNzRhNDI0OTM2YjBkMToweGJlODM1MzFiMDA2ZDc3OGQ6A1ZpaxoAEhoSFAoHCOoPEAcYHxIHCOoPEAgYAhgCMgIIASoJCgU6A1VTRBoA&qs=CAEgACgAMidDaGtJOHV2YXpMbVMxTkpvR2cwdlp5OHhNV0kzTTIxamMxOXRFQUU4DUgA&utm_campaign=sharing&utm_medium=link_btn&utm_source=htls"],
     ]},
     { region:"Höfn (Aug 2 + Aug 3)", picks:[
-      ["Brunnhóll Country Guesthouse","4.3★","~$190–260/n","Glacier views, homemade ice cream, closer to Jökulsárlón",true],
-      ["Arnanes","—","better price","Alex's find — country guesthouse, solid value",false],
-      ["Fosshotel Vatnajökull","—","~$280–350/n","Bigger chain, glacier views, reliable",false],
+      ["Arnanes","—","better price","Country guesthouse, solid value",true,"https://arnanes.is/"],
+      ["Fosshotel Vatnajökull","—","check dates","Reliable chain, glacier views",false,"https://www.islandshotel.is/hotels-in-iceland/fosshotel-vatnajoekull/"],
+      ["Seljavellir Guesthouse","—","check dates","Country guesthouse near Höfn",false,"http://seljavellir-guesthouse.org.es/"],
+    ], more:[
+      ["Airbnb 1","https://www.airbnb.com/rooms/4487402?adults=2&check_in=2026-08-02&check_out=2026-08-03"],
+      ["Airbnb 2","https://www.airbnb.com/rooms/1567495320092674827?adults=2&check_in=2026-08-02&check_out=2026-08-03"],
+      ["Airbnb 3","https://www.airbnb.com/rooms/1391273897099073462?adults=2&check_in=2026-08-02&check_out=2026-08-03"],
+      ["Hotels (Google)","https://www.google.com/travel/search?ts=CAESCgoCCAMKAggDEAAaUAoyEi4yJTB4NDhjZmFjNTg1YTljMDc5ZjoweGIwZWU4MWM4MjlkYmUwZWQ6BUjDtmZuGgASGhIUCgcI6g8QCBgCEgcI6g8QCBgDGAEyAggBKgkKBToDVVNEGgA&qs=CAEgACgAMihDaG9JaGR5aWtOcnJzWVM1QVJvTkwyY3ZNVEZpZGpOdGNYQm1jUkFCOA1IAA&utm_campaign=sharing&utm_medium=link_btn&utm_source=htls"],
     ]},
     { region:"Snæfellsnes / Stykkishólmur (Aug 4)", picks:[
-      ["Hótel Egilsen","4.7★","~$200–280/n","Boutique by the harbor, amazing breakfast",true],
-      ["Fransiskus","—","~$200–280/n","Historic monastery-turned-hotel, atmospheric",false],
-      ["Snæfellsnes Airbnbs","—","check dates","Alex pulled 5 options — compare on price",false],
+      ["Fosshotel Stykkishólmur","—","check dates","Reliable chain in Stykkishólmur",false,"https://www.islandshotel.is/hotels-in-iceland/fosshotel-stykkisholmur"],
+      ["Fransiskus","—","check dates","Historic, atmospheric",false,"https://fransiskus.is/"],
+      ["Vogur Country Lodge","—","check dates","Rural lodge on the peninsula",false,"http://vogur.org/"],
+    ], more:[
+      ["Airbnb 1","https://www.airbnb.com/rooms/1524034384082856119?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
+      ["Airbnb 2","https://www.airbnb.com/rooms/1379687068006325363?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
+      ["Airbnb 3","https://www.airbnb.com/rooms/7899256?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
+      ["Airbnb 4","https://www.airbnb.com/rooms/895789953084886801?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
+      ["Airbnb 5","https://www.airbnb.com/rooms/12736565?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
     ]},
   ],
   budget: [
     ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
-    ["Rental car + gas (split)","~$380","8 days, small SUV, local operator"],
+    ["Rental car + gas (split)","~$380","8 days, small SUV; decline CDW (card covers), add gravel + sand/ash"],
     ["Lodging (7 nights, split)","~$700–900","Mid-tier mix across regions"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
-    ["Activities (lagoons, 1–2 tours)","~$200–300","Glacier hike + Sky/Blue Lagoon"],
+    ["Activities","~$300–450","Sky + Blue Lagoon and a glacier hike"],
+    ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
+    ["Misc buffer","~$100–150","Travel insurance, eSIM/data, incidentals"],
   ],
-  budgetTotal:["Total","~$2,250–2,550","All-in for 8 days"],
+  budgetTotal:["Total","~$2,500–2,900","All-in for 8 days, per person"],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
     ["Lodging — Reykjavik (Jul 30 + Aug 5) — book in 1–2 weeks",false],
@@ -365,70 +454,412 @@ const TRIP = {
 };
 const dayColors=["#3a6ea5","#e0913c","#2e8b6f","#b5503c","#7a5cc4","#c49a1f","#3a8fb0","#9c4d8a"];
 
+// ============ STATE ============
+let map, mapReady=false;
+let selected='all';            // 'all' or 0-based day index (drives map emphasis)
+let activeTab='itinerary';
+let expanded=TRIP.days.map(()=>true);  // itinerary accordion: which days are open
+let dayPage=null;              // null = accordion overview; or a day index = detail page
+const reg={};                  // "d-s" -> {marker, el, popup, lng, lat}
+let openPopup=null;
+
+// ============ HELPERS ============
+const $=id=>document.getElementById(id);
+const key=(d,s)=>d+'-'+s;
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const gmaps=(lat,lng)=>'https://www.google.com/maps/search/?api=1&query='+lat+','+lng;
+const isMobile=()=>window.innerWidth<=860;
+
+// localStorage-backed checklist — persists per browser/device, keyed by item text
+const LS_KEY='iceland26-checklist-v1';
+function getChecks(){ try{ return JSON.parse(localStorage.getItem(LS_KEY))||{}; }catch(e){ return {}; } }
+function saveChecks(o){ try{ localStorage.setItem(LS_KEY,JSON.stringify(o)); }catch(e){} }
+function isDone(text,def){ const c=getChecks(); return c[text]!==undefined?c[text]:def; }
+
 // ============ MAP ============
-const map=L.map('map').setView([64.6,-19.0],6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);
-let layers=[];
-const clearL=()=>{layers.forEach(l=>map.removeLayer(l));layers=[];};
-const baseIcon=()=>L.divIcon({className:'',html:'<div style="width:15px;height:15px;background:#e0913c;border:2px solid #fff;transform:rotate(45deg);box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',iconSize:[15,15],iconAnchor:[7,7]});
-const sightIcon=c=>L.divIcon({className:'',html:'<div style="width:13px;height:13px;background:'+c+';border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',iconSize:[13,13],iconAnchor:[6,6]});
-function renderDay(d,color,fit){
-  const pts=d.stops.map(s=>[s.lat,s.lng]);
-  const line=L.polyline(pts,{color:color,weight:4,opacity:.78}).addTo(map);layers.push(line);
-  d.stops.forEach(s=>{
-    const icon=s.type==='base'?baseIcon():sightIcon(color);
-    const m=L.marker([s.lat,s.lng],{icon}).addTo(map);
-    m.bindPopup('<b>'+s.name+'</b><br><span style="color:#5e6b78;font-size:12px">'+s.desc+'</span><br><a href="https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lng+'" target="_blank">Open in Maps ↗</a>');
-    layers.push(m);
-  });
-  if(fit)map.fitBounds(line.getBounds(),{padding:[40,40]});
+// Custom control: re-fit the map to the current selection (full route or selected day)
+class RecenterControl {
+  onAdd(m){
+    this._map=m;
+    const d=document.createElement('div');
+    d.className='maplibregl-ctrl maplibregl-ctrl-group';
+    const b=document.createElement('button');
+    b.type='button'; b.title='Recenter on the route'; b.setAttribute('aria-label','Recenter on the route');
+    b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0b2239" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M4 8 V4 H8"/><path d="M16 4 H20 V8"/><path d="M20 16 V20 H16"/><path d="M8 20 H4 V16"/></svg>';
+    b.onclick=()=>{ if(openPopup){ openPopup.remove(); openPopup=null; } fitTo(selected,false); };
+    d.appendChild(b); this._el=d; return d;
+  }
+  onRemove(){ if(this._el&&this._el.parentNode) this._el.parentNode.removeChild(this._el); this._map=undefined; }
 }
-function showAll(){clearL();const all=[];TRIP.days.forEach((d,i)=>{renderDay(d,dayColors[i],false);d.stops.forEach(s=>all.push([s.lat,s.lng]));});map.fitBounds(L.latLngBounds(all),{padding:[40,40]});}
-function showOne(d,i){clearL();renderDay(d,dayColors[i],true);}
-const tabs=document.getElementById('tabs');
-const allTab=document.createElement('button');allTab.className='map-tab all active';allTab.textContent='Full Route';
-allTab.onclick=()=>{setActive(allTab);showAll();};tabs.appendChild(allTab);
-TRIP.days.forEach((d,i)=>{const b=document.createElement('button');b.className='map-tab';b.textContent=d.label;b.onclick=()=>{setActive(b);showOne(d,i);};tabs.appendChild(b);});
-function setActive(btn){document.querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
-showAll();
+function initMap(){
+  if(typeof maplibregl==='undefined'){ $('maperror').style.display='flex'; return; }
+  try{
+    map=new maplibregl.Map({
+      container:'map',
+      style:'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
+      center:[-18.9,64.85], zoom:5.2, minZoom:4, attributionControl:{compact:true},
+      dragRotate:false, renderWorldCopies:false
+    });
+  }catch(e){ $('maperror').style.display='flex'; return; }
+  map.addControl(new maplibregl.NavigationControl({showCompass:false}),'bottom-right');
+  map.addControl(new maplibregl.FullscreenControl(),'bottom-right');
+  map.addControl(new RecenterControl(),'bottom-right');
+  map.on('load',()=>{
+    mapReady=true;
+    $('maperror').style.display='none';
+    addRoutes();
+    addMarkers();
+    applyView('all',true);
+  });
+  map.on('error',()=>{}); // swallow transient tile errors so they don't spam the console
+  map.on('click',()=>{ if(openPopup){ openPopup.remove(); openPopup=null; } clearActiveRow(); });
+  // if the style/tiles never load (offline, CDN down), reveal the fallback message
+  setTimeout(()=>{ if(!mapReady) $('maperror').style.display='flex'; }, 8000);
+}
 
-// ============ TIMELINE ============
-document.getElementById('timeline').innerHTML=TRIP.days.map(d=>`
-  <div class="day">
-    <div class="when"><div class="daynum">${d.label.replace('Day ','')}</div><div class="date">${d.date}</div><div class="sleep">${d.sleep}</div></div>
-    <div><h3>${d.title}</h3><div class="drive">${d.drive}</div><ul>
-      ${d.stops.map(s=>`<li class="${s.star?'star':''}"><span class="nm">${s.name}</span> — <span class="ds">${s.desc}</span></li>`).join('')}
-    </ul></div>
-  </div>`).join('');
+function addRoutes(){
+  TRIP.days.forEach((d,i)=>{
+    const coords=d.stops.map(s=>[s.lng,s.lat]);
+    map.addSource('route-'+i,{type:'geojson',data:{type:'Feature',properties:{},geometry:{type:'LineString',coordinates:coords}}});
+    map.addLayer({id:'route-'+i,type:'line',source:'route-'+i,
+      layout:{'line-join':'round','line-cap':'round','visibility':'none'},
+      paint:{'line-color':dayColors[i],'line-width':4,'line-opacity':.85}});
+  });
+}
+function addMarkers(){
+  TRIP.days.forEach((d,i)=>{
+    d.stops.forEach((s,j)=>{
+      const el=document.createElement('div');
+      el.className='pin'+(s.type==='base'?' pin-base':'')+(s.star?' pin-star':'');
+      el.style.setProperty('--c',dayColors[i]);
+      el.innerHTML='<span>'+(s.type==='base'?'🛏':(j+1))+'</span>';
+      el.title=s.name;
+      const popup=new maplibregl.Popup({offset:18,closeButton:true,maxWidth:'260px'})
+        .setHTML('<div class="pop"><b>'+esc(s.name)+'</b><p>'+esc(s.desc)+'</p>'+
+                 '<a href="'+gmaps(s.lat,s.lng)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a></div>');
+      const marker=new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([s.lng,s.lat]).addTo(map);
+      el.addEventListener('click',ev=>{ ev.stopPropagation(); focusStop(i,j); });
+      reg[key(i,j)]={marker,el,popup,lng:s.lng,lat:s.lat};
+    });
+  });
+}
+function visibleFor(sel){
+  document.querySelectorAll('.pin.pin-hi').forEach(el=>el.classList.remove('pin-hi')); // clear stale hover highlights
+  TRIP.days.forEach((d,i)=>{
+    const active=(sel==='all'||sel===i);
+    // keep every day on the map; just emphasize the selected one and fade the rest
+    if(map.getLayer('route-'+i)){
+      map.setLayoutProperty('route-'+i,'visibility','visible');
+      map.setPaintProperty('route-'+i,'line-opacity',active?0.9:0.16);
+      map.setPaintProperty('route-'+i,'line-width',active?4:2.5);
+    }
+    d.stops.forEach((s,j)=>{ const r=reg[key(i,j)]; if(r){ r.el.style.display='flex'; r.el.classList.toggle('dim',!active); } });
+  });
+}
+function boundsFor(sel){
+  const b=new maplibregl.LngLatBounds();
+  TRIP.days.forEach((d,i)=>{ if(sel==='all'||sel===i) d.stops.forEach(s=>b.extend([s.lng,s.lat])); });
+  return b;
+}
+function fitTo(sel,instant){
+  const b=boundsFor(sel); if(b.isEmpty()) return;
+  const pad=isMobile()?{top:34,bottom:34,left:26,right:26}:{top:54,bottom:54,left:54,right:54};
+  map.fitBounds(b,{padding:pad,duration:instant?0:850,maxZoom:sel==='all'?8.3:11});
+}
+function applyView(sel,instant){
+  if(mapReady){ visibleFor(sel); if(openPopup){openPopup.remove();openPopup=null;} fitTo(sel,instant); }
+}
 
-// ============ BASES ============
-document.getElementById('bases-grid').innerHTML=TRIP.bases.map(b=>`
-  <div class="card"><h4>${b.title}</h4><div class="nights">${b.nights}</div><ul>
-    ${b.items.map(it=>`<li class="${it[1]?'star':''}"><span class="nm">${it[0]}</span> — <span class="ds">${it[2]}</span></li>`).join('')}
-  </ul></div>`).join('');
+// ============ SELECTION / TWO-WAY SYNC ============
+function selectDay(sel){
+  if(sel==='all'){
+    dayPage=null; selected='all';
+    renderItinerary();
+    if(mapReady){ visibleFor('all'); if(openPopup){openPopup.remove();openPopup=null;} fitTo('all',false); }
+    renderChips();
+    return;
+  }
+  if(dayPage!==null){ openDayPage(sel); return; }   // browsing detail pages: stay in detail
+  expanded[sel]=true;
+  const sec=document.querySelector('.iday[data-day="'+sel+'"]');
+  if(sec) sec.classList.remove('collapsed');
+  focusDay(sel);
+  if(sec) sec.scrollIntoView({block:'start',behavior:'smooth'});
+}
+function focusDay(i){
+  selected=i;
+  if(mapReady){ visibleFor(i); if(openPopup){openPopup.remove();openPopup=null;} fitTo(i,false); }
+  renderChips(); markActive(i);
+}
+function toggleDay(i){
+  const sec=document.querySelector('.iday[data-day="'+i+'"]'); if(!sec) return;
+  expanded[i]=!expanded[i];
+  sec.classList.toggle('collapsed',!expanded[i]);
+  if(expanded[i]) focusDay(i);   // opening a day focuses it on the map
+}
+function expandAll(flag){
+  expanded=TRIP.days.map(()=>!!flag);
+  document.querySelectorAll('.iday').forEach(s=>s.classList.toggle('collapsed',!flag));
+}
+function markActive(sel){
+  document.querySelectorAll('.iday').forEach(s=>s.classList.toggle('active', sel!=='all' && (+s.dataset.day)===sel));
+}
+function openDayPage(i, skipFit){
+  if(i<0||i>=TRIP.days.length) return;
+  dayPage=i; selected=i;
+  if(activeTab!=='itinerary') setTab('itinerary');
+  renderItinerary();
+  if(mapReady){ visibleFor(i); if(openPopup){openPopup.remove();openPopup=null;} if(!skipFit) fitTo(i,false); }
+  renderChips();
+  if(!skipFit) $('tabcontent').scrollTop=0;
+}
+function focusStop(d,s){
+  if(activeTab!=='itinerary') setTab('itinerary');
+  if(dayPage!==null){
+    if(dayPage!==d) openDayPage(d,true);            // navigate detail page to the clicked day
+  } else {
+    expanded[d]=true;
+    const sec=document.querySelector('.iday[data-day="'+d+'"]'); if(sec) sec.classList.remove('collapsed');
+    markActive(d);
+  }
+  selected=d;
+  if(mapReady) visibleFor(d);
+  renderChips();
+  setActiveRow(d,s);   // panel highlight works even before/without the map
+  const r=reg[key(d,s)];
+  if(r && mapReady){
+    if(openPopup) openPopup.remove();
+    r.popup.setLngLat([r.lng,r.lat]).addTo(map); openPopup=r.popup;
+    map.flyTo({center:[r.lng,r.lat],zoom:Math.max(map.getZoom(),9.3),speed:.85,curve:1.4});
+    r.el.classList.remove('pinpulse'); void r.el.offsetWidth; r.el.classList.add('pinpulse');
+  }
+  if(isMobile()){ const mc=$('mapcol'); if(mc) mc.scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+function hiMarker(d,s,on){ const r=reg[key(d,s)]; if(r) r.el.classList.toggle('pin-hi',on); }
+function setActiveRow(d,s){
+  clearActiveRow();
+  const row=document.querySelector('[data-k="'+d+'-'+s+'"]');
+  if(row){ row.classList.add('active'); row.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+}
+function clearActiveRow(){ document.querySelectorAll('[data-k].active').forEach(r=>r.classList.remove('active')); }
 
-// ============ DRIVE STOPS ============
-document.getElementById('stops-list').innerHTML=TRIP.legs.map(leg=>`
-  <div style="margin-bottom:22px">
-    <h3 style="font-family:'Fraunces',serif;font-size:19px;color:var(--navy2);margin-bottom:${leg.note?'2px':'8px'}">${leg.title}</h3>
-    ${leg.note?`<div style="font-size:13px;color:var(--muted);font-style:italic;margin-bottom:8px">${leg.note}</div>`:''}
-    ${leg.stops.map(s=>`<div class="pick"><span class="nm">${s[0]}</span> — <span class="ds">${s[1]}</span> &nbsp;<a href="https://www.google.com/maps/search/?api=1&query=${s[2]},${s[3]}" target="_blank">[Map]</a></div>`).join('')}
-  </div>`).join('');
+// ============ MAP DAY CHIPS ============
+function renderChips(){
+  const c=$('chips'); c.innerHTML='';
+  const all=document.createElement('button');
+  all.className='chip all'+(selected==='all'?' active':''); all.textContent='Full route';
+  all.onclick=()=>selectDay('all'); c.appendChild(all);
+  TRIP.days.forEach((d,i)=>{
+    const b=document.createElement('button');
+    b.className='chip'+(selected===i?' active':''); b.textContent=d.label;
+    b.onclick=()=>selectDay(i); c.appendChild(b);
+    if(selected===i) setTimeout(()=>b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'}),0);
+  });
+}
 
-// ============ LODGING ============
-document.getElementById('lodging-grid').innerHTML=TRIP.lodging.map(l=>`
-  <div class="card"><h4>${l.region}</h4><div style="margin-top:8px">
-    ${l.picks.map(p=>`<div class="pick ${p[4]?'top':''}"><span class="nm">${p[0]}</span> <span class="rt">${p[1]} · ${p[2]}</span><br><span class="ds">${p[3]}</span></div>`).join('')}
-  </div></div>`).join('');
+// ============ TABS ============
+const TABS=[['itinerary','Itinerary'],['bases','Bases'],['lodging','Lodging'],['drives','Drives'],['budget','Budget'],['checklist','Checklist']];
+function renderTabs(){
+  const t=$('tabbar'); t.innerHTML='';
+  TABS.forEach(([id,label])=>{
+    const b=document.createElement('button');
+    b.className='tab'+(activeTab===id?' active':''); b.textContent=label;
+    b.onclick=()=>setTab(id); t.appendChild(b);
+  });
+}
+function setTab(id){
+  activeTab=id;
+  TABS.forEach(([tid])=>{ const p=$('tab-'+tid); if(p) p.hidden=(tid!==id); });
+  renderTabs();
+  const tc=$('tabcontent'); if(tc) tc.scrollTop=0;
+}
 
-// ============ BUDGET ============
-document.getElementById('budget-tbl').innerHTML=`
-  <tr><th>Item</th><th>Estimate</th><th>Notes</th></tr>
-  ${TRIP.budget.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}
-  <tr class="total"><td>${TRIP.budgetTotal[0]}</td><td>${TRIP.budgetTotal[1]}</td><td>${TRIP.budgetTotal[2]}</td></tr>`;
+// ============ ITINERARY TAB ============
+function renderItinerary(){
+  if(dayPage===null) renderAccordion(); else renderDayPage(dayPage);
+}
+function renderAccordion(){
+  $('tab-itinerary').innerHTML=`
+    <div class="pane-head"><div class="sec-label">Day by day</div><h3 class="sec">The itinerary</h3></div>
+    <div class="itin-tools">
+      <span class="pane-hint" style="margin:0">Tap a day header to collapse it, a stop to fly there, or "Details" for the full day.</span>
+      <span class="itin-allbtns"><button class="linkbtn" onclick="expandAll(true)">Expand all</button><span class="dot-sep">·</span><button class="linkbtn" onclick="expandAll(false)">Collapse all</button></span>
+    </div>
+    <div class="legend"><i><span class="lg-dot"></span>sight</i><i><span class="lg-sq"></span>overnight base</i><i>★ = don't-miss</i></div>
+    <div class="pane-hint" style="font-style:italic;margin:0 0 10px">Red-eye departs IAD the evening of Jul 29 → lands KEF the morning of Jul 30 (Day 1).</div>
+    ${TRIP.days.map((d,i)=>dayHtml(d,i)).join('')}`;
+}
+function dayHtml(d,i){
+  return `<div class="iday${expanded[i]?'':' collapsed'}${selected===i?' active':''}" data-day="${i}" style="--dc:${dayColors[i]}">
+    <div class="iday-head" onclick="toggleDay(${i})">
+      <span class="caret"></span>
+      <span class="iday-num" style="background:${dayColors[i]}">${i+1}</span>
+      <span class="iday-htext">
+        <span class="iday-title">${esc(d.title)}</span>
+        <span class="iday-sub">${esc(d.label)} · ${esc(d.date)} · ${esc(d.drive)}</span>
+      </span>
+      <span class="iday-sleep">🛏 ${esc(d.sleep)}</span>
+      <button class="iday-details" onclick="event.stopPropagation();openDayPage(${i})" title="Open the full day view">Details ›</button>
+    </div>
+    <div class="iday-body">
+      ${d.stops.map((s,j)=>`
+        <div class="stop ${s.type==='base'?'base':''}" data-k="${i}-${j}"
+             onclick="focusStop(${i},${j})" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
+          <span class="dot" style="background:${s.type==='base'?'var(--amber)':dayColors[i]}">${s.type==='base'?'🛏':(j+1)}</span>
+          <span class="txt"><span class="nm">${s.star?'★ ':''}${esc(s.name)}</span><span class="ds">${esc(s.desc)}</span></span>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+function renderDayPage(i){
+  const d=TRIP.days[i];
+  $('tab-itinerary').innerHTML=`
+    <div class="day-nav">
+      <button class="navbtn" ${i===0?'disabled':''} onclick="openDayPage(${i-1})" title="Previous day">‹</button>
+      <button class="back" onclick="selectDay('all')">‹ All days</button>
+      <button class="navbtn" ${i===TRIP.days.length-1?'disabled':''} onclick="openDayPage(${i+1})" title="Next day">›</button>
+    </div>
+    <div class="day-page-head" style="--dc:${dayColors[i]}">
+      <div class="eyebrow">${esc(d.label)} · ${esc(d.date)}</div>
+      <div class="day-title display">${esc(d.title)}</div>
+      <div class="day-meta">🚗 ${esc(d.drive)}</div>
+      <span class="sleep">🛏 Sleep: ${esc(d.sleep)}</span>
+    </div>
+    <div class="day-stops">
+      ${d.stops.map((s,j)=>`
+        <div class="stopcard ${s.type==='base'?'base':''}" data-k="${i}-${j}" onclick="focusStop(${i},${j})" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
+          <span class="dot" style="background:${s.type==='base'?'var(--amber)':dayColors[i]}">${s.type==='base'?'🛏':(j+1)}</span>
+          <div class="stopcard-txt">
+            <div class="nm">${s.star?'★ ':''}${esc(s.name)}</div>
+            <div class="ds">${esc(s.desc)}</div>
+            <div class="stopcard-meta"><span class="tag">${s.type==='base'?'Overnight base':'Sight'}</span><a href="${gmaps(s.lat,s.lng)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Open in Google Maps ↗</a></div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
 
-// ============ CHECKLIST ============
-document.getElementById('checklist-list').innerHTML=TRIP.checklist.map(c=>`<li class="${c[1]?'done':''}"><span class="nm">${c[0]}</span></li>`).join('');
+// ============ OTHER TABS ============
+function renderBases(){
+  $('tab-bases').innerHTML=`<div class="pane-head"><div class="sec-label">Home base each night</div><h3 class="sec">Base camps + options</h3></div>`+
+    `<div class="pane-hint">Lodging is fixed each night; pick from these options based on weather and energy. ★ = the anchor.</div>`+
+    `<div class="cardgrid">`+TRIP.bases.map(b=>`<div class="card"><h4>${esc(b.title)}</h4><div class="nights">${esc(b.nights)}</div><ul>
+      ${b.items.map(it=>`<li class="${it[1]?'star':''}"><span class="nm">${esc(it[0])}</span> — <span class="ds">${esc(it[2])}</span></li>`).join('')}
+    </ul></div>`).join('')+`</div>`;
+}
+function renderLodging(){
+  $('tab-lodging').innerHTML=`<div class="pane-head"><div class="sec-label">Where to sleep</div><h3 class="sec">Lodging picks</h3></div>`+
+    `<div class="note"><b>Book soon:</b> summer lodging in Vík, Höfn &amp; Snæfellsnes sells out months ahead. Lock in refundable rates. ★ = top pick.</div>`+
+    `<div class="cardgrid">`+TRIP.lodging.map(l=>`<div class="card"><h4>${esc(l.region)}</h4><div style="margin-top:8px">
+      ${l.picks.map(p=>{
+        const nm=p[5]?`<a href="${esc(p[5])}" target="_blank" rel="noopener">${esc(p[0])} ↗</a>`:esc(p[0]);
+        return `<div class="pick ${p[4]?'top':''}"><span class="nm">${nm}</span> <span class="rt">${esc(p[1])} · ${esc(p[2])}</span><br><span class="ds">${esc(p[3])}</span></div>`;
+      }).join('')}
+      ${(l.more&&l.more.length)?`<div class="morelinks"><span class="morelbl">More:</span>${l.more.map(m=>`<a href="${esc(m[1])}" target="_blank" rel="noopener">${esc(m[0])} ↗</a>`).join('')}</div>`:''}
+    </div></div>`).join('')+`</div>`;
+}
+function renderDrives(){
+  $('tab-drives').innerHTML=`<div class="pane-head"><div class="sec-label">Between the bases</div><h3 class="sec">Scenic drive stops</h3></div>`+
+    `<div class="pane-hint">Pull-offs and quick walks to break up the transit legs — most are right off Route 1.</div>`+
+    `<div class="cardgrid">`+TRIP.legs.map(leg=>`<div class="leg"><h4>${esc(leg.title)}</h4>
+      ${leg.note?`<div class="legnote">${esc(leg.note)}</div>`:''}
+      ${leg.stops.map(s=>`<div class="pick"><span class="nm">${esc(s[0])}</span> — <span class="ds">${esc(s[1])}</span> <a href="${gmaps(s[2],s[3])}" target="_blank" rel="noopener">[Map]</a></div>`).join('')}
+    </div>`).join('')+`</div>`;
+}
+function renderBudget(){
+  $('tab-budget').innerHTML=`<div class="pane-head"><div class="sec-label">The damage</div><h3 class="sec">Budget (per person)</h3></div>`+
+    `<table class="tbl"><tr><th>Item</th><th>Estimate</th><th>Notes</th></tr>
+      ${TRIP.budget.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}
+      <tr class="total"><td>${esc(TRIP.budgetTotal[0])}</td><td>${esc(TRIP.budgetTotal[1])}</td><td>${esc(TRIP.budgetTotal[2])}</td></tr></table>`;
+}
+
+// ============ CHECKLIST TAB (interactive, localStorage) ============
+function renderChecklist(){
+  $('tab-checklist').innerHTML=`<div class="pane-head"><div class="sec-label">To do</div><h3 class="sec">Booking checklist</h3></div>
+    <div class="check-top"><span id="checkProgress"></span><button id="resetChecks" class="reset" title="Restore default state">Reset</button></div>
+    <div class="progress"><i id="checkBar"></i></div>
+    <div class="check-hint">Tap an item to check it off — saved automatically on this device.</div>
+    <ul class="check" id="checklist">${TRIP.checklist.map((c,idx)=>`<li class="${isDone(c[0],c[1])?'done':''}" data-ci="${idx}" role="button" tabindex="0"><span class="nm">${esc(c[0])}</span></li>`).join('')}</ul>`;
+  wireChecklist();
+}
+function wireChecklist(){
+  document.querySelectorAll('#checklist li').forEach(li=>{
+    const idx=+li.dataset.ci;
+    li.addEventListener('click',()=>toggleCheck(idx));
+    li.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleCheck(idx); } });
+  });
+  const r=$('resetChecks'); if(r) r.onclick=resetChecks;
+  updateProgress();
+}
+function toggleCheck(idx){
+  const text=TRIP.checklist[idx][0], def=TRIP.checklist[idx][1];
+  const checks=getChecks();
+  const cur=checks[text]!==undefined?checks[text]:def;
+  checks[text]=!cur; saveChecks(checks);
+  const li=document.querySelector('#checklist li[data-ci="'+idx+'"]');
+  if(li) li.classList.toggle('done',!cur);
+  updateProgress();
+}
+function resetChecks(){
+  try{ localStorage.removeItem(LS_KEY); }catch(e){}
+  document.querySelectorAll('#checklist li').forEach(li=>{
+    const idx=+li.dataset.ci; li.classList.toggle('done',!!TRIP.checklist[idx][1]);
+  });
+  updateProgress();
+}
+function updateProgress(){
+  const total=TRIP.checklist.length;
+  let done=0; TRIP.checklist.forEach(c=>{ if(isDone(c[0],c[1])) done++; });
+  const p=$('checkProgress'); if(p) p.textContent=done+' of '+total+' done';
+  const bar=$('checkBar'); if(bar) bar.style.width=(total?Math.round(done/total*100):0)+'%';
+}
+
+// ============ INIT ============
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && openPopup){ openPopup.remove(); openPopup=null; }
+  if(activeTab==='itinerary' && dayPage!==null){   // arrows page through the day detail views
+    if(e.key==='ArrowRight') openDayPage(Math.min(dayPage+1,TRIP.days.length-1));
+    if(e.key==='ArrowLeft') openDayPage(Math.max(dayPage-1,0));
+  }
+});
+window.addEventListener('resize',()=>{ if(mapReady){ map.resize(); fitTo(selected,true); } });
+
+// ---- draggable divider: resize the trip panel vs. the map (desktop) ----
+(function(){
+  const divider=$('divider'), main=$('main');
+  if(!divider||!main) return;
+  const MINW=300, RESERVE=360, LS='iceland26-panel-w-v2';   // keep >=300px panel and >=360px map; v2 = 50/50 default
+  let curW=null, raf=0, dragging=false;
+  const maxW=()=>Math.max(MINW, window.innerWidth - RESERVE);
+  function setW(px){ const w=Math.min(maxW(), Math.max(MINW, px)); curW=w; main.style.setProperty('--panel-w', w+'px'); }
+  try{ const s=parseFloat(localStorage.getItem(LS)); if(s) setW(s); }catch(e){}
+  const posX=e=>(e.touches&&e.touches[0])?e.touches[0].clientX:e.clientX;
+  function onMove(e){
+    if(!dragging) return;
+    setW(posX(e)-main.getBoundingClientRect().left);
+    if(!raf) raf=requestAnimationFrame(()=>{ raf=0; if(mapReady) map.resize(); });
+    e.preventDefault();
+  }
+  function start(e){ if(isMobile()) return; dragging=true; divider.classList.add('dragging'); document.body.style.userSelect='none'; document.body.style.cursor='col-resize'; e.preventDefault(); }
+  function stop(){ if(!dragging) return; dragging=false; divider.classList.remove('dragging'); document.body.style.userSelect=''; document.body.style.cursor=''; if(mapReady) map.resize(); try{ if(curW) localStorage.setItem(LS, Math.round(curW)); }catch(e){} }
+  divider.addEventListener('mousedown',start);
+  divider.addEventListener('touchstart',start,{passive:false});
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('touchmove',onMove,{passive:false});
+  window.addEventListener('mouseup',stop);
+  window.addEventListener('touchend',stop);
+  window.addEventListener('resize',()=>{ if(curW!=null) setW(curW); });
+  divider.addEventListener('dblclick',()=>{ try{ localStorage.removeItem(LS); }catch(e){} curW=null; main.style.removeProperty('--panel-w'); if(mapReady) map.resize(); });
+})();
+
+renderTabs();
+renderItinerary();
+renderBases();
+renderLodging();
+renderDrives();
+renderBudget();
+renderChecklist();
+renderChips();
+initMap();
 </script>
 </body>
 </html>
