@@ -290,7 +290,7 @@ const TRIP = {
       stops:[
         {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Land 6:25 AM, pick up rental car"},
         {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Geothermal soak to reset after the red-eye (~$80–115pp)"},
-        {name:"Reykjavik",type:"base",star:false,lat:64.1476,lng:-21.9427,desc:"Old town, Hallgrímskirkja, dinner, recover"},
+        {name:"Reykjavik — KEX Hostel",type:"base",star:false,lat:64.1472,lng:-21.9279,desc:"✓ Booked KEX Hotel & Hostel (Skúlagata 28), check-in 3 PM. Old town, Hallgrímskirkja, dinner, recover"},
       ]},
     { id:2, label:"Day 2", date:"Fri Jul 31", title:"Golden Circle → Vík", drive:"Reykjavik → Vík · ~245 km (3 hr w/ loop)", sleep:"Vík",
       stops:[
@@ -410,10 +410,13 @@ const TRIP = {
     ]},
   ],
   lodging: [
-    { region:"Reykjavik (Jul 30 + Aug 5)", picks:[
+    { region:"Reykjavik — Jul 30 ✓ booked", picks:[
+      ["KEX Hotel & Hostel","—","booked","✓ Booked — check-in 3 PM Jul 30 / out 11 AM Jul 31. Private room, 101 downtown (Skúlagata 28); famous bar + live music",true,"https://expe.onelink.me/hnLd/wsj823ay"],
+    ]},
+    { region:"Reykjavik — Aug 5 (final night · to book)", picks:[
       ["City Center Hotel","—","~$273","Central, right in the old town",true,"http://www.citycenterhotel.is/"],
       ["Hotel Reykjavik Grand","—","~$221","Alex's find — best value, slightly out of center",false,"https://www.islandshotel.is/hotels-in-iceland/hotel-reykjavik-grand/"],
-      ["Fosshotel (Aug 5)","—","check dates","Chain with locations across the city for the final night",false,"https://www.islandshotel.is/"],
+      ["Fosshotel Reykjavik","—","check dates","4★ value, on the edge of 101",false,"https://www.islandshotel.is/hotels-in-iceland/fosshotel-reykjavik/"],
     ]},
     { region:"Vík (Jul 31 + Aug 1)", picks:[
       ["Paradise Cave Hostel","—","~$180","In Hvolsvöllur, ~1 hr west of Vík",false,"http://www.paradisecavehostel.com/"],
@@ -449,16 +452,19 @@ const TRIP = {
   budget: [
     ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
     ["Rental car + gas (split)","~$430","8 days, small SUV; new 2026 per-km road tax (~$90); decline CDW (card covers), add gravel + sand/ash"],
-    ["Lodging (7 nights, split)","~$700–900","Mid-tier mix across regions"],
+    ["Lodging (7 nights, split)","~$700–900","KEX Jul 30 booked ($185 total); 6 nights still estimated"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
     ["Activities","~$300–450","Sky + Blue Lagoon and a glacier hike"],
     ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
     ["Misc buffer","~$100–150","Travel insurance, eSIM/data, incidentals"],
   ],
   budgetTotal:["Total","~$2,500–3,000","All-in for 8 days, per person"],
+  booked: [
+    ["KEX Hostel — Reykjavik (Jul 30)", 185],
+  ],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
-    ["Lodging — Reykjavik (Jul 30 + Aug 5) — book in 1–2 weeks",false],
+    ["Lodging — Reykjavik Aug 5 final night — book soon (Jul 30 KEX booked ✓)",false],
     ["Lodging — Vík (Jul 31 + Aug 1) — book this week",false],
     ["Lodging — Höfn (Aug 2 + Aug 3) — book this week",false],
     ["Lodging — Snæfellsnes (Aug 4) — book this week",false],
@@ -860,8 +866,16 @@ function renderDrives(){
     </div>`).join('')+`</div>`;
 }
 function renderBudget(){
+  const bk=TRIP.booked||[];
+  const bkTotal=bk.reduce((s,b)=>s+b[1],0);
+  const bookedHtml = bk.length ? `
+    <div class="sec-label" style="margin-top:2px">Booked so far (shared)</div>
+    <table class="tbl" style="margin:6px 0 16px"><tr><th>Item</th><th>Total</th><th>Your half</th></tr>
+      ${bk.map(b=>`<tr><td>${esc(b[0])}</td><td>$${b[1]}</td><td>~$${Math.round(b[1]/2)}</td></tr>`).join('')}
+      <tr class="total"><td>Booked so far</td><td>$${bkTotal}</td><td>~$${Math.round(bkTotal/2)}</td></tr></table>` : '';
   $('tab-budget').innerHTML=`<div class="pane-head"><div class="sec-label">The damage</div><h3 class="sec">Budget (per person)</h3></div>`+
-    `<div class="pane-hint">Rough per-person estimate for 8 days; shared costs (car, lodging) are split two ways.</div>`+
+    `<div class="pane-hint">Rough per-person estimate for 8 days; shared costs (car, lodging, gas) are split two ways.</div>`+
+    bookedHtml+
     `<table class="tbl"><tr><th>Item</th><th>Estimate</th><th>Notes</th></tr>
       ${TRIP.budget.map(r=>`<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('')}
       <tr class="total"><td>${esc(TRIP.budgetTotal[0])}</td><td>${esc(TRIP.budgetTotal[1])}</td><td>${esc(TRIP.budgetTotal[2])}</td></tr></table>`;

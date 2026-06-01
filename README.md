@@ -43,6 +43,7 @@ The shapes (also summarized in a comment right above the object):
 | `lodging[]` | `{ region, picks: [ [name, rating, price, desc, top, url?] ], more?: [ [label, url] ] }` |
 | `budget[]` | `[ item, estimate, note ]`  (plus `budgetTotal`) |
 | `checklist[]` | `[ text, defaultChecked ]` |
+| `booked[]` | `[ label, sharedTotalCost ]` — running "booked so far" tally (split two ways) |
 | `weather` | `{ summary, facts: [ [label, value] ], rule, skip: [ ... ] }` |
 | `packing[]` | `{ cat, items: [ ... ] }` |
 
