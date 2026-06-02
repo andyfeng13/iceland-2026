@@ -317,14 +317,14 @@ const TRIP = {
         {name:"Diamond Beach",type:"sight",star:true,lat:64.0428,lng:-16.1797,desc:"Iceberg chunks on black sand, across the road"},
         {name:"Glacier World — Hoffell",type:"base",star:false,lat:64.4042,lng:-15.3469,desc:"✓ Booked cabin (Andy paid) — glacier views; check-in 3 PM / out 11 AM. ~20 min N of Höfn"},
       ]},
-    { id:5, label:"Day 5", date:"Mon Aug 3", title:"Stokksnes, glacier area → Vík", drive:"Höfn → Vík · ~290 km (4.5 hr w/ stops)", sleep:"Vík",
+    { id:5, label:"Day 5", date:"Mon Aug 3", title:"Stokksnes, glacier area → Selfoss", drive:"Höfn → Selfoss · ~390 km (5.5–6 hr w/ stops)", sleep:"Selfoss",
       stops:[
         {name:"Vestrahorn / Stokksnes",type:"sight",star:true,lat:64.255,lng:-14.99,desc:"Iconic jagged peaks + black sand; morning light, ~$8pp gate"},
         {name:"Fjallsárlón",type:"sight",star:false,lat:64.0130,lng:-16.3820,desc:"Quieter glacier lagoon you skipped, ~15 min W of Jökulsárlón"},
         {name:"Múlagljúfur Canyon",type:"sight",star:true,lat:63.9930,lng:-16.4363,desc:"Hidden canyon + Hangandifoss (120m); ~35 min hike. 2 km gravel road (4×4 advised), parking ~$7"},
-        {name:"Vík",type:"base",star:false,lat:63.4143,lng:-19.0104,desc:"1 night — breaks the drive; chill evening (Reynisfjara at sunset optional — already seen Day 3)"},
+        {name:"Selfoss — Studio apartment",type:"base",star:false,lat:63.9330,lng:-21.0000,desc:"✓ Booked countryside studio (Alex paid), 4.9★. Long drive day — you pass Vík ~3 hr in"},
       ]},
-    { id:6, label:"Day 6", date:"Tue Aug 4", title:"Vík → Snæfellsnes", drive:"Vík → Stykkishólmur · ~350 km (4.5 hr)", sleep:"Stykkishólmur",
+    { id:6, label:"Day 6", date:"Tue Aug 4", title:"Selfoss → Snæfellsnes", drive:"Selfoss → Stykkishólmur · ~240 km (3 hr)", sleep:"Stykkishólmur",
       stops:[
         {name:"Borgarnes",type:"sight",star:false,lat:64.5446,lng:-21.9105,desc:"Midway lunch/coffee/fuel stop"},
         {name:"Gerðuberg Cliffs",type:"sight",star:false,lat:64.8578,lng:-22.3673,desc:"Basalt column wall, 3 min off road"},
@@ -372,10 +372,10 @@ const TRIP = {
       ["Hoffell hot tubs",false,"Small geothermal tubs with glacier views, by your cabin"],
       ["Höfn town",false,"Langoustine dinner (Humarhöfnin / Pakkhús)"],
     ]},
-    { title:"Base 4 — Vík (stopover)", nights:"Mon Aug 3 · 1 night", items:[
-      ["Relaxed evening + dinner",true,"You've earned it after Stokksnes + the canyon + the drive west"],
-      ["Reynisfjara at sunset",false,"Optional round-2 of the black-sand beach (already done Day 3) in evening light"],
-      ["Hjörleifshöfði / Yoda Cave",false,"Something new: photogenic cave ~15 min east of Vík"],
+    { title:"Base 4 — Selfoss (stopover)", nights:"Mon Aug 3 · 1 night", items:[
+      ["Relaxed evening + dinner",true,"You've earned it after Stokksnes + the canyon + a long drive"],
+      ["Secret Lagoon (Flúðir)",false,"Optional geothermal soak ~40 min N of Selfoss"],
+      ["Self-catered studio",false,"Kitchen + Guest-Favorite cabin — cook in, easy night before the peninsula"],
     ]},
     { title:"Base 5 — Snæfellsnes / Stykkishólmur", nights:"Tue Aug 4 · 1 night", items:[
       ["Kirkjufell + Kirkjufellsfoss",true,"The arrowhead mountain (GoT), best at golden hour"],
@@ -404,7 +404,7 @@ const TRIP = {
       ["Skaftafell (Vatnajökull NP)","Svartifoss + glacier viewpoints",64.0166,-16.9666],
       ["Jökulsárlón + Diamond Beach","The headline stop — Zodiac boat + Diamond Beach (4.9★)",64.0784,-16.2306],
     ]},
-    { title:"Höfn → Vík → Snæfellsnes (Aug 3–4, broken at Vík)", note:"Split the long west drive over two days — overnight in Vík, then up to the peninsula.", stops:[
+    { title:"Höfn → Selfoss → Snæfellsnes (Aug 3–4, broken at Selfoss)", note:"Split the long west drive over two days — overnight in Selfoss, then up to the peninsula.", stops:[
       ["Borgarnes","Midway lunch/coffee/fuel ~1 hr north of Reykjavik",64.5446,-21.9105],
       ["Gerðuberg Cliffs","Basalt column wall, 3 min off the road, free (4.2★)",64.8578,-22.3673],
     ]},
@@ -428,10 +428,8 @@ const TRIP = {
     { region:"Höfn / Hoffell (Aug 2 · 1 night) ✓ booked", picks:[
       ["Glacier World — Hoffell","—","$340 / 1 nt","✓ Booked (Andy paid). Glacier-view cabin, Hoffell 2B (781). Check-in 3 PM / out 11 AM; ~20 min N of Höfn, ~35 min to Stokksnes",true],
     ]},
-    { region:"Vík (Aug 3 · 1 night · drive-break)", picks:[
-      ["Vík HI Hostel","—","~$190/nt","In Vík town — ~10 min to Reynisfjara (book fast, sells out)",true,"https://www.hostel.is/en/hostels/hi-vik"],
-      ["Guesthouse Carina","—","~$160–230/nt","Cozy, ocean views, top value",false,"https://www.booking.com/searchresults.html?ss=Guesthouse+Carina+Vik&checkin=2026-08-03&checkout=2026-08-04&group_adults=2"],
-      ["Puffin Hotel Vík","—","~$325/nt","In-town hotel; step up in price if hostels are gone",false,"https://www.booking.com/hotel/is/puffin-hotel-vik.html?checkin=2026-08-03&checkout=2026-08-04&group_adults=2"],
+    { region:"Selfoss (Aug 3 · 1 night · drive-break) ✓ booked", picks:[
+      ["Studio apartment — Selfoss countryside","4.9★","$217 / 1 nt","✓ Booked (Alex paid). Entire studio, 2 guests, Guest Favorite (50 reviews); check-in Aug 3 / out Aug 4",true],
     ]},
     { region:"Snæfellsnes / Stykkishólmur (Aug 4 · 1 night)", picks:[
       ["Fosshotel Stykkishólmur","—","check dates","Reliable chain in Stykkishólmur",false,"https://www.islandshotel.is/hotels-in-iceland/fosshotel-stykkisholmur"],
@@ -448,7 +446,7 @@ const TRIP = {
   budget: [
     ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
     ["Rental car + gas (split)","~$430","8 days, small SUV; new 2026 per-km road tax (~$90); decline CDW (card covers), add gravel + sand/ash"],
-    ["Lodging (7 nights, split)","~$700–900","KEX + Mariuvellir + Glacier World (Hoffell) booked; 3 nights still estimated"],
+    ["Lodging (7 nights, split)","~$700–900","KEX + Mariuvellir + Hoffell + Selfoss booked; 2 nights still estimated"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
     ["Activities","~$300–450","Sky + Blue Lagoon and a glacier hike"],
     ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
@@ -459,13 +457,14 @@ const TRIP = {
     ["KEX Hostel — Reykjavik (Jul 30)", 185, "Andy"],
     ["Mariuvellir — Hella (Jul 31–Aug 1)", 440, "Alex"],
     ["Glacier World — Hoffell (Aug 2)", 340, "Andy"],
+    ["Studio — Selfoss (Aug 3)", 217, "Alex"],
   ],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
     ["Lodging — Reykjavik Aug 5 final night — book soon (Jul 30 KEX booked ✓)",false],
     ["Lodging — Hella/Mariuvellir (Jul 31–Aug 1) — booked ✓ (Alex paid)",true],
     ["Lodging — Höfn/Hoffell (Aug 2) — booked ✓ (Andy paid)",true],
-    ["Lodging — Vík (Aug 3, 1 night) — book soon (sells out fast)",false],
+    ["Lodging — Selfoss (Aug 3) — booked ✓ (Alex paid)",true],
     ["Lodging — Snæfellsnes (Aug 4, 1 night) — book soon",false],
     ["Rental car — book in 2–3 weeks (Blue Car Rental or similar)",false],
     ["Sky Lagoon — Thu Jul 30 AM slot",false],
