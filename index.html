@@ -322,8 +322,7 @@ const TRIP = {
         {name:"Vestrahorn / Stokksnes",type:"sight",star:true,lat:64.255,lng:-14.99,desc:"Iconic jagged peaks + black sand; morning light, ~$8pp gate"},
         {name:"Fjallsárlón",type:"sight",star:false,lat:64.0130,lng:-16.3820,desc:"Quieter glacier lagoon you skipped, ~15 min W of Jökulsárlón"},
         {name:"Múlagljúfur Canyon",type:"sight",star:true,lat:63.9930,lng:-16.4363,desc:"Hidden canyon + Hangandifoss (120m); ~35 min hike. 2 km gravel road (4×4 advised), parking ~$7"},
-        {name:"Reynisfjara Black Sand Beach",type:"sight",star:true,lat:63.4036,lng:-19.0448,desc:"Round 2 — evening or next-morning light; stay 30+ ft from waves"},
-        {name:"Vík",type:"base",star:false,lat:63.4143,lng:-19.0104,desc:"1 night — breaks the long drive west"},
+        {name:"Vík",type:"base",star:false,lat:63.4143,lng:-19.0104,desc:"1 night — breaks the drive; chill evening (Reynisfjara at sunset optional — already seen Day 3)"},
       ]},
     { id:6, label:"Day 6", date:"Tue Aug 4", title:"Vík → Snæfellsnes", drive:"Vík → Stykkishólmur · ~350 km (4.5 hr)", sleep:"Stykkishólmur",
       stops:[
@@ -334,8 +333,10 @@ const TRIP = {
       ]},
     { id:7, label:"Day 7", date:"Wed Aug 5", title:"Snæfellsnes loop → Reykjavik", drive:"Peninsula loop → Reykjavik · ~280 km (relaxed — all morning + PM)", sleep:"Reykjavik",
       stops:[
-        {name:"Snæfellsjökull viewpoint",type:"sight",star:false,lat:64.8081,lng:-23.7777,desc:"The glacier-capped volcano at the peninsula tip"},
-        {name:"Djúpalónssandur",type:"sight",star:false,lat:64.7522,lng:-23.9033,desc:"Black pebble beach + shipwreck remains"},
+        {name:"Saxhóll crater (optional)",type:"sight",star:false,lat:64.9009,lng:-23.8033,desc:"Optional — 5-min stair-climb up a red volcanic crater (Snæfellsjökull NP)"},
+        {name:"Snæfellsjökull viewpoint",type:"sight",star:false,lat:64.8081,lng:-23.7777,desc:"The glacier-capped volcano — centerpiece of Snæfellsjökull National Park"},
+        {name:"Djúpalónssandur",type:"sight",star:false,lat:64.7522,lng:-23.9033,desc:"Black pebble beach + shipwreck remains (in Snæfellsjökull NP)"},
+        {name:"Lóndrangar (optional)",type:"sight",star:false,lat:64.7338,lng:-23.7836,desc:"Optional — dramatic basalt sea-cliff pinnacles; quick viewpoint"},
         {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches; cliff walk to Hellnar"},
         {name:"Búðakirkja",type:"sight",star:true,lat:64.8211,lng:-23.3849,desc:"The iconic black church"},
         {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (Borgarfjörður detour, optional)"},
@@ -371,7 +372,12 @@ const TRIP = {
       ["Hoffell hot tubs",false,"Small geothermal tubs with glacier views, by your cabin"],
       ["Höfn town",false,"Langoustine dinner (Humarhöfnin / Pakkhús)"],
     ]},
-    { title:"Base 4 — Snæfellsnes / Stykkishólmur", nights:"Tue Aug 4 · 1 night", items:[
+    { title:"Base 4 — Vík (stopover)", nights:"Mon Aug 3 · 1 night", items:[
+      ["Relaxed evening + dinner",true,"You've earned it after Stokksnes + the canyon + the drive west"],
+      ["Reynisfjara at sunset",false,"Optional round-2 of the black-sand beach (already done Day 3) in evening light"],
+      ["Hjörleifshöfði / Yoda Cave",false,"Something new: photogenic cave ~15 min east of Vík"],
+    ]},
+    { title:"Base 5 — Snæfellsnes / Stykkishólmur", nights:"Tue Aug 4 · 1 night", items:[
       ["Kirkjufell + Kirkjufellsfoss",true,"The arrowhead mountain (GoT), best at golden hour"],
       ["Búðakirkja",true,"The iconic black church"],
       ["Arnarstapi cliffs",false,"Coastal rock arches + cliff walk to Hellnar"],
@@ -379,7 +385,7 @@ const TRIP = {
       ["Snæfellsjökull glacier viewpoint",false,"The volcano under the glacier"],
       ["Stykkishólmur harbor",false,"Colorful town, great seafood"],
     ]},
-    { title:"Base 5 — Reykjavik + Departure", nights:"Wed Aug 5 · 1 night → Thu Aug 6", items:[
+    { title:"Base 6 — Reykjavik + Departure", nights:"Wed Aug 5 · 1 night → Thu Aug 6", items:[
       ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
       ["Perlan museum",false,"Wonders of Iceland — indoor ice cave, planetarium, and a 360° viewing deck; great low-key / rainy-day pick"],
       ["Blue Lagoon",true,"Aug 6 ~10:30 AM on the way to KEF"],
