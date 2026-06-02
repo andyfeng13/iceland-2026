@@ -227,6 +227,9 @@
   .pin span{transform:rotate(45deg);line-height:1}
   .pin.pin-base{--c:var(--amber);width:32px;height:32px;font-size:15px;z-index:5}
   .pin.pin-star{box-shadow:0 0 0 2px var(--amber),0 3px 8px rgba(11,34,57,.45)}
+  .pin.pin-fuel{--c:#2e8b57;width:20px;height:20px;font-size:10px;border-width:2px;opacity:.9;z-index:3;box-shadow:0 2px 5px rgba(11,34,57,.35)}
+  .pin.pin-fuel.pin-fuelkey{--c:#1f7a45;width:25px;height:25px;font-size:12.5px;box-shadow:0 0 0 3px rgba(46,139,87,.35),0 2px 6px rgba(11,34,57,.4)}
+  .pin.pin-fuel:hover{opacity:1}
   .pin:hover,.pin.pin-hi{filter:brightness(1.08);transform:rotate(-45deg) scale(1.18);z-index:20}
   .pin.pinpulse{animation:pulse .6s ease}
   @keyframes pulse{0%{transform:rotate(-45deg) scale(1)}40%{transform:rotate(-45deg) scale(1.4)}100%{transform:rotate(-45deg) scale(1.18)}}
@@ -303,7 +306,9 @@ const TRIP = {
     { id:3, label:"Day 3", date:"Sat Aug 1", title:"South Coast loop (Hella base)", drive:"Hella ↔ coast · ~210 km (2.5 hr driving)", sleep:"Hella",
       stops:[
         {name:"Seljalandsfoss",type:"sight",star:true,lat:63.6156,lng:-19.9886,desc:"Walk behind the falls (~25 min east of Hella)"},
+        {name:"Gljúfrabúi (optional)",type:"sight",star:false,lat:63.6182,lng:-19.9893,desc:"Optional — hidden falls 750 m from Seljalandsfoss; wade into a slot canyon to stand under it. Bring a rain layer, you'll get wet. Most people miss it"},
         {name:"Skógafoss",type:"sight",star:true,lat:63.5321,lng:-19.5114,desc:"Climb stairs to the top"},
+        {name:"Kvernufoss (optional)",type:"sight",star:false,lat:63.5305,lng:-19.4869,desc:"Optional — ~5 min from Skógafoss by the Skógar museum; another walk-behind falls, far quieter"},
         {name:"Sólheimajökull glacier hike",type:"sight",star:false,lat:63.5316,lng:-19.3686,desc:"Optional guided crampon walk (~$100pp)"},
         {name:"Dyrhólaey",type:"sight",star:false,lat:63.4014,lng:-19.1283,desc:"Clifftop arch + puffins from land (no boat)"},
         {name:"Reynisfjara Black Sand Beach",type:"sight",star:true,lat:63.4036,lng:-19.0448,desc:"Basalt columns; stay 30+ ft from waves (east turnaround, then back to Hella)"},
@@ -344,8 +349,8 @@ const TRIP = {
       ]},
     { id:8, label:"Day 8", date:"Thu Aug 6", title:"Blue Lagoon → Home", drive:"Reykjavik → Blue Lagoon → KEF · ~70 km (1 hr)", sleep:"— (fly home)",
       stops:[
-        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"~10:30 AM slot; soak before flight (~$90–130pp)"},
-        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Be here by 2:30 PM; fly 4:50 PM"},
+        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"Pre-book a firm ~10:00–10:30 AM slot (sells out); soak ~2 hr, out by ~12:30 (~$90–130pp). ~20 min from KEF"},
+        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Flight 4:50 PM → at terminal by 2:00 PM (2:30 latest). Return rental by ~1:30–1:45 (car drop + shuttle eats 20–30 min). ⚠️ TSA PreCheck does NOT work at KEF, and it's an Aug + 4–7 PM peak — expect full security + Schengen passport exit lines. Global Entry only helps back at IAD"},
       ]},
   ],
   bases: [
@@ -412,6 +417,24 @@ const TRIP = {
       ["Borgarnes","Second-pass meal option on the way back",64.5446,-21.9105],
     ]},
   ],
+  // fuel[] : [ name, chain, lat, lng, note, keyStop(true=strategic fill-up) ]
+  fuel: [
+    ["Selfoss","N1 / Olís","63.9336","-20.9966","South-coast hub — top off here outbound (and on the Aug-3 drive back)",false],
+    ["Geysir (Hotel Geysir)","N1","64.3106","-20.3017","On the Golden Circle, by Geysir/Strokkur",false],
+    ["Hella","N1","63.8330","-20.3890","Right at your 2-night base — fill before each south-coast day",false],
+    ["Hvolsvöllur","N1 / Olís","63.7497","-20.2228","Handy on the South Coast loop day",false],
+    ["Vík","N1","63.4216","-19.0103","⛽ FILL UP — last full-service station before the remote southeast",true],
+    ["Kirkjubæjarklaustur","N1","63.7906","-18.0610","⛽ FILL TO FULL — the 200+ km Klaustur→Höfn stretch has almost nothing",true],
+    ["Freysnes (Skaftafell)","N1","64.0140","-16.9730","Small top-up near Skaftafell / Jökulsárlón; food + groceries",false],
+    ["Fagurhólsmýri","N1 self-service","63.8800","-16.6470","24/7 self-service pump between Skaftafell and Höfn",false],
+    ["Höfn","N1 / Olís","64.2515","-15.2197","⛽ Fill before turning back west on Aug 3",true],
+    ["Borgarnes","N1","64.5390","-21.9180","⛽ West hub — gateway to Snæfellsnes; fill before the peninsula",true],
+    ["Vegamót","Orkan","64.8285","-22.4180","Self-service at the Snæfellsnes junction (rt 54/56) — last fuel before the peninsula's south side",false],
+    ["Grundarfjörður","Olís","64.9208","-23.2560","Snæfellsnes north shore, near Kirkjufell",false],
+    ["Ólafsvík","N1","64.8940","-23.7130","Snæfellsnes tip, by Snæfellsjökull NP",false],
+    ["Reykjavík (Costco, Garðabær)","Costco","64.0772","-21.9512","Cheapest fuel on the island (membership); many N1/Orkan in town too",false],
+    ["Njarðvík (by KEF)","N1 / Orkan","64.0040","-22.5560","⛽ Top off here Aug 6 — return the car full to avoid the refuel surcharge",true],
+  ],
   lodging: [
     { region:"Reykjavik — Jul 30 ✓ booked", picks:[
       ["KEX Hotel & Hostel","—","booked","✓ Booked (Andy paid) — check-in 3 PM Jul 30 / out 11 AM Jul 31. Private room, 101 downtown (Skúlagata 28); famous bar + live music",true,"https://expe.onelink.me/hnLd/wsj823ay"],
@@ -457,7 +480,7 @@ const TRIP = {
     ["Lodging — Höfn/Hoffell (Aug 2) — booked ✓ (Andy paid)",true],
     ["Lodging — Selfoss (Aug 3) — booked ✓ (Alex paid)",true],
     ["Lodging — Snæfellsnes/Hofgarðar (Aug 4) — booked ✓ (Andy paid)",true],
-    ["Rental car — book in 2–3 weeks (Blue Car Rental or similar)",false],
+    ["Rental car — book soon (eclipse crunch). Leaning Lotus (9.4★): economy 2WD automatic, SCDW + gravel + sand/ash, skip river insurance. Off-airport — free shuttle every ~15 min, so return by ~1:45 on Aug 6",false],
     ["Sky Lagoon — Thu Jul 30 AM slot",false],
     ["Blue Lagoon — Thu Aug 6 ~10:30 AM slot (KEF by 2:30 PM)",false],
     ["Glacier hike — book 2–3 weeks ahead (sells out)",false],
@@ -479,6 +502,14 @@ const TRIP = {
       "Tons of clothes (you'll re-wear layers; many stays have laundry)",
     ],
   },
+  prep: [
+    "Watch Icelandair's 10-min driving-rules video before you go — one-lane bridges, gravel, blind crests (it's genuinely useful)",
+    "Download apps: Parka + EasyPark (most attraction lots are camera/app-paid), and bookmark safetravel.is for live road conditions",
+    "Download offline maps + any trail routes (signal is spotty in the southeast)",
+    "Bring a card with a 4-digit PIN — self-service fuel pumps and many lots require chip-and-PIN",
+    "Confirm early bag-drop at KEX on arrival morning (Jul 30) — check-in isn't until 3 PM",
+    "Fill the tank before every long/remote leg, especially Klaustur → Höfn (~200 km gap) — see the ⛽ layer on the map",
+  ],
   packing: [
     { cat:"Non-negotiables", items:[
       "Waterproof + windproof rain jacket (hard shell) — your #1 item",
@@ -566,6 +597,7 @@ function initMap(){
     $('maperror').style.display='none';
     addRoutes();
     addMarkers();
+    addFuelMarkers();
     addLegLabels();
     applyView('all',true);
   });
@@ -599,6 +631,20 @@ function addMarkers(){
       el.addEventListener('click',ev=>{ ev.stopPropagation(); focusStop(i,j); });
       reg[key(i,j)]={marker,el,popup,lng:s.lng,lat:s.lat};
     });
+  });
+}
+// fuel stations — a constant reference layer (small green ⛽ pins, always shown)
+function addFuelMarkers(){
+  (TRIP.fuel||[]).forEach(f=>{
+    const lat=+f[2], lng=+f[3];
+    const el=document.createElement('div');
+    el.className='pin pin-fuel'+(f[5]?' pin-fuelkey':'');
+    el.innerHTML='<span>⛽</span>';
+    el.title=f[0]+' · '+f[1];
+    const popup=new maplibregl.Popup({offset:14,closeButton:true,maxWidth:'240px'})
+      .setHTML('<div class="pop"><b>⛽ '+esc(f[0])+'</b><p><b>'+esc(f[1])+'</b>'+(f[4]?'<br>'+esc(f[4]):'')+'</p>'+
+               '<a href="'+gmaps(lat,lng)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a></div>');
+    new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([lng,lat]).setPopup(popup).addTo(map);
   });
 }
 // straight-line km between two [lng,lat] points
@@ -774,7 +820,7 @@ function renderAccordion(){
       <span class="pane-hint" style="margin:0">Tap a day header to collapse it, a stop to fly there, or "Details" for the full day.</span>
       <span class="itin-allbtns"><button class="linkbtn" onclick="expandAll(true)">Expand all</button><span class="dot-sep">·</span><button class="linkbtn" onclick="expandAll(false)">Collapse all</button></span>
     </div>
-    <div class="legend"><i><span class="lg-dot"></span>sight (day color)</i><i><span class="lg-sq"></span>🛏 overnight base</i><i>★ = top pick</i><i>number = stop order</i><i>faded = other days</i></div>
+    <div class="legend"><i><span class="lg-dot"></span>sight (day color)</i><i><span class="lg-sq"></span>🛏 overnight base</i><i>⛽ fuel stop</i><i>★ = top pick</i><i>number = stop order</i><i>faded = other days</i></div>
     <div class="pane-hint" style="font-style:italic;margin:0 0 10px">Red-eye departs IAD the evening of Jul 29 → lands KEF the morning of Jul 30 (Day 1).</div>
     ${TRIP.days.map((d,i)=>dayHtml(d,i)).join('')}`;
 }
@@ -852,7 +898,14 @@ function renderDrives(){
     `<div class="cardgrid">`+TRIP.legs.map(leg=>`<div class="leg"><h4>${esc(leg.title)}</h4>
       ${leg.note?`<div class="legnote">${esc(leg.note)}</div>`:''}
       ${leg.stops.map(s=>`<div class="pick"><span class="nm">${esc(s[0])}</span> — <span class="ds">${esc(s[1])}</span> <a href="${gmaps(s[2],s[3])}" target="_blank" rel="noopener">Map ↗</a></div>`).join('')}
-    </div>`).join('')+`</div>`;
+    </div>`).join('')+`</div>`+
+    (TRIP.fuel&&TRIP.fuel.length?
+      `<div class="pane-head" style="margin-top:18px"><div class="sec-label">⛽ Fuel</div><h3 class="sec">Where to gas up</h3></div>`+
+      `<div class="legnote" style="margin:0 0 10px">Iceland's longest Ring-Road gap is <b>Kirkjubæjarklaustur → Höfn (~200+ km with nothing)</b> — fill to full at Klaustur. Rule of thumb: never drop below ¼ tank outside Reykjavík, and top off in every town before a remote leg. Most pumps are <b>self-service and need a chip-and-PIN card</b> (a 4-digit PIN), so confirm your card works. <b>⛽ = strategic fill-up.</b></div>`+
+      `<div class="cardgrid"><div class="leg"><h4>Stations along the route (W→E and back)</h4>`+
+      TRIP.fuel.map(f=>`<div class="pick"><span class="nm">${f[5]?'⛽ ':''}${esc(f[0])}</span> <span class="rt">${esc(f[1])}</span><br><span class="ds">${esc(f[4])}</span> <a href="${gmaps(+f[2],+f[3])}" target="_blank" rel="noopener">Map ↗</a></div>`).join('')+
+      `</div></div>`
+    :'');
 }
 function renderBudget(){
   const bk=TRIP.booked||[];
@@ -930,6 +983,7 @@ function renderPacking(){
     <div class="pane-hint">${esc(w.summary)}</div>
     <div class="wx">${w.facts.map(f=>`<div class="wx-row"><span class="wx-k">${esc(f[0])}</span><span class="wx-v">${esc(f[1])}</span></div>`).join('')}</div>
     <div class="note"><b>${esc(w.rule)}</b> The biggest mistakes: bringing cotton, forgetting rain pants, and underestimating the wind.</div>
+    ${(TRIP.prep&&TRIP.prep.length)?`<div class="pack-cat">Before you go</div><ul class="skip-list">${TRIP.prep.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>`:''}
     <div class="check-top"><span id="packProgress"></span><button id="resetPack" class="reset" title="Uncheck everything">Reset</button></div>
     <div class="progress"><i id="packBar"></i></div>
     <div class="check-hint">Tap to check off as you pack — saved on this device.</div>
