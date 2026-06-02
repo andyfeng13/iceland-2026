@@ -340,7 +340,7 @@ const TRIP = {
         {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches; cliff walk to Hellnar"},
         {name:"Kirkjufell + Kirkjufellsfoss",type:"sight",star:true,lat:64.9417,lng:-23.3069,desc:"The arrowhead mountain (GoT) — on the north shore as the loop comes back around"},
         {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (Borgarfjörður detour, optional)"},
-        {name:"Reykjavik",type:"base",star:false,lat:64.1476,lng:-21.9427,desc:"Final night; arrive evening for a city dinner/stroll"},
+        {name:"Guesthouse Sunna — Reykjavik",type:"base",star:false,lat:64.1426,lng:-21.9293,desc:"✓ Booked (Alex paid) — Þórsgata 26 (101), 1 min from Hallgrímskirkja, 3 min to Laugavegur. Onsite parking. Final night"},
       ]},
     { id:8, label:"Day 8", date:"Thu Aug 6", title:"Blue Lagoon → Home", drive:"Reykjavik → Blue Lagoon → KEF · ~70 km (1 hr)", sleep:"— (fly home)",
       stops:[
@@ -384,7 +384,7 @@ const TRIP = {
       ["Arnarstapi cliffs",false,"Coastal rock arches + cliff walk to Hellnar"],
       ["Kirkjufell + Kirkjufellsfoss",true,"The arrowhead mountain (GoT), north shore — catch on the Aug 5 loop"],
     ]},
-    { title:"Base 6 — Reykjavik + Departure", nights:"Wed Aug 5 · 1 night → Thu Aug 6", items:[
+    { title:"Base 6 — Reykjavik (Guesthouse Sunna) + Departure", nights:"Wed Aug 5 · 1 night ✓ booked → Thu Aug 6", items:[
       ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
       ["Perlan museum",false,"Wonders of Iceland — indoor ice cave, planetarium, and a 360° viewing deck; great low-key / rainy-day pick"],
       ["Blue Lagoon",true,"Aug 6 ~10:30 AM on the way to KEF"],
@@ -416,10 +416,8 @@ const TRIP = {
     { region:"Reykjavik — Jul 30 ✓ booked", picks:[
       ["KEX Hotel & Hostel","—","booked","✓ Booked (Andy paid) — check-in 3 PM Jul 30 / out 11 AM Jul 31. Private room, 101 downtown (Skúlagata 28); famous bar + live music",true,"https://expe.onelink.me/hnLd/wsj823ay"],
     ]},
-    { region:"Reykjavik — Aug 5 (final night · to book)", picks:[
-      ["City Center Hotel","—","~$273","Central, right in the old town",true,"http://www.citycenterhotel.is/"],
-      ["Hotel Reykjavik Grand","—","~$221","Alex's find — best value, slightly out of center",false,"https://www.islandshotel.is/hotels-in-iceland/hotel-reykjavik-grand/"],
-      ["Fosshotel Reykjavik","—","check dates","4★ value, on the edge of 101",false,"https://www.islandshotel.is/hotels-in-iceland/fosshotel-reykjavik/"],
+    { region:"Reykjavik — Aug 5 (final night) ✓ booked", picks:[
+      ["Guesthouse Sunna","9.2","$221 / 1 nt","✓ Booked (Alex paid). Þórsgata 26 (101) — 1 min from Hallgrímskirkja, 3 min to Laugavegur. \"Wonderful\" (1,001 reviews), top-rated breakfast, onsite parking",true],
     ]},
     { region:"Hella / Rangárþing ytra (Jul 31 + Aug 1) ✓ booked", picks:[
       ["Mariuvellir — Airbnb","4.79★","$440 / 2 nts","✓ Booked (Alex paid). Whole apartment + kitchen, 3 beds, Hekla/volcano view; ~25 min from Seljalandsfoss — central south-coast base",true],
@@ -437,7 +435,7 @@ const TRIP = {
   budget: [
     ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
     ["Rental car + gas (split)","~$430","8 days, small SUV; new 2026 per-km road tax (~$90); decline CDW (card covers), add gravel + sand/ash"],
-    ["Lodging (7 nights, split)","~$1,375 + 1 nt","6 of 7 booked (KEX, Mariuvellir ×2, Hoffell, Selfoss, Hof) = $1,375 total; only Reykjavik Aug 5 left"],
+    ["Lodging (7 nights, split)","$1,596","✓ All 7 nights booked — KEX, Mariuvellir ×2, Hoffell, Selfoss, Hof, Sunna"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
     ["Activities","~$300–450","Sky + Blue Lagoon and a glacier hike"],
     ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
@@ -450,10 +448,11 @@ const TRIP = {
     ["Glacier World — Hoffell (Aug 2)", 340, "Andy"],
     ["Studio — Selfoss (Aug 3)", 217, "Alex"],
     ["Guesthouse Hof — Snæfellsnes (Aug 4)", 193, "Andy"],
+    ["Guesthouse Sunna — Reykjavik (Aug 5)", 221, "Alex"],
   ],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
-    ["Lodging — Reykjavik Aug 5 final night — book soon (Jul 30 KEX booked ✓)",false],
+    ["Lodging — Reykjavik Aug 5 final night — booked ✓ (Alex paid)",true],
     ["Lodging — Hella/Mariuvellir (Jul 31–Aug 1) — booked ✓ (Alex paid)",true],
     ["Lodging — Höfn/Hoffell (Aug 2) — booked ✓ (Andy paid)",true],
     ["Lodging — Selfoss (Aug 3) — booked ✓ (Alex paid)",true],
@@ -838,7 +837,7 @@ function renderBases(){
 }
 function renderLodging(){
   $('tab-lodging').innerHTML=`<div class="pane-head"><div class="sec-label">Where to sleep</div><h3 class="sec">Lodging picks</h3></div>`+
-    `<div class="note"><b>Last one:</b> only the final Reykjavik night (Aug 5) is left to book — lots of supply, least urgent. ★ = top pick.</div>`+
+    `<div class="note"><b>✓ All 7 nights booked.</b> Lodging is fully locked in — $1,596 total across the trip. ★ = top pick.</div>`+
     `<div class="cardgrid">`+TRIP.lodging.map(l=>`<div class="card"><h4>${esc(l.region)}</h4><div style="margin-top:8px">
       ${l.picks.map(p=>{
         const nm=p[5]?`<a href="${esc(p[5])}" target="_blank" rel="noopener">${esc(p[0])} ↗</a>`:esc(p[0]);
