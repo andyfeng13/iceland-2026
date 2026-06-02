@@ -324,12 +324,12 @@ const TRIP = {
         {name:"Múlagljúfur Canyon",type:"sight",star:true,lat:63.9930,lng:-16.4363,desc:"Hidden canyon + Hangandifoss (120m); ~35 min hike. 2 km gravel road (4×4 advised), parking ~$7"},
         {name:"Selfoss — Studio apartment",type:"base",star:false,lat:63.9330,lng:-21.0000,desc:"✓ Booked countryside studio (Alex paid), 4.9★. Long drive day — you pass Vík ~3 hr in"},
       ]},
-    { id:6, label:"Day 6", date:"Tue Aug 4", title:"Selfoss → Snæfellsnes", drive:"Selfoss → Stykkishólmur · ~240 km (3 hr)", sleep:"Stykkishólmur",
+    { id:6, label:"Day 6", date:"Tue Aug 4", title:"Selfoss → Snæfellsnes", drive:"Selfoss → Hofgarðar (Snæfellsnes) · ~220 km (3 hr)", sleep:"Snæfellsnes (Hofgarðar)",
       stops:[
         {name:"Borgarnes",type:"sight",star:false,lat:64.5446,lng:-21.9105,desc:"Midway lunch/coffee/fuel stop"},
         {name:"Gerðuberg Cliffs",type:"sight",star:false,lat:64.8578,lng:-22.3673,desc:"Basalt column wall, 3 min off road"},
-        {name:"Kirkjufell",type:"sight",star:true,lat:64.9417,lng:-23.3069,desc:"The arrowhead mountain (GoT) — catch it at golden hour on arrival"},
-        {name:"Stykkishólmur",type:"base",star:false,lat:65.0770,lng:-22.7257,desc:"1 night, harbor town"},
+        {name:"Búðakirkja",type:"sight",star:true,lat:64.8222,lng:-23.3847,desc:"Iconic black church — ~5 min from the guesthouse, great evening light"},
+        {name:"Guesthouse Hof",type:"base",star:false,lat:64.8203,lng:-23.3103,desc:"✓ Booked (Andy paid) — Hofgarðar 356, south-central peninsula. Check-in 3 PM / out 11 AM. Free WiFi + parking"},
       ]},
     { id:7, label:"Day 7", date:"Wed Aug 5", title:"Snæfellsnes loop → Reykjavik", drive:"Peninsula loop → Reykjavik · ~280 km (relaxed — all morning + PM)", sleep:"Reykjavik",
       stops:[
@@ -338,7 +338,7 @@ const TRIP = {
         {name:"Djúpalónssandur",type:"sight",star:false,lat:64.7522,lng:-23.9033,desc:"Black pebble beach + shipwreck remains (in Snæfellsjökull NP)"},
         {name:"Lóndrangar (optional)",type:"sight",star:false,lat:64.7338,lng:-23.7836,desc:"Optional — dramatic basalt sea-cliff pinnacles; quick viewpoint"},
         {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches; cliff walk to Hellnar"},
-        {name:"Búðakirkja",type:"sight",star:true,lat:64.8211,lng:-23.3849,desc:"The iconic black church"},
+        {name:"Kirkjufell + Kirkjufellsfoss",type:"sight",star:true,lat:64.9417,lng:-23.3069,desc:"The arrowhead mountain (GoT) — on the north shore as the loop comes back around"},
         {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (Borgarfjörður detour, optional)"},
         {name:"Reykjavik",type:"base",star:false,lat:64.1476,lng:-21.9427,desc:"Final night; arrive evening for a city dinner/stroll"},
       ]},
@@ -377,13 +377,12 @@ const TRIP = {
       ["Secret Lagoon (Flúðir)",false,"Optional geothermal soak ~40 min N of Selfoss"],
       ["Self-catered studio",false,"Kitchen + Guest-Favorite cabin — cook in, easy night before the peninsula"],
     ]},
-    { title:"Base 5 — Snæfellsnes / Stykkishólmur", nights:"Tue Aug 4 · 1 night", items:[
-      ["Kirkjufell + Kirkjufellsfoss",true,"The arrowhead mountain (GoT), best at golden hour"],
-      ["Búðakirkja",true,"The iconic black church"],
-      ["Arnarstapi cliffs",false,"Coastal rock arches + cliff walk to Hellnar"],
-      ["Djúpalónssandur",false,"Black pebble beach with shipwreck remains"],
+    { title:"Base 5 — Snæfellsnes / Hofgarðar (Guesthouse Hof)", nights:"Tue Aug 4 · 1 night ✓ booked", items:[
+      ["Búðakirkja",true,"Iconic black church — ~5 min from the guesthouse, great evening light"],
       ["Snæfellsjökull glacier viewpoint",false,"The volcano under the glacier"],
-      ["Stykkishólmur harbor",false,"Colorful town, great seafood"],
+      ["Djúpalónssandur",false,"Black pebble beach with shipwreck remains"],
+      ["Arnarstapi cliffs",false,"Coastal rock arches + cliff walk to Hellnar"],
+      ["Kirkjufell + Kirkjufellsfoss",true,"The arrowhead mountain (GoT), north shore — catch on the Aug 5 loop"],
     ]},
     { title:"Base 6 — Reykjavik + Departure", nights:"Wed Aug 5 · 1 night → Thu Aug 6", items:[
       ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
@@ -431,22 +430,14 @@ const TRIP = {
     { region:"Selfoss (Aug 3 · 1 night · drive-break) ✓ booked", picks:[
       ["Studio apartment — Selfoss countryside","4.9★","$217 / 1 nt","✓ Booked (Alex paid). Entire studio, 2 guests, Guest Favorite (50 reviews); check-in Aug 3 / out Aug 4",true],
     ]},
-    { region:"Snæfellsnes / Stykkishólmur (Aug 4 · 1 night)", picks:[
-      ["Fosshotel Stykkishólmur","—","check dates","Reliable chain in Stykkishólmur",false,"https://www.islandshotel.is/hotels-in-iceland/fosshotel-stykkisholmur"],
-      ["Fransiskus","—","check dates","Historic, atmospheric",false,"https://fransiskus.is/"],
-      ["Vogur Country Lodge","—","check dates","Rural lodge on the peninsula",false,"http://vogur.org/"],
-    ], more:[
-      ["Airbnb 1","https://www.airbnb.com/rooms/1524034384082856119?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
-      ["Airbnb 2","https://www.airbnb.com/rooms/1379687068006325363?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
-      ["Airbnb 3","https://www.airbnb.com/rooms/7899256?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
-      ["Airbnb 4","https://www.airbnb.com/rooms/895789953084886801?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
-      ["Airbnb 5","https://www.airbnb.com/rooms/12736565?adults=2&check_in=2026-08-04&check_out=2026-08-05"],
+    { region:"Snæfellsnes / Hofgarðar (Aug 4 · 1 night) ✓ booked", picks:[
+      ["Guesthouse Hof","7.7","$193 / 1 nt","✓ Booked (Andy paid). Hofgarðar 356, south-central peninsula — \"Excellent location 9.0\", free WiFi + parking. Check-in 3 PM Aug 4 / out 11 AM Aug 5",true],
     ]},
   ],
   budget: [
     ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
     ["Rental car + gas (split)","~$430","8 days, small SUV; new 2026 per-km road tax (~$90); decline CDW (card covers), add gravel + sand/ash"],
-    ["Lodging (7 nights, split)","~$700–900","KEX + Mariuvellir + Hoffell + Selfoss booked; 2 nights still estimated"],
+    ["Lodging (7 nights, split)","~$1,375 + 1 nt","6 of 7 booked (KEX, Mariuvellir ×2, Hoffell, Selfoss, Hof) = $1,375 total; only Reykjavik Aug 5 left"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
     ["Activities","~$300–450","Sky + Blue Lagoon and a glacier hike"],
     ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
@@ -458,6 +449,7 @@ const TRIP = {
     ["Mariuvellir — Hella (Jul 31–Aug 1)", 440, "Alex"],
     ["Glacier World — Hoffell (Aug 2)", 340, "Andy"],
     ["Studio — Selfoss (Aug 3)", 217, "Alex"],
+    ["Guesthouse Hof — Snæfellsnes (Aug 4)", 193, "Andy"],
   ],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
@@ -465,7 +457,7 @@ const TRIP = {
     ["Lodging — Hella/Mariuvellir (Jul 31–Aug 1) — booked ✓ (Alex paid)",true],
     ["Lodging — Höfn/Hoffell (Aug 2) — booked ✓ (Andy paid)",true],
     ["Lodging — Selfoss (Aug 3) — booked ✓ (Alex paid)",true],
-    ["Lodging — Snæfellsnes (Aug 4, 1 night) — book soon",false],
+    ["Lodging — Snæfellsnes/Hofgarðar (Aug 4) — booked ✓ (Andy paid)",true],
     ["Rental car — book in 2–3 weeks (Blue Car Rental or similar)",false],
     ["Sky Lagoon — Thu Jul 30 AM slot",false],
     ["Blue Lagoon — Thu Aug 6 ~10:30 AM slot (KEF by 2:30 PM)",false],
@@ -846,7 +838,7 @@ function renderBases(){
 }
 function renderLodging(){
   $('tab-lodging').innerHTML=`<div class="pane-head"><div class="sec-label">Where to sleep</div><h3 class="sec">Lodging picks</h3></div>`+
-    `<div class="note"><b>Book soon:</b> Snæfellsnes (Aug 3–4) is your one big stay left — it sells out months ahead, so lock a refundable rate. ★ = top pick.</div>`+
+    `<div class="note"><b>Last one:</b> only the final Reykjavik night (Aug 5) is left to book — lots of supply, least urgent. ★ = top pick.</div>`+
     `<div class="cardgrid">`+TRIP.lodging.map(l=>`<div class="card"><h4>${esc(l.region)}</h4><div style="margin-top:8px">
       ${l.picks.map(p=>{
         const nm=p[5]?`<a href="${esc(p[5])}" target="_blank" rel="noopener">${esc(p[0])} ↗</a>`:esc(p[0]);
