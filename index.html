@@ -236,6 +236,13 @@
 
   .leglabel{background:rgba(255,255,255,.93);border:1px solid var(--line);border-radius:999px;padding:2px 7px;font-size:10.5px;font-weight:600;color:var(--navy2);white-space:nowrap;box-shadow:0 1px 4px rgba(11,34,57,.25);pointer-events:none}
   .leglabel.daylink{background:rgba(255,243,229,.96);border-color:var(--amber);color:var(--amber-deep)}
+  .legmini{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.3px;padding:2px 0 2px 44px;display:flex;align-items:center;gap:6px;line-height:1.1}
+  .legmini .arr{opacity:.55;font-weight:400}
+  .legmini.day{color:var(--amber-deep);padding-top:6px;padding-bottom:2px}
+  .day-stops .legmini{padding-left:14px;font-size:10.5px}
+  .fuelmini{font-size:10.5px;color:#2e7d52;font-weight:600;padding:3px 0 4px 44px;line-height:1.35}
+  .fuelmini b{color:#1f7a45;font-weight:800}
+  .day-stops .fuelmini{padding-left:14px}
   #maperror{display:none;position:absolute;inset:0;z-index:10;flex-direction:column;align-items:center;justify-content:center;background:var(--paper);text-align:center;padding:30px}
   #maperror h3{font-family:'Fraunces',serif;font-size:22px;margin-bottom:8px}
   #maperror p{color:var(--muted);font-size:14px;max-width:360px}
@@ -850,11 +857,63 @@ function setTab(id){
 function renderItinerary(){
   if(dayPage===null) renderAccordion(); else renderDayPage(dayPage);
 }
+// inline driving estimate between two stops (same model as the map leg labels)
+function legEst(a,b){
+  const km=haversine([a.lng,a.lat],[b.lng,b.lat])*1.3;
+  if(km<3) return null;
+  const min=Math.max(5, Math.round(km/80*60/5)*5);
+  const kmR=km<30?Math.round(km/5)*5:Math.round(km/10)*10;
+  return {km:kmR,min};
+}
+// the base they slept at the night before day i (carry-forward), for the morning drive-in
+function prevSleepBase(i){
+  let last=null;
+  for(let k=0;k<i;k++){ const b=[...TRIP.days[k].stops].reverse().find(s=>s.type==='base'); if(b) last=b; }
+  return last;
+}
+// "overnight → first stop" line that opens each day (makes the day-to-day flow explicit)
+function morningLegHtml(i){
+  if(i===0) return '';
+  const pin=prevSleepBase(i); if(!pin) return '';
+  const e=legEst(pin,TRIP.days[i].stops[0]); if(!e) return '';
+  return `<div class="legmini day">🛏→ drive from ${esc(TRIP.days[i-1].sleep)}: ~${e.km} km · ${e.min} min</div>`;
+}
+// distance pill between two consecutive stops within a day
+function betweenHtml(a,b){
+  const e=legEst(a,b); if(!e) return '';
+  return `<div class="legmini"><span class="arr">↓</span> ~${e.km} km · ${e.min} min</div>`;
+}
+// shortest distance (km) from a point to a route segment (equirectangular approx)
+function distToSeg(p,a,b){
+  const ref=p[1]*Math.PI/180, XY=q=>[q[0]*Math.cos(ref)*111.32, q[1]*110.57];
+  const P=XY(p),A=XY(a),B=XY(b), ABx=B[0]-A[0],ABy=B[1]-A[1], ab2=ABx*ABx+ABy*ABy;
+  let t=ab2?((P[0]-A[0])*ABx+(P[1]-A[1])*ABy)/ab2:0; t=Math.max(0,Math.min(1,t));
+  return Math.hypot(P[0]-(A[0]+t*ABx),P[1]-(A[1]+t*ABy));
+}
+// fuel stations within ~18 km of a day's route (incl. the morning drive-in), in travel order
+function fuelForDay(i){
+  const d=TRIP.days[i], pin=prevSleepBase(i);
+  const route=[...(pin?[[pin.lng,pin.lat]]:[]),...d.stops.map(s=>[s.lng,s.lat])];
+  const near=(TRIP.fuel||[]).filter(f=>{
+    const p=[+f[3],+f[2]]; let m=Infinity;
+    for(let k=0;k<route.length-1;k++) m=Math.min(m,distToSeg(p,route[k],route[k+1]));
+    if(route.length===1) m=haversine(p,route[0]);
+    return m<=18;
+  });
+  const ord=f=>{const p=[+f[3],+f[2]]; let bi=0,bd=Infinity; route.forEach((q,qi)=>{const dd=haversine(p,q); if(dd<bd){bd=dd;bi=qi;}}); return bi;};
+  return near.sort((x,y)=>ord(x)-ord(y));
+}
+// per-day "gas options" line (bold = strategic fill-up)
+function fuelDayHtml(i){
+  const list=fuelForDay(i); if(!list.length) return '';
+  const names=list.map(f=>f[5]?`<b>${esc(f[0])}</b>`:esc(f[0])).join(' · ');
+  return `<div class="fuelmini">⛽ Gas options: ${names}</div>`;
+}
 function renderAccordion(){
   $('tab-itinerary').innerHTML=`
     <div class="pane-head"><div class="sec-label">Day by day</div><h3 class="sec">The itinerary</h3></div>
     <div class="itin-tools">
-      <span class="pane-hint" style="margin:0">Tap a day header to collapse it, a stop to fly there, or "Details" for the full day.</span>
+      <span class="pane-hint" style="margin:0">Tap a day header to collapse it, a stop to fly there, or "Details" for the full day. <b>🛏→</b> = drive from the night before; <b>↓</b> = leg between stops (rough estimates); <b>⛽</b> = gas options that day (<b>bold</b> = recommended fill-up).</span>
       <span class="itin-allbtns"><button class="linkbtn" onclick="expandAll(true)">Expand all</button><span class="dot-sep">·</span><button class="linkbtn" onclick="expandAll(false)">Collapse all</button></span>
     </div>
     <div class="legend"><i><span class="lg-dot"></span>sight (day color)</i><i><span class="lg-sq"></span>🛏 overnight base</i><i>⛽ fuel stop</i><i>★ = top pick</i><i>number = stop order</i><i>🛏→ dashed = overnight drive to next day</i><i>faded = other days</i></div>
@@ -874,7 +933,10 @@ function dayHtml(d,i){
       <button class="iday-details" onclick="event.stopPropagation();openDayPage(${i})" title="Open the full day view">Details ›</button>
     </div>
     <div class="iday-body">
+      ${morningLegHtml(i)}
+      ${fuelDayHtml(i)}
       ${d.stops.map((s,j)=>`
+        ${j>0?betweenHtml(d.stops[j-1],s):''}
         <div class="stop ${s.type==='base'?'base':''}" data-k="${i}-${j}" role="button" tabindex="0"
              onclick="focusStop(${i},${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();focusStop(${i},${j});}" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
           <span class="dot" style="background:${s.type==='base'?'var(--amber)':dayColors[i]}">${s.type==='base'?'🛏':(j+1)}</span>
@@ -898,7 +960,10 @@ function renderDayPage(i){
       <span class="sleep">🛏 Sleep: ${esc(d.sleep)}</span>
     </div>
     <div class="day-stops">
+      ${morningLegHtml(i)}
+      ${fuelDayHtml(i)}
       ${d.stops.map((s,j)=>`
+        ${j>0?betweenHtml(d.stops[j-1],s):''}
         <div class="stopcard ${s.type==='base'?'base':''}" data-k="${i}-${j}" role="button" tabindex="0" onclick="focusStop(${i},${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();focusStop(${i},${j});}" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
           <span class="dot" style="background:${s.type==='base'?'var(--amber)':dayColors[i]}">${s.type==='base'?'🛏':(j+1)}</span>
           <div class="stopcard-txt">
