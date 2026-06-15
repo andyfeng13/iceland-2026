@@ -325,7 +325,7 @@ const TRIP = {
       stops:[
         {name:"Eldhraun Lava Field",type:"sight",star:false,lat:63.6769,lng:-18.1408,desc:"Moss-covered lava, alien landscape (optional — skip if running behind to protect the 15:50 Zodiac; you see it from the road anyway)"},
         {name:"Fjaðrárgljúfur Canyon",type:"sight",star:true,lat:63.7714,lng:-18.1722,desc:"100m serpentine canyon, ~30 min walk, free"},
-        {name:"Skaftafell (Vatnajökull NP)",type:"sight",star:false,lat:64.0166,lng:-16.9666,desc:"Short Svartifoss hike (~1.25 hr, 3.4 km out-and-back, basalt-column falls) + glacier viewpoints. Stick to the SHORT route — skip the longer Sjónarnípa loop — to make the 15:50 boat"},
+        {name:"Skaftafell (Vatnajökull NP)",type:"sight",star:false,lat:64.0166,lng:-16.9666,desc:"Short Svartifoss hike (~1.25 hr, 3.4 km out-and-back, basalt-column falls) + glacier viewpoints. Stick to the SHORT route — skip the longer Sjónarnípa loop — to make the 15:50 boat",url:"https://www.alltrails.com/trail/iceland/eastern/svartifoss-and-manusafoss",urlLabel:"Svartifoss trail (AllTrails) ↗"},
         {name:"Jökulsárlón Glacier Lagoon",type:"sight",star:true,lat:64.0784,lng:-16.2306,desc:"Zodiac boat (75 min, ~$133pp / 16,600 kr adult) up to the glacier wall. ✅ Target the 15:50 slot — arrive ~15:25; leave Hella by ~8:00 (skip Eldhraun if behind). Book a refundable tour. If weathered out (high wind), rebook a morning Zodiac on Aug 3 — you pass Jökulsárlón again heading west (different day = real weather change)"},
         {name:"Diamond Beach",type:"sight",star:true,lat:64.0428,lng:-16.1797,desc:"Iceberg chunks on black sand, across the road"},
         {name:"Glacier World — Hoffell",type:"base",star:false,lat:64.4042,lng:-15.3469,desc:"✓ Booked cabin (Andy paid) — glacier views; check-in 3 PM / out 11 AM. ~20 min N of Höfn"},
@@ -480,6 +480,7 @@ const TRIP = {
     ["Studio — Selfoss (Aug 3)", 217, "Alex"],
     ["Guesthouse Hof — Snæfellsnes (Aug 4)", 193, "Andy"],
     ["Guesthouse Sunna — Reykjavik (Aug 5)", 221, "Alex"],
+    ["Jökulsárlón Zodiac ×2 (Aug 2)", 267, "Andy"],
   ],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
@@ -491,7 +492,7 @@ const TRIP = {
     ["Rental car — book soon (eclipse crunch). Leaning Lotus (9.4★): economy 2WD automatic, SCDW + gravel + sand/ash, skip river insurance. Off-airport — free shuttle every ~15 min, so return by ~1:45 on Aug 6",false],
     ["Sky Lagoon — Thu Jul 30 AM slot",false],
     ["Blue Lagoon — Thu Aug 6 ~10:30 AM slot (KEF by 2:30 PM)",false],
-    ["Jökulsárlón Zodiac — Sun Aug 2, book the 15:50 slot (~$133pp / 16,600 kr), refundable; sells out (10:00 & 17:10 gone). Weather fallback: rebook a morning slot Aug 3 (you pass it again going west)",false],
+    ["Jökulsárlón Zodiac ×2 — Sun Aug 2 — booked ✓ (Andy paid, $267 / 33,200 kr). If weathered out, rebook a morning slot Aug 3 (you pass it again going west)",true],
     ["Glacier hike — optional; book 2–3 weeks ahead if you want one (sells out)",false],
     ["Coordinate with Alex — Boston ⇄ KEF flight + arrival time",false],
   ],
@@ -637,6 +638,7 @@ function addMarkers(){
       el.title=s.name;
       const popup=new maplibregl.Popup({offset:18,closeButton:true,maxWidth:'260px'})
         .setHTML('<div class="pop"><b>'+esc(s.name)+'</b><p>'+esc(s.desc)+'</p>'+
+                 (s.url?'<a href="'+esc(s.url)+'" target="_blank" rel="noopener">'+esc(s.urlLabel||'Trail map ↗')+'</a><br>':'')+
                  '<a href="'+gmaps(s.lat,s.lng)+'" target="_blank" rel="noopener">Open in Google Maps ↗</a></div>');
       const marker=new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([s.lng,s.lat]).addTo(map);
       el.addEventListener('click',ev=>{ ev.stopPropagation(); focusStop(i,j); });
@@ -941,7 +943,7 @@ function dayHtml(d,i){
         <div class="stop ${s.type==='base'?'base':''}" data-k="${i}-${j}" role="button" tabindex="0"
              onclick="focusStop(${i},${j})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();focusStop(${i},${j});}" onmouseenter="hiMarker(${i},${j},true)" onmouseleave="hiMarker(${i},${j},false)">
           <span class="dot" style="background:${s.type==='base'?'var(--amber)':dayColors[i]}">${s.type==='base'?'🛏':(j+1)}</span>
-          <span class="txt"><span class="nm">${s.star?'★ ':''}${esc(s.name)}</span><span class="ds">${esc(s.desc)}</span></span>
+          <span class="txt"><span class="nm">${s.star?'★ ':''}${esc(s.name)}</span><span class="ds">${esc(s.desc)}${s.url?` · <a href="${esc(s.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(s.urlLabel||'Trail map ↗')}</a>`:''}</span></span>
         </div>`).join('')}
     </div>
   </div>`;
@@ -970,7 +972,7 @@ function renderDayPage(i){
           <div class="stopcard-txt">
             <div class="nm">${s.star?'★ ':''}${esc(s.name)}</div>
             <div class="ds">${esc(s.desc)}</div>
-            <div class="stopcard-meta"><span class="tag">${s.type==='base'?'Overnight base':'Sight'}</span><a href="${gmaps(s.lat,s.lng)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Open in Google Maps ↗</a></div>
+            <div class="stopcard-meta"><span class="tag">${s.type==='base'?'Overnight base':'Sight'}</span>${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(s.urlLabel||'Trail map ↗')}</a>`:''}<a href="${gmaps(s.lat,s.lng)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Open in Google Maps ↗</a></div>
           </div>
         </div>`).join('')}
     </div>`;
