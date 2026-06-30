@@ -297,10 +297,10 @@
 // ============================================================
 const TRIP = {
   days: [
-    { id:1, label:"Day 1", date:"Thu Jul 30", title:"Arrival + Reykjavik", drive:"KEF → Reykjavik · ~45 km (30 min)", sleep:"Reykjavik",
+    { id:1, label:"Day 1", date:"Thu Jul 30", title:"Arrival + Blue Lagoon + Reykjavik", drive:"KEF → Blue Lagoon → Reykjavik · ~55 km (45 min)", sleep:"Reykjavik",
       stops:[
-        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Land 6:25 AM, pick up rental car"},
-        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Geothermal soak to reset after the red-eye (~$80–115pp)"},
+        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Land 6:25 AM, pick up rental car — at Blue Lagoon by ~8:00 AM"},
+        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"✓ Booked (Andy paid) — 8:00 AM Comfort slot, $247 for two. Perfect arrival soak (~20 min from KEF); ends ~11 AM. Bring conditioner for your hair — silica water is rough on it"},
         {name:"Reykjavik — KEX Hostel",type:"base",star:false,lat:64.1472,lng:-21.9279,desc:"✓ Booked KEX Hotel & Hostel (Skúlagata 28), check-in 3 PM. Old town, Hallgrímskirkja, dinner, recover"},
       ]},
     { id:2, label:"Day 2", date:"Fri Jul 31", title:"Golden Circle → Hella", drive:"Reykjavik → Hella · ~215 km (3 hr w/ loop)", sleep:"Hella",
@@ -353,19 +353,20 @@ const TRIP = {
         {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches; cliff walk to Hellnar"},
         {name:"Kirkjufell + Kirkjufellsfoss",type:"sight",star:true,lat:64.9417,lng:-23.3069,desc:"The arrowhead mountain (GoT) — on the north shore as the loop comes back around"},
         {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (Borgarfjörður detour, optional)"},
+        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Final evening soak — 7-step ritual (hot→cold plunge→sauna→steam→scrub→shower), ocean infinity-edge. ~10 min from Sunna. Book a ~6–7 PM slot (~$90–115pp)"},
         {name:"Guesthouse Sunna — Reykjavik",type:"base",star:false,lat:64.1426,lng:-21.9293,desc:"✓ Booked (Alex paid) — Þórsgata 26 (101), 1 min from Hallgrímskirkja, 3 min to Laugavegur. Onsite parking. Final night"},
       ]},
-    { id:8, label:"Day 8", date:"Thu Aug 6", title:"Blue Lagoon → Home", drive:"Reykjavik → Blue Lagoon → KEF · ~70 km (1 hr)", sleep:"— (fly home)",
+    { id:8, label:"Day 8", date:"Thu Aug 6", title:"Reykjavik → Home", drive:"Reykjavik → KEF · ~50 km (40 min)", sleep:"— (fly home)",
       stops:[
-        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"Pre-book a firm ~10:00–10:30 AM slot (sells out); soak ~2 hr, out by ~12:30 (~$90–130pp). ~20 min from KEF"},
+        {name:"Reykjavik — morning",type:"sight",star:false,lat:64.1426,lng:-21.9293,desc:"Relaxed checkout morning — breakfast at Sunna, last wander, pack up"},
         {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Flight 4:50 PM → at terminal by 2:00 PM (2:30 latest). Return rental by ~1:30–1:45 (car drop + shuttle eats 20–30 min). ⚠️ TSA PreCheck does NOT work at KEF, and it's an Aug + 4–7 PM peak — expect full security + Schengen passport exit lines. Global Entry only helps back at IAD"},
       ]},
   ],
   bases: [
     { title:"Base 1 — Reykjavik", nights:"Thu Jul 30 · 1 night", items:[
-      ["Sky Lagoon",true,"Geothermal soak right after landing (~15 min from KEF)"],
+      ["Blue Lagoon",true,"✓ Booked — 8 AM Comfort slot on arrival (~20 min from KEF, ends ~11 AM)"],
       ["Reykjavik old town",false,"Hallgrímskirkja, Harpa, Sun Voyager, Bæjarins Beztu hot dog"],
-      ["Nap / recover",false,"Red-eye day — keep it light"],
+      ["Nap / recover",false,"Red-eye day — keep it light after the lagoon"],
     ]},
     { title:"Base 2 — Hella (south coast)", nights:"Fri Jul 31 + Sat Aug 1 · 2 nights", items:[
       ["Golden Circle",true,"Þingvellir, Geysir/Strokkur, Gullfoss (on the way in)"],
@@ -400,7 +401,7 @@ const TRIP = {
     { title:"Base 6 — Reykjavik (Guesthouse Sunna) + Departure", nights:"Wed Aug 5 · 1 night ✓ booked → Thu Aug 6", items:[
       ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
       ["Perlan museum",false,"Wonders of Iceland — indoor ice cave, planetarium, and a 360° viewing deck; great low-key / rainy-day pick"],
-      ["Blue Lagoon",true,"Aug 6 ~10:30 AM on the way to KEF"],
+      ["Sky Lagoon",true,"Final evening soak — book ~6–7 PM slot (~$90–115pp); 10 min from Sunna"],
     ]},
   ],
   legs: [
@@ -481,6 +482,7 @@ const TRIP = {
     ["Guesthouse Hof — Snæfellsnes (Aug 4)", 193, "Andy"],
     ["Guesthouse Sunna — Reykjavik (Aug 5)", 221, "Alex"],
     ["Jökulsárlón Zodiac ×2 (Aug 2)", 267, "Andy"],
+    ["Blue Lagoon ×2 (Jul 30, 8 AM Comfort)", 247, "Andy"],
   ],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
@@ -490,8 +492,8 @@ const TRIP = {
     ["Lodging — Selfoss (Aug 3) — booked ✓ (Alex paid)",true],
     ["Lodging — Snæfellsnes/Hofgarðar (Aug 4) — booked ✓ (Andy paid)",true],
     ["Rental car — book soon (eclipse crunch). Leaning Lotus (9.4★): economy 2WD automatic, SCDW + gravel + sand/ash, skip river insurance. Off-airport — free shuttle every ~15 min, so return by ~1:45 on Aug 6",false],
-    ["Sky Lagoon — Thu Jul 30 AM slot",false],
-    ["Blue Lagoon — Thu Aug 6 ~10:30 AM slot (KEF by 2:30 PM)",false],
+    ["Blue Lagoon ×2 — Thu Jul 30 8:00 AM Comfort slot — booked ✓ (Andy paid, $247)",true],
+    ["Sky Lagoon — Wed Aug 5 evening ~6–7 PM slot — book soon",false],
     ["Jökulsárlón Zodiac ×2 — Sun Aug 2 — booked ✓ (Andy paid, $267 / 33,200 kr). If weathered out, rebook a morning slot Aug 3 (you pass it again going west)",true],
     ["Glacier hike — optional; book 2–3 weeks ahead if you want one (sells out)",false],
     ["Coordinate with Alex — Boston ⇄ KEF flight + arrival time",false],
