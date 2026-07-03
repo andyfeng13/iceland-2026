@@ -297,10 +297,10 @@
 // ============================================================
 const TRIP = {
   days: [
-    { id:1, label:"Day 1", date:"Thu Jul 30", title:"Arrival + Blue Lagoon + Reykjavik", drive:"KEF → Blue Lagoon → Reykjavik · ~55 km (45 min)", sleep:"Reykjavik",
+    { id:1, label:"Day 1", date:"Thu Jul 30", title:"Arrival + Blue Lagoon + Reykjavik", drive:"KEF → Blue Lagoon → Reykjavik · ~70 km (~1 hr total)", sleep:"Reykjavik",
       stops:[
-        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Land 6:25 AM, pick up rental car — at Blue Lagoon by ~8:00 AM"},
-        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"✓ Booked (Andy paid) — 8:00 AM Comfort slot, $247 for two. Perfect arrival soak (~20 min from KEF); ends ~11 AM. Bring conditioner for your hair — silica water is rough on it"},
+        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Land 6:25 AM → EES biometric registration at the border (new — budget 30–45 min in Aug) → bags → Hertz 7:30 (conf L623E6A4026; add Zero pack + extra driver at counter). Realistically rolling by ~8:15–8:45"},
+        {name:"Blue Lagoon",type:"sight",star:true,lat:63.8804,lng:-22.4495,desc:"✓ Booked (Andy paid) — 8:00 AM Comfort slot, $247 for two. Late arrival is fine — the slot admits you any time after 8:00, so expect ~8:45–9:15 and don't stress the border line. ~20 min from KEF. Bring conditioner for your hair — silica water is rough on it"},
         {name:"Reykjavik — KEX Hostel",type:"base",star:false,lat:64.1472,lng:-21.9279,desc:"✓ Booked KEX Hotel & Hostel (Skúlagata 28), check-in 3 PM. Old town, Hallgrímskirkja, dinner, recover"},
       ]},
     { id:2, label:"Day 2", date:"Fri Jul 31", title:"Golden Circle → Hella", drive:"Reykjavik → Hella · ~215 km (3 hr w/ loop)", sleep:"Hella",
@@ -319,22 +319,22 @@ const TRIP = {
         {name:"Kvernufoss (optional)",type:"sight",star:false,lat:63.5305,lng:-19.4869,desc:"Optional — ~5 min from Skógafoss by the Skógar museum; another walk-behind falls, far quieter"},
         {name:"Sólheimajökull glacier hike",type:"sight",star:false,lat:63.5316,lng:-19.3686,desc:"Optional guided crampon walk (~$100pp)"},
         {name:"Dyrhólaey",type:"sight",star:false,lat:63.4014,lng:-19.1283,desc:"Clifftop arch + puffins from land (no boat)"},
-        {name:"Reynisfjara Black Sand Beach",type:"sight",star:true,lat:63.4036,lng:-19.0448,desc:"Basalt columns; stay 30+ ft from waves (east turnaround, then back to Hella)"},
+        {name:"Reynisfjara Black Sand Beach",type:"sight",star:true,lat:63.4036,lng:-19.0448,desc:"Basalt columns. ⚠️ DEADLY sneaker waves — obey the light warning system at the entrance (skip on red), stay 30+ METERS back, never turn your back on the sea. (East turnaround, then back to Hella)"},
       ]},
     { id:4, label:"Day 4", date:"Sun Aug 2", title:"Hella → Höfn (glacier country)", drive:"Hella → Hoffell · ~360 km (5 hr w/ stops)", sleep:"Hoffell",
       stops:[
         {name:"Eldhraun Lava Field",type:"sight",star:false,lat:63.6769,lng:-18.1408,desc:"Moss-covered lava, alien landscape (optional — skip if running behind to protect the 15:50 Zodiac; you see it from the road anyway)"},
         {name:"Fjaðrárgljúfur Canyon",type:"sight",star:true,lat:63.7714,lng:-18.1722,desc:"100m serpentine canyon, ~30 min walk, free"},
         {name:"Skaftafell (Vatnajökull NP)",type:"sight",star:false,lat:64.0166,lng:-16.9666,desc:"Short Svartifoss hike (~1.25 hr, 3.4 km out-and-back, basalt-column falls) + glacier viewpoints. Stick to the SHORT route — skip the longer Sjónarnípa loop — to make the 15:50 boat",url:"https://www.alltrails.com/trail/iceland/eastern/svartifoss-and-manusafoss",urlLabel:"Svartifoss trail (AllTrails) ↗"},
-        {name:"Jökulsárlón Glacier Lagoon",type:"sight",star:true,lat:64.0784,lng:-16.2306,desc:"Zodiac boat (75 min, ~$133pp / 16,600 kr adult) up to the glacier wall. ✅ Target the 15:50 slot — arrive ~15:25; leave Hella by ~8:00 (skip Eldhraun if behind). Book a refundable tour. If weathered out (high wind), rebook a morning Zodiac on Aug 3 — you pass Jökulsárlón again heading west (different day = real weather change)"},
+        {name:"Jökulsárlón Glacier Lagoon",type:"sight",star:true,lat:64.0784,lng:-16.2306,desc:"✓ Zodiac BOOKED (Andy paid, $267 for two) — 15:50 boat, check in by 15:20. Leave Hella by ~8:00 (skip Eldhraun if behind); save the operator's phone + booking ref offline — signal is spotty out here. If wind-cancelled: operator refunds/rebooks — grab a morning slot Aug 3 as you pass heading west, and drop Múlagljúfur that day to protect the Selfoss drive"},
         {name:"Diamond Beach",type:"sight",star:true,lat:64.0428,lng:-16.1797,desc:"Iceberg chunks on black sand, across the road"},
         {name:"Glacier World — Hoffell",type:"base",star:false,lat:64.4042,lng:-15.3469,desc:"✓ Booked cabin (Andy paid) — glacier views; check-in 3 PM / out 11 AM. ~20 min N of Höfn"},
       ]},
-    { id:5, label:"Day 5", date:"Mon Aug 3", title:"Stokksnes, glacier area → Selfoss", drive:"Höfn → Selfoss · ~390 km (5.5–6 hr w/ stops)", sleep:"Selfoss",
+    { id:5, label:"Day 5", date:"Mon Aug 3", title:"Stokksnes, glacier area → Selfoss", drive:"Höfn → Selfoss · ~450 km (9–10 hr door-to-door — leave Hoffell by ~8:30)", sleep:"Selfoss",
       stops:[
         {name:"Vestrahorn / Stokksnes",type:"sight",star:true,lat:64.255,lng:-14.99,desc:"Iconic jagged peaks + black sand; morning light, ~$8pp gate"},
         {name:"Fjallsárlón",type:"sight",star:false,lat:64.0130,lng:-16.3820,desc:"Quieter glacier lagoon you skipped, ~15 min W of Jökulsárlón"},
-        {name:"Múlagljúfur Canyon",type:"sight",star:true,lat:63.9930,lng:-16.4363,desc:"Hidden canyon + Hangandifoss (120m); ~35 min hike. 2 km gravel road (4×4 advised), parking ~$7"},
+        {name:"Múlagljúfur Canyon",type:"sight",star:true,lat:63.9930,lng:-16.4363,desc:"Hidden canyon + Hangandifoss (120m). Two options: main viewpoint ~3.9 km out-and-back (~1–1.5 hr) or continue to the canyon top ~5.8 km (~2–2.5 hr — recommended if time allows; the extra canyon + waterfall views are worth it). 2 km rough gravel access — fine in the Yaris, take it slow; parking ~$7. Skip this if the Zodiac got rebooked to this morning"},
         {name:"Selfoss — Studio apartment",type:"base",star:false,lat:63.9330,lng:-21.0000,desc:"✓ Booked countryside studio (Alex paid), 4.9★. Long drive day — you pass Vík ~3 hr in"},
       ]},
     { id:6, label:"Day 6", date:"Tue Aug 4", title:"Selfoss → Snæfellsnes", drive:"Selfoss → Hofgarðar (Snæfellsnes) · ~220 km (3 hr)", sleep:"Snæfellsnes (Hofgarðar)",
@@ -344,22 +344,22 @@ const TRIP = {
         {name:"Búðakirkja",type:"sight",star:true,lat:64.8222,lng:-23.3847,desc:"Iconic black church — ~5 min from the guesthouse, great evening light"},
         {name:"Guesthouse Hof",type:"base",star:false,lat:64.8203,lng:-23.3103,desc:"✓ Booked (Andy paid) — Hofgarðar 356, south-central peninsula. Check-in 3 PM / out 11 AM. Free WiFi + parking"},
       ]},
-    { id:7, label:"Day 7", date:"Wed Aug 5", title:"Snæfellsnes loop → Reykjavik", drive:"Peninsula loop → Reykjavik · ~280 km (relaxed — all morning + PM)", sleep:"Reykjavik",
+    { id:7, label:"Day 7", date:"Wed Aug 5", title:"Snæfellsnes loop → Reykjavik", drive:"Peninsula loop → Reykjavik · ~280 km (+~85 km if you take the optional Hraunfossar detour)", sleep:"Reykjavik",
       stops:[
-        {name:"Saxhóll crater (optional)",type:"sight",star:false,lat:64.9009,lng:-23.8033,desc:"Optional — 5-min stair-climb up a red volcanic crater (Snæfellsjökull NP)"},
-        {name:"Snæfellsjökull viewpoint",type:"sight",star:false,lat:64.8081,lng:-23.7777,desc:"The glacier-capped volcano — centerpiece of Snæfellsjökull National Park"},
-        {name:"Djúpalónssandur",type:"sight",star:false,lat:64.7522,lng:-23.9033,desc:"Black pebble beach + shipwreck remains (in Snæfellsjökull NP)"},
+        {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches; cliff walk to Hellnar — first stop heading west from Hof (one-way loop, no backtracking)"},
         {name:"Lóndrangar (optional)",type:"sight",star:false,lat:64.7338,lng:-23.7836,desc:"Optional — dramatic basalt sea-cliff pinnacles; quick viewpoint"},
-        {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches; cliff walk to Hellnar"},
+        {name:"Djúpalónssandur",type:"sight",star:false,lat:64.7522,lng:-23.9033,desc:"Black pebble beach + shipwreck remains (in Snæfellsjökull NP)"},
+        {name:"Snæfellsjökull viewpoint",type:"sight",star:false,lat:64.8081,lng:-23.7777,desc:"The glacier-capped volcano — centerpiece of Snæfellsjökull National Park"},
+        {name:"Saxhóll crater (optional)",type:"sight",star:false,lat:64.8710,lng:-23.9220,desc:"Optional — 5-min stair-climb up a red volcanic crater (Snæfellsjökull NP); last stop before rounding the tip to the north shore"},
         {name:"Kirkjufell + Kirkjufellsfoss",type:"sight",star:true,lat:64.9417,lng:-23.3069,desc:"The arrowhead mountain (GoT) — on the north shore as the loop comes back around"},
-        {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (Borgarfjörður detour, optional)"},
-        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Final evening soak — 7-step ritual (hot→cold plunge→sauna→steam→scrub→shower), ocean infinity-edge. ~10 min from Sunna. Book a ~6–7 PM slot (~$90–115pp)"},
+        {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (Borgarfjörður detour, optional — adds ~85 km; skip if you want an earlier Sky Lagoon slot)"},
+        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Final evening soak — 7-step ritual (hot→cold plunge→sauna→steam→scrub→shower), ocean infinity-edge. ~10 min from Sunna. Slot TBD — loop timing means ~7:30 PM or later (earlier won't fit); book soon, Aug evenings sell out (~$90–115pp)"},
         {name:"Guesthouse Sunna — Reykjavik",type:"base",star:false,lat:64.1426,lng:-21.9293,desc:"✓ Booked (Alex paid) — Þórsgata 26 (101), 1 min from Hallgrímskirkja, 3 min to Laugavegur. Onsite parking. Final night"},
       ]},
     { id:8, label:"Day 8", date:"Thu Aug 6", title:"Reykjavik → Home", drive:"Reykjavik → KEF · ~50 km (40 min)", sleep:"— (fly home)",
       stops:[
         {name:"Reykjavik — morning",type:"sight",star:false,lat:64.1426,lng:-21.9293,desc:"Relaxed checkout morning — breakfast at Sunna, last wander, pack up"},
-        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Flight 4:50 PM → at terminal by 2:00 PM (2:30 latest). Return rental by ~1:30–1:45 (car drop + shuttle eats 20–30 min). ⚠️ TSA PreCheck does NOT work at KEF, and it's an Aug + 4–7 PM peak — expect full security + Schengen passport exit lines. Global Entry only helps back at IAD"},
+        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Flight 4:50 PM → at terminal by 2:00 PM (2:30 latest). Return the car FULL (Njarðvík ⛽) by ~1:00–1:30 — ⚠️ the Hertz reservation still says 2:00 PM; modify it online beforehand (free change). Leave Reykjavík by ~12:15. ⚠️ TSA PreCheck does NOT work at KEF, and it's an Aug + 4–7 PM peak — expect full security + Schengen passport exit lines + EES exit checks. Global Entry only helps back at IAD"},
       ]},
   ],
   bases: [
@@ -380,7 +380,7 @@ const TRIP = {
       ["Secret Lagoon (optional)",false,"Iceland's oldest hot pool, Flúðir, ~$29pp — Golden Circle wind-down"],
     ]},
     { title:"Base 3 — Höfn / Hoffell", nights:"Sun Aug 2 · 1 night", items:[
-      ["Jökulsárlón + Diamond Beach",true,"Zodiac boat (75 min) + ice-on-black-sand beach (on the drive in)"],
+      ["Jökulsárlón + Diamond Beach",true,"✓ Zodiac booked — 15:50 Aug 2 (75 min) + ice-on-black-sand beach (on the drive in)"],
       ["Vestrahorn / Stokksnes",true,"Iconic jagged peaks — Day 5 morning, ~$8 gate"],
       ["Skaftafell (Vatnajökull NP)",false,"Svartifoss + glacier viewpoints (on the drive in)"],
       ["Hoffell hot tubs",false,"Small geothermal tubs with glacier views, by your cabin"],
@@ -401,7 +401,7 @@ const TRIP = {
     { title:"Base 6 — Reykjavik (Guesthouse Sunna) + Departure", nights:"Wed Aug 5 · 1 night ✓ booked → Thu Aug 6", items:[
       ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
       ["Perlan museum",false,"Wonders of Iceland — indoor ice cave, planetarium, and a 360° viewing deck; great low-key / rainy-day pick"],
-      ["Sky Lagoon",true,"Final evening soak — book ~6–7 PM slot (~$90–115pp); 10 min from Sunna"],
+      ["Sky Lagoon",true,"Final evening soak — ~7:30 PM or later fits the loop (slot TBD, book soon, ~$90–115pp); 10 min from Sunna"],
     ]},
   ],
   legs: [
@@ -415,7 +415,7 @@ const TRIP = {
       ["Eldhraun Lava Field","Moss-covered lava from the 1783 eruption (4.6★)",63.6769,-18.1408],
       ["Fjaðrárgljúfur Canyon","100m serpentine canyon, ~30 min walk, free",63.7714,-18.1722],
       ["Skaftafell (Vatnajökull NP)","Svartifoss + glacier viewpoints",64.0166,-16.9666],
-      ["Jökulsárlón + Diamond Beach","The headline stop — Zodiac boat + Diamond Beach (4.9★)",64.0784,-16.2306],
+      ["Jökulsárlón + Diamond Beach","The headline stop — ✓ Zodiac booked 15:50 + Diamond Beach (4.9★)",64.0784,-16.2306],
     ]},
     { title:"Höfn → Selfoss → Snæfellsnes (Aug 3–4, broken at Selfoss)", note:"Split the long west drive over two days — overnight in Selfoss, then up to the peninsula.", stops:[
       ["Borgarnes","Midway lunch/coffee/fuel ~1 hr north of Reykjavik",64.5446,-21.9105],
@@ -466,14 +466,14 @@ const TRIP = {
   ],
   budget: [
     ["Flight (RT IAD–KEF)","$567","Locked in via C1 portal"],
-    ["Rental car + gas (split)","~$430","8 days, small SUV; new 2026 per-km road tax (~$90); decline CDW (card covers), add gravel + sand/ash"],
+    ["Rental car + gas (split)","~$810","Hertz Yaris auto booked (pay at pickup): ~$890 base + ~$257 Zero pack + ~$80 extra driver + ~$140 km road tax ≈ $1,370 → ~$685 each, + ~$125 each gas"],
     ["Lodging (7 nights)","~$798","✓ All 7 booked — your half of the $1,596 total (full split + who-paid in the Booked tracker below)"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
-    ["Activities","~$300–450","Sky + Blue Lagoon, Jökulsárlón Zodiac (~$133pp), optional glacier hike"],
+    ["Activities","~$350–475","Blue Lagoon $123.50pp ✓ + Zodiac $133.50pp ✓ (both paid — see Booked tracker), Sky Lagoon ~$90–115pp to book, optional glacier hike ~$100pp"],
     ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
     ["Misc buffer","~$100–150","Travel insurance, eSIM/data, incidentals"],
   ],
-  budgetTotal:["Total","~$2,500–3,000","All-in for 8 days, per person"],
+  budgetTotal:["Total","~$3,000–3,300","All-in for 8 days, per person (eclipse-August car rates pushed this up ~$300)"],
   booked: [
     ["KEX Hostel — Reykjavik (Jul 30)", 185, "Andy"],
     ["Mariuvellir — Hella (Jul 31–Aug 1)", 440, "Alex"],
@@ -486,17 +486,20 @@ const TRIP = {
   ],
   checklist: [
     ["Flights — IAD ⇄ KEF, $567, depart Jul 29 8:30 PM / return Aug 6",true],
+    ["Lodging — Reykjavik Jul 30 (KEX) — booked ✓ (Andy paid)",true],
     ["Lodging — Reykjavik Aug 5 final night — booked ✓ (Alex paid)",true],
     ["Lodging — Hella/Mariuvellir (Jul 31–Aug 1) — booked ✓ (Alex paid)",true],
     ["Lodging — Höfn/Hoffell (Aug 2) — booked ✓ (Andy paid)",true],
     ["Lodging — Selfoss (Aug 3) — booked ✓ (Alex paid)",true],
     ["Lodging — Snæfellsnes/Hofgarðar (Aug 4) — booked ✓ (Andy paid)",true],
-    ["Rental car — book soon (eclipse crunch). Leaning Lotus (9.4★): economy 2WD automatic, SCDW + gravel + sand/ash, skip river insurance. Off-airport — free shuttle every ~15 min, so return by ~1:45 on Aug 6",false],
+    ["Rental car — booked ✓ Hertz L623E6A4026 (Yaris auto, KEF Jul 30 7:30 AM → Aug 6), pay at pickup ~$890",true],
+    ["Hertz counter (Jul 30): add Zero insurance pack (~$257, incl gravel + sand/ash) + extra driver Alex (~$80, bring his license); pay in ISK on Venture X",false],
+    ["Modify Hertz drop-off online: 2:00 PM → ~1:00–1:30 PM (free change — booking is flexible)",false],
     ["Blue Lagoon ×2 — Thu Jul 30 8:00 AM Comfort slot — booked ✓ (Andy paid, $247)",true],
-    ["Sky Lagoon — Wed Aug 5 evening ~6–7 PM slot — book soon",false],
+    ["Sky Lagoon — Wed Aug 5 evening — book soon (slot TBD; loop timing = ~7:30 PM or later, earlier won't fit)",false],
     ["Jökulsárlón Zodiac ×2 — Sun Aug 2 — booked ✓ (Andy paid, $267 / 33,200 kr). If weathered out, rebook a morning slot Aug 3 (you pass it again going west)",true],
     ["Glacier hike — optional; book 2–3 weeks ahead if you want one (sells out)",false],
-    ["Coordinate with Alex — Boston ⇄ KEF flight + arrival time",false],
+    ["Coordinate with Alex — flights coordinated ✓ (arrives Jul 30 early AM, before Andy)",true],
   ],
   weather: {
     summary: "Iceland's summer is most people's spring: cool, breezy, and changeable — expect sun, wind, and rain in the same day. Dress like it's a cool, windy, drizzly autumn hike, every day, and you'll be comfortable.",
@@ -521,6 +524,9 @@ const TRIP = {
     "Bring a card with a 4-digit PIN — self-service fuel pumps and many lots require chip-and-PIN",
     "Confirm early bag-drop at KEX on arrival morning (Jul 30) — check-in isn't until 3 PM",
     "Fill the tank before every long/remote leg, especially Klaustur → Höfn (~200 km gap) — see the ⛽ layer on the map",
+    "EES is live at KEF: first Schengen entry = biometric registration (photo + fingerprints) — budget 30–45 min at passport control, both directions",
+    "BOTH bring physical driver's licenses — Alex's is needed at the Hertz counter for the extra-driver add",
+    "Install + activate an Iceland eSIM (Airalo/Saily/etc.) the day before departure — needed for nav, parking apps, and safetravel.is on Day 1",
   ],
   packing: [
     { cat:"Non-negotiables", items:[
@@ -542,6 +548,8 @@ const TRIP = {
       "Buff / neck gaiter",
       "Sunglasses (low, bright sun for hours)",
       "Swimsuit + quick-dry towel (lagoons & hot pots)",
+      "Water shoes or sandals (Gljúfrabúi stream wade — keeps your boots dry)",
+      "Leave-in conditioner (Blue Lagoon silica water wrecks hair — coat before you get in)",
       "Reusable water bottle (tap water is excellent & free)",
       "Daypack for the day hikes/stops",
     ]},
@@ -1027,7 +1035,7 @@ function renderBudget(){
     <table class="tbl" style="margin:6px 0 8px"><tr><th>Item</th><th>Total</th><th>Paid by</th></tr>
       ${bk.map(b=>`<tr><td>${esc(b[0])}</td><td>$${b[1]}</td><td>${esc(b[2]||'—')}</td></tr>`).join('')}
       <tr class="total"><td>Booked so far</td><td>$${bkTotal}</td><td>~$${Math.round(share)} each</td></tr></table>
-    <div class="pane-hint" style="margin-bottom:14px">Paid so far — Andy $${andy} · Alex $${alex} → <b>${esc(settle)}</b></div>` : '';
+    <div class="pane-hint" style="margin-bottom:14px">Paid so far — Andy $${andy} · Alex $${alex} → <b>${esc(settle)}</b><br>Not in this table: Hertz car (~$1,370 all-in) — pay-at-pickup, nothing paid yet; split it when paid.</div>` : '';
   $('tab-budget').innerHTML=`<div class="pane-head"><div class="sec-label">The damage</div><h3 class="sec">Budget (per person)</h3></div>`+
     `<div class="pane-hint">Rough per-person estimate for 8 days; shared costs (car, lodging, gas) are split two ways.</div>`+
     bookedHtml+
