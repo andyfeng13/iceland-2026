@@ -345,7 +345,7 @@ const TRIP = {
         {name:"Búðakirkja",type:"sight",star:true,lat:64.8222,lng:-23.3847,desc:"Iconic black church — ~5 min from the guesthouse, great evening light"},
         {name:"Guesthouse Hof",type:"base",star:false,lat:64.8203,lng:-23.3103,desc:"✓ Booked (Andy paid) — Hofgarðar 356, south-central peninsula. Check-in 3 PM / out 11 AM. Free WiFi + parking"},
       ]},
-    { id:7, label:"Day 7", date:"Wed Aug 5", title:"Snæfellsnes loop → Reykjavik", drive:"Peninsula loop → Reykjavik · ~280 km (+~85 km if you take the optional Hraunfossar detour)", sleep:"Reykjavik",
+    { id:7, label:"Day 7", date:"Wed Aug 5", title:"Snæfellsnes loop → Reykjavik", drive:"Peninsula loop → Hraunfossar → Reykjavik · ~365 km", sleep:"Reykjavik",
       stops:[
         {name:"Arnarstapi",type:"sight",star:false,lat:64.7686,lng:-23.6222,desc:"Coastal cliffs + rock arches; cliff walk to Hellnar — first stop heading west from Hof (one-way loop, no backtracking)"},
         {name:"Lóndrangar (optional)",type:"sight",star:false,lat:64.7338,lng:-23.7836,desc:"Optional — dramatic basalt sea-cliff pinnacles; quick viewpoint"},
@@ -353,14 +353,13 @@ const TRIP = {
         {name:"Snæfellsjökull viewpoint",type:"sight",star:false,lat:64.8081,lng:-23.7777,desc:"The glacier-capped volcano — centerpiece of Snæfellsjökull National Park"},
         {name:"Saxhóll crater (optional)",type:"sight",star:false,lat:64.8710,lng:-23.9220,desc:"Optional — 5-min stair-climb up a red volcanic crater (Snæfellsjökull NP); last stop before rounding the tip to the north shore"},
         {name:"Kirkjufell + Kirkjufellsfoss",type:"sight",star:true,lat:64.9417,lng:-23.3069,desc:"The arrowhead mountain (GoT) — on the north shore as the loop comes back around"},
-        {name:"Hraunfossar + Barnafoss",type:"sight",star:false,lat:64.7029,lng:-20.9772,desc:"Waterfalls from a lava field (Borgarfjörður detour, optional — adds ~85 km; skip if you want an earlier Sky Lagoon slot)"},
-        {name:"Sky Lagoon",type:"sight",star:true,lat:64.1167,lng:-21.9436,desc:"Final evening soak — 7-step ritual (hot→cold plunge→sauna→steam→scrub→shower), ocean infinity-edge. ~10 min from Sunna. Slot TBD — loop timing means ~7:30 PM or later (earlier won't fit); book soon, Aug evenings sell out (~$90–115pp)"},
+        {name:"Hraunfossar + Barnafoss",type:"sight",star:true,lat:64.7029,lng:-20.9772,desc:"Waterfalls pouring straight out of a lava field (Borgarfjörður detour, adds ~85 km). Now the natural Day 7 finish — with no lagoon booking to race, there's time for it. Short easy walk"},
         {name:"Guesthouse Sunna — Reykjavik",type:"base",star:false,lat:64.1426,lng:-21.9293,desc:"✓ Booked (Alex paid) — Þórsgata 26 (101), 1 min from Hallgrímskirkja, 3 min to Laugavegur. Onsite parking. Final night"},
       ]},
     { id:8, label:"Day 8", date:"Thu Aug 6", title:"Reykjavik → Home", drive:"Reykjavik → KEF · ~50 km (40 min)", sleep:"— (fly home)",
       stops:[
         {name:"Reykjavik — morning",type:"sight",star:false,lat:64.1426,lng:-21.9293,desc:"Relaxed checkout morning — breakfast at Sunna, last wander, pack up"},
-        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Flight 4:50 PM → at terminal by 2:00 PM (2:30 latest). Return the car FULL (Njarðvík ⛽) by ~1:00–1:30 — ⚠️ the Hertz reservation still says 2:00 PM; modify it online beforehand (free change). Leave Reykjavík by ~12:15. ⚠️ TSA PreCheck does NOT work at KEF, and it's an Aug + 4–7 PM peak — expect full security + Schengen passport exit lines + EES exit checks. Global Entry only helps back at IAD"},
+        {name:"Keflavík Airport (KEF)",type:"sight",star:false,lat:63.985,lng:-22.605,desc:"Flight 4:50 PM → at terminal by 2:00 PM (2:30 latest). Return the car FULL (Njarðvík ⛽) by ~1:00–1:30 — the reservation says 2:00 PM but returning early is free, no change needed. Leave Reykjavík by ~12:15. ⚠️ TSA PreCheck does NOT work at KEF, and it's an Aug + 4–7 PM peak — expect full security + Schengen passport exit lines + EES exit checks. Global Entry only helps back at IAD"},
       ]},
   ],
   bases: [
@@ -403,7 +402,6 @@ const TRIP = {
     { title:"Base 6 — Reykjavik (Guesthouse Sunna) + Departure", nights:"Wed Aug 5 · 1 night ✓ booked → Thu Aug 6", items:[
       ["Reykjavik proper",true,"Full city day — old town, harbor, cafés, museums"],
       ["Perlan museum",false,"Wonders of Iceland — indoor ice cave, planetarium, and a 360° viewing deck; great low-key / rainy-day pick"],
-      ["Sky Lagoon",true,"Final evening soak — ~7:30 PM or later fits the loop (slot TBD, book soon, ~$90–115pp); 10 min from Sunna"],
     ]},
   ],
   legs: [
@@ -471,7 +469,7 @@ const TRIP = {
     ["Rental car + gas (split)","~$810","Hertz Yaris auto booked (pay at pickup): ~$890 base + ~$257 Zero pack + ~$80 extra driver + ~$140 km road tax ≈ $1,370 → ~$685 each, + ~$125 each gas"],
     ["Lodging (7 nights)","~$798","✓ All 7 booked — your half of the $1,596 total (full split + who-paid in the Booked tracker below)"],
     ["Food","~$400","Iceland is expensive; budget accordingly"],
-    ["Activities","~$350–475","Blue Lagoon $123.50pp ✓ + Zodiac $133.50pp ✓ (both paid — see Booked tracker), Sky Lagoon ~$90–115pp to book, optional glacier hike ~$100pp"],
+    ["Activities","~$257–357","Blue Lagoon $123.50pp ✓ + Zodiac $133.50pp ✓ (both paid — see Booked tracker), optional glacier hike ~$100pp. Sky Lagoon dropped"],
     ["Parking & site fees","~$40","Þingvellir, south-coast waterfalls, Skaftafell, etc."],
     ["Misc buffer","~$100–150","Travel insurance, eSIM/data, incidentals"],
   ],
@@ -496,9 +494,7 @@ const TRIP = {
     ["Lodging — Snæfellsnes/Hofgarðar (Aug 4) — booked ✓ (Andy paid)",true],
     ["Rental car — booked ✓ Hertz L623E6A4026 (Yaris auto, KEF Jul 30 7:30 AM → Aug 6), pay at pickup ~$890",true],
     ["Hertz counter (Jul 30): add Zero insurance pack (~$257, incl gravel + sand/ash) + extra driver Alex (~$80, bring his license); pay in ISK on Venture X",false],
-    ["Modify Hertz drop-off online: 2:00 PM → ~1:00–1:30 PM (free change — booking is flexible)",false],
     ["Blue Lagoon ×2 — Thu Jul 30 8:00 AM Comfort slot — booked ✓ (Andy paid, $247)",true],
-    ["Sky Lagoon — Wed Aug 5 evening — book soon (slot TBD; loop timing = ~7:30 PM or later, earlier won't fit)",false],
     ["Jökulsárlón Zodiac ×2 — Sun Aug 2 — booked ✓ (Andy paid, $267 / 33,200 kr). If weathered out, rebook a morning slot Aug 3 (you pass it again going west)",true],
     ["Glacier hike — optional; book 2–3 weeks ahead if you want one (sells out)",false],
     ["Coordinate with Alex — flights coordinated ✓ (arrives Jul 30 early AM, before Andy)",true],
@@ -531,33 +527,41 @@ const TRIP = {
     "Install + activate an Iceland eSIM (Airalo/Saily/etc.) the day before departure — needed for nav, parking apps, and safetravel.is on Day 1",
   ],
   packing: [
-    { cat:"Non-negotiables", items:[
-      "Waterproof + windproof rain jacket (hard shell) — your #1 item",
-      "Waterproof / rain pants (clutch at Seljalandsfoss & wet trails)",
-      "Waterproof hiking shoes or boots",
-      "Warm mid-layer — fleece or light puffy/down",
-      "Sleep mask (bright summer nights)",
+    { cat:"Non-negotiables (1 each — worn daily, never swapped)", items:[
+      "1 waterproof + windproof rain jacket (hard shell) — your #1 item",
+      "1 waterproof / rain pants (clutch at Seljalandsfoss & wet trails)",
+      "1 waterproof hiking boots — wear them on the plane, they're the bulkiest thing you own",
+      "1 fleece",
+      "1 light puffy/down — warmer than the fleece; for the Zodiac and the Stokksnes morning",
+      "1 sleep mask (bright summer nights)",
     ]},
-    { cat:"Base + mid layers", items:[
-      "2–3 long-sleeve base layers (merino/synthetic — not cotton)",
-      "1–2 fleeces or light sweaters",
-      "A few t-shirts for sunny moments",
-      "Quick-dry hiking pants (+ maybe jeans for town)",
-      "Wool socks — bring extra",
+    { cat:"Tops — 6 total (merino re-wears 2–3 days)", items:[
+      "3 long-sleeve base layers (merino/synthetic — not cotton)",
+      "3 t-shirts",
+    ]},
+    { cat:"Bottoms — 4 total", items:[
+      "2 quick-dry hiking pants — the daily driver, every single day",
+      "1 jeans or casual pants (town nights + the flight home)",
+      "1 quick-dry shorts — Gljúfrabúi wade + Reykjavik evenings only. Not a daily option: 55°F plus 20–35 mph wind is not your 60°F",
+    ]},
+    { cat:"Socks & underwear", items:[
+      "6 pairs wool socks — the most important count here. Wet feet on Day 3 with five days left is the trip's biggest misery risk. Do not cut to 4",
+      "8 pairs underwear (lightest thing in the bag, no reason to ration)",
     ]},
     { cat:"Accessories", items:[
-      "Beanie + light gloves (yes, in August)",
-      "Buff / neck gaiter",
-      "Sunglasses (low, bright sun for hours)",
-      "Swimsuit + quick-dry towel (lagoons & hot pots)",
-      "Water shoes or sandals (Gljúfrabúi stream wade — keeps your boots dry)",
+      "1 beanie + 1 pair light gloves (yes, in August — you'll want both on the Zodiac)",
+      "1 buff / neck gaiter",
+      "1 sunglasses (low, bright sun for hours)",
+      "2 swimsuits — a damp one doesn't dry in a car (Blue Lagoon ✓, Hoffell hot pots Aug 2)",
+      "1 quick-dry towel — the lagoons supply their own; yours is for hot pots & pools",
+      "1 water shoes or sandals (Gljúfrabúi stream wade — keeps your boots dry)",
       "Leave-in conditioner (Blue Lagoon silica water wrecks hair — coat before you get in)",
       "Reusable water bottle (tap water is excellent & free)",
       "Daypack for the day hikes/stops",
     ]},
-    { cat:"Town / casual", items:[
-      "1–2 casual outfits for Reykjavik (very casual town)",
-      "Comfortable sneakers",
+    { cat:"Town / sleep", items:[
+      "1 pair sneakers for town",
+      "2 sets sleepwear",
     ]},
   ]
 };
